@@ -1,0 +1,48 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Footer from '../../components/Footer.astro';
+import Header from '../../components/Header.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  return [{ params: { lang: 'en' } }, { params: { lang: 'de' } }];
+}
+
+const langParam = Astro.params.lang;
+const locale = ['en', 'de'].includes(langParam) ? langParam : 'en';
+const pages = await getCollection('pages');
+const page = pages.find((p) => (p.data.lang ?? 'en') === locale);
+
+let title = SITE_TITLE;
+let description = SITE_DESCRIPTION;
+let Content;
+if (page) {
+  const rendered = await render(page);
+  Content = rendered.Content;
+  title = page.data.title ?? title;
+  description = page.data.description ?? description;
+}
+
+---
+
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <BaseHead title={title} description={description} />
+  </head>
+  <body>
+    <Header lang={locale} />
+    <main>
+      {page ? (
+        <Content />
+      ) : (
+        <div>
+          <h1>🧑‍🚀 Hello, Astronaut!</h1>
+          <p>No localized page content found for {locale}.</p>
+        </div>
+      )}
+    </main>
+    <Footer />
+  </body>
+</html>
