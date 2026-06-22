@@ -1,0 +1,17 @@
+---
+// src/components/Button.astro
+// Wiederverwendbare Button-Komponente.
+// Aktuell ist es ein Link, weil der Button zu einem Abschnitt oder später zu einer Tool-Seite führen soll.
+
+interface Props {
+  href: string;
+  label: string;
+}
+
+const { href, label } = Astro.props;
+---
+
+<a class="button" href={href}>
+  <span>{label}</span>
+  <span class="button-icon" aria-hidden="true">↗</span>
+</a>

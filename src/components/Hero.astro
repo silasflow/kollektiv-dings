@@ -1,0 +1,29 @@
+---
+// src/components/Hero.astro
+// Große Startsektion.
+// Diese Komponente enthält den visuellen Einstieg: Titel, Erklärung, Button.
+// Sie bleibt statisch und braucht deshalb kein JavaScript.
+
+import Button from './Button.astro';
+---
+
+<section class="hero" id="start">
+  <!-- Hintergrundebene: später können wir hier eine Stadtkarte als Bild einbauen -->
+  <div class="hero-map" aria-hidden="true"></div>
+
+  <div class="hero-content">
+    <h1 class="hero-title">
+      <span>Die Stadt</span>
+      <span>der Zukunft</span>
+      <span class="hero-highlight">Kollektiv</span>
+      <span>gestalten</span>
+    </h1>
+
+    <p class="hero-text">
+      Ein Selbstcheck für urbane Kollektive: Ordnet euch ein, macht eure Wirkung sichtbar
+      und erkennt, wo ihr Unterstützung braucht.
+    </p>
+
+    <Button href="#framework" label="Test starten" />
+  </div>
+</section>
