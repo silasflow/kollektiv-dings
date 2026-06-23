@@ -15,3 +15,43 @@
     <a href="#about">Über das Tool</a>
   </nav>
 </header>
+<style>
+  .site-header {
+    position: absolute;
+    z-index: 20;
+    top: 0;
+    left: 0;
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+
+    padding: 1.25rem var(--page-padding-x);
+
+    color: var(--color-text);
+  }
+
+  .site-logo {
+    font-size: 0.9rem;
+    font-weight: 900;
+    letter-spacing: -0.04em;
+  }
+
+  .site-nav {
+    display: none;
+    align-items: center;
+    gap: 1.75rem;
+
+    font-size: 0.9rem;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+  }
+
+  @media (min-width: 768px) {
+    .site-nav {
+      display: flex;
+    }
+  }
+</style>

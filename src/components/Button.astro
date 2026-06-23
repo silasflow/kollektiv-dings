@@ -15,3 +15,53 @@ const { href, label } = Astro.props;
   <span>{label}</span>
   <span class="button-icon" aria-hidden="true">↗</span>
 </a>
+
+<style>
+  .button {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+
+    width: fit-content;
+
+    margin-top: 2rem;
+    padding: 0.85rem 0.85rem 0.85rem 1.25rem;
+
+    border-radius: 1rem;
+    background: var(--color-button-bg);
+    color: var(--color-button-text);
+
+    font-family: var(--font-body);
+    font-size: clamp(0.95rem, 2vw, 1.05rem);
+    font-weight: 900;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: -0.03em;
+  }
+
+  .button-icon {
+    display: grid;
+    place-items: center;
+
+    width: 2.5rem;
+    height: 2.5rem;
+
+    border-radius: 0.45rem;
+    background: var(--color-button-icon-bg);
+    color: var(--color-button-icon-text);
+
+    font-size: 1.6rem;
+    line-height: 1;
+  }
+
+  @media (min-width: 768px) {
+    .button {
+      padding: 0.95rem 0.95rem 0.95rem 1.4rem;
+    }
+
+    .button-icon {
+      width: 2.75rem;
+      height: 2.75rem;
+    }
+  }
+</style>
