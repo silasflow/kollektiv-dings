@@ -159,32 +159,28 @@ a {
   position: relative;
   min-height: 100svh;
   overflow: hidden;
-
-  /*
-    Kein Farbverlauf mehr.
-    Erstmal klare Fläche wie im Entwurf.
-  */
   background: var(--color-bg);
 }
 
 .hero-map {
   position: absolute;
-  inset: 0;
+   top: -6vh;
+  left: -8vw;
+  right: -8vw;
+  
 
-  /*
-    Platzhalter für den Stadtplan.
-    Später ersetzen wir diesen Block durch:
-    background-image: url('/images/city-map.svg');
-  */
-  background-image:
-    linear-gradient(45deg, rgba(33, 78, 69, 0.16) 25%, transparent 25%),
-    linear-gradient(-45deg, rgba(33, 78, 69, 0.16) 25%, transparent 25%),
-    linear-gradient(45deg, transparent 75%, rgba(33, 78, 69, 0.16) 75%),
-    linear-gradient(-45deg, transparent 75%, rgba(33, 78, 69, 0.16) 75%);
-  background-size: 5rem 5rem;
-  background-position: 0 0, 0 2.5rem, 2.5rem -2.5rem, -2.5rem 0;
+  background-image: url("/images/city-map.svg");
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-size: 100% auto;
+  
+  background-position: left top;
+  background-size: auto 58vh;
 
-  opacity: 0.28;
+  opacity: 0.5;
+  mix-blend-mode: multiply;
+  
+  pointer-events: none;
 }
 
 /*
@@ -315,5 +311,38 @@ a {
 
   .hero-title {
     max-width: 58rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .hero-map {
+    top: -12vh;
+    left: -22vw;
+    right: -22vw;
+    height: 110vh;
+
+    background-size: 100% auto;
+    background-position: center top;
+  }
+}
+
+@media (min-width: 1200px) {
+  .hero-map {
+    top: -16vh;
+    left: -30vw;
+    right: -30vw;
+    height: 115vh;
+
+    background-size: 100% auto;
+    background-position: center top;
+  }
+}
+
+@media (min-width: 1600px) {
+  .hero-map {
+    top: -18vh;
+    left: -36vw;
+    right: -36vw;
+    height: 120vh;
   }
 }

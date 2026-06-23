@@ -1,15 +1,12 @@
 ---
-// src/components/Hero.astro
-// Große Startsektion.
-// Diese Komponente enthält den visuellen Einstieg: Titel, Erklärung, Button.
-// Sie bleibt statisch und braucht deshalb kein JavaScript.
-
 import Button from './Button.astro';
+import cityMap from '../assets/image/stadtkarte.svg';
 ---
 
 <section class="hero" id="start">
-  <!-- Hintergrundebene: später können wir hier eine Stadtkarte als Bild einbauen -->
-  <div class="hero-map" aria-hidden="true"></div>
+  <div class="hero-map" aria-hidden="true">
+    <img src={cityMap.src} alt="" />
+  </div>
 
   <div class="hero-content">
     <h1 class="hero-title">
