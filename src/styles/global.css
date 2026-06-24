@@ -47,16 +47,16 @@
 }
 :root {
   /* Farben aus der dunklen grünen Entwurfsrichtung */
-  --color-bg: #5aaa91;
-  --color-bg-dark: #214e45;
+  --color-bg: #004C43;
+  --color-bg-dark: #00564c;
   --color-text: #e8fff2;
-  --color-text-dark: #214e45;
+  --color-text-dark: #CAFBE4;
   --color-accent: #b8ff4f;
 
-  --color-button-bg: #214e45;
-  --color-button-text: #e8fff2;
-  --color-button-icon-bg: #b8ff4f;
-  --color-button-icon-text: #214e45;
+  --color-button-bg: #CAFBE4;
+  --color-button-text: #003930;
+  --color-button-icon-bg: #8166EA;
+  --color-button-icon-text: #CAFBE4;
 
   /*
     Responsive Seitenabstände.
@@ -69,7 +69,7 @@
   --page-padding-x: clamp(1.5rem, 6vw, 5rem);
   --page-padding-top: clamp(5.5rem, 10vh, 8rem);
 
-   --font-body: "Archivo", system-ui, sans-serif;
+  --font-body: "Archivo", system-ui, sans-serif;
   --font-display: "Archivo", system-ui, sans-serif;
   --font-hand: "Gochi Hand", italic;
 }

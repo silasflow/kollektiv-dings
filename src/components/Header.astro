@@ -7,13 +7,15 @@
 
 <header class="site-header">
   <a class="site-logo" href="/" aria-label="Zur Startseite">
-    Stadt Kollektiv
-  </a>
+  <img src="/favicon.svg" alt="" class="site-logo-icon" />
+  <span>Kollektiv</span>
+</a>
 
-  <nav class="site-nav" aria-label="Hauptnavigation">
-    <a href="#framework">Framework</a>
-    <a href="#about">Über das Tool</a>
-  </nav>
+  <nav class="site-nav" ria-label="Hauptnavigation">
+  <a class="site-nav__hand" href="#framework">Zum Test</a>
+  <a class= href="#case">Case Studies</a>
+  <a href="#about">Über das Projekt</a>
+</nav>
 </header>
 <style>
   .site-header {
@@ -31,9 +33,11 @@
     padding: 1.25rem var(--page-padding-x);
 
     color: var(--color-text);
+    font-family: var(--font-body);
   }
 
   .site-logo {
+	font-family: var(--font-body);
     font-size: 0.9rem;
     font-weight: 900;
     letter-spacing: -0.04em;
@@ -43,10 +47,17 @@
     display: none;
     align-items: center;
     gap: 1.75rem;
-
+ 	font-family: var(--font-body);
     font-size: 0.9rem;
     font-weight: 900;
     letter-spacing: -0.03em;
+  }
+  .site-nav__hand {
+    font-family: var(--font-hand);
+    font-size: 1.25rem;
+    font-weight: 400;
+    letter-spacing: 0;
+	color: var(--color-accent);
   }
 
   @media (min-width: 768px) {
