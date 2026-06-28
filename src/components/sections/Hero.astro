@@ -1,0 +1,195 @@
+---
+// Removed Button import to avoid missing module error; using a local link styled as button
+import Button from '../common/Button.astro';
+import cityMap from '../../assets/image/city-map.svg'; 
+import globalStyles from '../../styles/global.css';
+
+interface Props {
+  lang: 'de' | 'en';
+  content: {
+    titleLine1: string;
+    titleLine2: string;
+    highlight: string;
+    titleLine3: string;
+    text: string;
+    buttonLabel: string;
+  };
+}
+
+const { lang, content } = Astro.props;
+---
+
+<section class="hero" id="start">
+  <div class="hero-map" aria-hidden="true">
+    <img src={cityMap.src} alt="" />
+  </div>
+
+  <div class="hero-content">
+    <h1 class="hero-title">
+      <span>{content.titleLine1}</span>
+      <span>{content.titleLine2}</span>
+      <span class="hero-highlight">{content.highlight}</span>
+      <span>{content.titleLine3}</span>
+    </h1>
+
+    <p class="hero-text">{content.text}</p>
+
+    <Button href={`/${lang}/test/`} label={content.buttonLabel} />
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: 100svh;
+    overflow: hidden;
+    background: var(--color-bg);
+  }
+
+  .hero-map {
+    position: absolute;
+
+    top: -8vh;
+    left: -18vw;
+    right: -18vw;
+    height: 105vh;
+
+    background-image: url("/images/city-map.svg");
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-size: 100% auto;
+
+    opacity: 0.42;
+
+    mix-blend-mode: multiply;
+    mix-blend-mode: plus-darker;
+
+    pointer-events: none;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+
+    width: 100%;
+    max-width: 44rem;
+
+    padding-top: var(--page-padding-top);
+    padding-right: var(--page-padding-x);
+    padding-bottom: 4rem;
+    padding-left: var(--page-padding-x);
+  }
+
+  .hero-title {
+    margin: 0;
+
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 12vw, 6.5rem);
+    font-weight: 900;
+    line-height: 0.88;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+
+    color: var(--color-text);
+  }
+
+  .hero-title span {
+    display: block;
+    white-space: nowrap;
+  }
+   
+    .hero-highlight {
+  color: var(--color-accent);
+  font-family: var(--font-hand);
+  font-weight: 800;
+  font-style: italic;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  transform-origin: left center;
+}
+
+  .hero-text {
+    max-width: 34rem;
+
+    margin: clamp(2rem, 5vh, 3.5rem) 0 0;
+
+    font-size: clamp(1.05rem, 3.8vw, 1.35rem);
+    line-height: 1.45;
+
+    color: rgba(232, 255, 242, 0.94);
+  }
+
+  .hero-btn {
+    display: inline-block;
+    margin-top: 1.25rem;
+    padding: 0.75rem 1.25rem;
+    background: var(--color-accent);
+    color: var(--color-bg);
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: 0.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .hero-map {
+      top: -12vh;
+      left: -22vw;
+      right: -22vw;
+      height: 110vh;
+
+      background-size: 100% auto;
+      background-position: center top;
+    }
+
+    .hero-content {
+      max-width: 52rem;
+      padding-top: clamp(6.5rem, 12vh, 9rem);
+    }
+
+    .hero-title {
+      font-size: clamp(5rem, 9vw, 8rem);
+    }
+
+    .hero-text {
+  max-width: 34rem;
+
+  margin: clamp(2rem, 5vh, 3.5rem) 0 0;
+
+  font-size: clamp(1.05rem, 3.8vw, 1.35rem);
+  line-height: 1.45;
+
+  color: rgba(232, 255, 242, 0.94);
+}
+  }
+ 
+    
+  @media (min-width: 1200px) {
+    .hero-map {
+      top: -16vh;
+      left: -30vw;
+      right: -30vw;
+      height: 115vh;
+
+      background-size: 100% auto;
+      background-position: center top;
+
+    }
+
+    .hero-content {
+      margin-left: clamp(2rem, 6vw, 8rem);
+    }
+
+    .hero-title {
+      max-width: 58rem;
+    }
+  }
+
+  @media (min-width: 1600px) {
+    .hero-map {
+      top: -18vh;
+      left: -36vw;
+      right: -36vw;
+      height: 120vh;
+    }
+  }
+</style>

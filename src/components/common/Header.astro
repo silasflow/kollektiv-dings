@@ -1,0 +1,92 @@
+
+---
+interface Props {
+  lang: 'de' | 'en';
+  nav: {
+    test: string;
+    caseStudies: string;
+    about: string;
+    languageLabel: string;
+    languageHref: string;
+  };
+}
+
+const { lang, nav } = Astro.props;
+
+const otherLang = lang === 'de' ? 'en' : 'de';
+
+const currentPath = Astro.url.pathname;
+const languageHref = currentPath.replace(`/${lang}`, `/${otherLang}`);
+---
+<header class="site-header">
+  <a class="site-logo" href={`/${lang}/`} aria-label="Startseite">
+    <img src="/favicon.svg" alt="" class="site-logo-icon" />
+  </a>
+
+  <nav class="site-nav" aria-label="Hauptnavigation">
+  <a class="site-nav__hand" href={`/${lang}/test/`}>
+    {nav.test}
+  </a>
+
+  <a href={`/${lang}/case-studies/`}>
+    {nav.caseStudies}
+  </a>
+
+  <a href={`/${lang}/about/`}>
+    {nav.about}
+  </a>
+
+  <a class="language-switch" href={languageHref}>
+  {nav.languageLabel}
+</a>
+</nav>
+
+<style>
+  .site-header {
+    position: absolute;
+    z-index: 20;
+    top: 0;
+    left: 0;
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+
+    padding: 1.25rem var(--page-padding-x);
+
+    color: var(--color-text);
+    font-family: var(--font-body);
+  }
+
+  .site-logo {
+	font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 900;
+    letter-spacing: -0.04em;
+  }
+
+  .site-nav {
+    display: none;
+    align-items: center;
+    gap: 1.75rem;
+ 	font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+  }
+  .site-nav__hand {
+    font-family: var(--font-hand);
+    font-size: 1.25rem;
+    font-weight: 400;
+    letter-spacing: 0;
+	color: var(--color-accent);
+  }
+
+  @media (min-width: 768px) {
+    .site-nav {
+      display: flex;
+    }
+  }
+</style>
