@@ -1,0 +1,63 @@
+---
+import BaseHead from '../../components/common/BaseHead.astro';
+import Header from '../../components/common/Header.astro';
+import TestFlow from '../../components/test/TestFlow';
+import { languages, siteContent, type Lang } from '../../data/siteContent';
+
+export function getStaticPaths() {
+  return languages.map((lang) => ({
+    params: { lang },
+  }));
+}
+
+const lang = Astro.params.lang as Lang;
+const site = siteContent[lang];
+const languageHref = lang === 'de' ? '/en/test' : '/de/test';
+const nav = {
+  ...site.nav,
+  languageHref,
+};
+
+const page = {
+  de: {
+    title: 'Stadt Kollektiv – Test',
+    description: 'Ein Selbstcheck für urbane Kollektive.',
+  },
+  en: {
+    title: 'City Collective – Test',
+    description: 'A self-check for urban collectives.',
+  },
+} as const;
+---
+
+<html lang={lang}>
+  <head>
+    <BaseHead title={page[lang].title} description={page[lang].description} />
+  </head>
+
+  <body>
+    <Header lang={lang} nav={nav} />
+
+    <main class="test-page">
+      <TestFlow client:load lang={lang} />
+    </main>
+  </body>
+</html>
+
+<style>
+  .test-page {
+    --test-header-space: clamp(4.75rem, 10svh, 6.25rem);
+    --test-bottom-space: clamp(1rem, 3svh, 2rem);
+
+    min-height: 100svh;
+    padding-top: var(--test-header-space);
+    padding-bottom: var(--test-bottom-space);
+
+    background:var(--color-bg-dark);
+    color: var(--color-text);
+
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+  }
+</style>
