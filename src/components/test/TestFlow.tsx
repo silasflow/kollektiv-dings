@@ -15,10 +15,6 @@ type Props = {
   lang: Lang;
 };
 
-/*
-  Slider-Fragen speichern eine Zahl von 0–100.
-  Ranking-Fragen speichern eine sortierte Liste von Option-IDs.
-*/
 type Answers = Record<string, number | string[]>;
 
 type SavedTestState = {
@@ -280,13 +276,14 @@ if (!currentQuestion) {
 
     return (
       <SliderQuestion
-        lang={lang}
-        question={currentQuestion}
-        value={currentValue}
-        onChange={(value) => updateSliderAnswer(currentQuestion.id, value)}
-        onBack={goBack}
-        onNext={goNext}
-      />
+  lang={lang}
+  question={currentQuestion}
+  value={currentValue}
+  answers={answers}
+  onChange={(value) => updateSliderAnswer(currentQuestion.id, value)}
+  onBack={goBack}
+  onNext={goNext}
+/>
     );
   }
 
@@ -312,15 +309,16 @@ const orderedValues =
 
     return (
       <RankingQuestion
-        lang={lang}
-        question={currentQuestion}
-        orderedValues={orderedValues}
-        onChange={(nextOrder) =>
-          updateRankingAnswer(currentQuestion.id, nextOrder)
-        }
-        onBack={goBack}
-        onNext={goNext}
-      />
+  lang={lang}
+  question={currentQuestion}
+  orderedValues={orderedValues}
+  answers={answers}
+  onChange={(nextOrder) =>
+    updateRankingAnswer(currentQuestion.id, nextOrder)
+  }
+  onBack={goBack}
+  onNext={goNext}
+/>
     );
   }
 

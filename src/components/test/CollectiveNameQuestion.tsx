@@ -15,8 +15,8 @@ type Props = {
 
 const text = {
   de: {
-    titleStart: 'Wie heißt euer',
-    titleHighlight: 'Kollektiv',
+    titleStart: 'Wie heißt euer  ',
+    titleHighlight: ' Kollektiv ',
     titleEnd: '?',
     label: 'Kollektiv Name',
     placeholder: 'Name eingeben',
@@ -49,10 +49,10 @@ export default function CollectiveNameQuestion({
     <section className="test-screen name-screen">
       <div className="name-content">
         <h1 className="name-title">
-          <span>{t.titleStart}</span>{' '}
-          <span className="name-title-highlight">{t.titleHighlight}</span>
-          <span>{t.titleEnd}</span>
-        </h1>
+  <span>{t.titleStart}</span>{' '}
+  <span className="name-title-highlight">{t.titleHighlight}</span>
+  <span className="name-title-end">{t.titleEnd}</span>
+</h1>
 
         <label className="name-field">
           <span>{t.label}</span>
