@@ -759,17 +759,14 @@ text-shadow:
   color: var(--color-text);
 }
 
-.result-graphic-card {
-  display: grid;
-  place-items: center;
+.result-graphic-card .question-line-graphic {
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+}
 
-  width: min(100%, 16rem);
-  aspect-ratio: 1 / 1;
-  margin-inline: auto;
-
-  border-radius: 1.25rem;
-  background: rgba(74, 123, 108, 0.72);
-  overflow: hidden;
+.result-graphic-card .line-graphic-dot {
+  font-size: clamp(2.2rem, 7vw, 3.5rem);
 }
 
 .result-graphic {
@@ -807,7 +804,7 @@ text-shadow:
 }
 
 .line-graphic-polygon {
-  stroke: rgba(184, 255, 79, 0.9);
+  stroke: #8568e8;
   stroke-width: 1.2;
   fill-opacity: 0.9;
 }
@@ -822,6 +819,58 @@ text-shadow:
   font-size: 2rem;
   line-height: 1;
   text-shadow: 0 0 0.35rem rgba(184, 255, 79, 0.4);
+}
+.result-content {
+  justify-items: center;
+}
+
+.result-copy,
+.result-text {
+  justify-self: stretch;
+}
+
+.result-graphic-card {
+  justify-self: center;
+
+  width: min(100%, 18rem);
+  aspect-ratio: 1 / 1;
+  margin-inline: auto;
+  padding: 0;
+
+  display: grid;
+  place-items: stretch;
+
+  border-radius: 1.35rem;
+  background: rgba(74, 123, 108, 0.72);
+  overflow: hidden;
+}
+
+.result-graphic-card .question-line-graphic {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  justify-self: stretch;
+
+  border-radius: inherit;
+  background: transparent;
+}
+
+.result-graphic-card .line-graphic-axis--x {
+  left: 8%;
+  right: 8%;
+}
+
+.result-graphic-card .line-graphic-axis--y {
+  top: 8%;
+  bottom: 8%;
+}
+
+.result-graphic-card .line-graphic-dot {
+  font-size: clamp(2.4rem, 7vw, 3.8rem);
+}
+
+.result-graphic-card .line-graphic-polygon {
+  stroke-width: 1.6;
 }
 
 @media (min-width: 768px) {
@@ -978,9 +1027,47 @@ text-shadow:
   font-size: 1rem;
 }
 
+/* RESULT: große finale Grafik ohne doppelten Rahmen */
+
 .result-graphic-card {
-  width: min(100%, 12rem);
-  border-radius: 1rem;
+  width: min(100%, 18rem);
+  aspect-ratio: 1 / 1;
+  padding: 0;
+
+  display: grid;
+  place-items: stretch;
+
+  border-radius: 1.35rem;
+  background: rgba(74, 123, 108, 0.72);
+  overflow: hidden;
+}
+
+.result-graphic-card .question-line-graphic {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  justify-self: stretch;
+
+  border-radius: inherit;
+  background: transparent;
+}
+
+.result-graphic-card .line-graphic-axis--x {
+  left: 8%;
+  right: 8%;
+}
+
+.result-graphic-card .line-graphic-axis--y {
+  top: 8%;
+  bottom: 8%;
+}
+
+.result-graphic-card .line-graphic-dot {
+  font-size: clamp(2.4rem, 7vw, 3.8rem);
+}
+
+.result-graphic-card .line-graphic-polygon {
+  stroke-width: 1.6;
 }
 
 .result-text {
@@ -1234,9 +1321,6 @@ text-shadow:
   font-size: clamp(2rem, 3vw, 2.7rem);
 }
 
-.result-graphic-card {
-  width: min(100%, 17rem);
-}
 }
 
 /* Sehr schmale Geräte */

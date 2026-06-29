@@ -107,8 +107,8 @@ export function getPolygonPointsFromAnswers(answers: Answers) {
 const rankingColors: Record<string, string> = {
   social: '#B8FF4F',
   economic: '#8568E8',
-  political: '#D8FBE5',
-  creative: '#74F2C8',
+  political: '#003930',
+  creative: '#CAFBE4',
 };
 
 export function getGradientStopsFromRanking(orderedValues: string[]) {

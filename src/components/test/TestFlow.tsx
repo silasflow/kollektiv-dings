@@ -123,15 +123,27 @@ setConsent(parsedState.consent ?? false);
     setIsSubmitting(true);
     setSubmitError(null);
 
-    const result = {
-      type: getResultTypeForStorage(answers, collectiveName),
-      values: {
-        formalization: getNumericAnswerForStorage(answers, 'formalization', 50),
-        time: getNumericAnswerForStorage(answers, 'time', 50),
-        identity: getNumericAnswerForStorage(answers, 'identity', 50),
-        space: getNumericAnswerForStorage(answers, 'space', 50),
-      },
-    };
+   const rankingOrder = getRankingAnswerForStorage(answers, 'goals', [
+  'political',
+  'economic',
+  'creative',
+  'social',
+]);
+
+const result = {
+  type: getResultTypeForStorage(answers, collectiveName),
+  values: {
+    formalization: getNumericAnswerForStorage(answers, 'formalization', 50),
+    time: getNumericAnswerForStorage(answers, 'time', 50),
+    identity: getNumericAnswerForStorage(answers, 'identity', 50),
+    space: getNumericAnswerForStorage(answers, 'space', 50),
+  },
+  graphic: {
+    polygonSource: 'slider_answers',
+    fillSource: 'ranking_order',
+    rankingOrder,
+  },
+};
 
 if (!ENABLE_BACKEND) {
       console.log('Backend ist aktuell deaktiviert. Ergebnis nur lokal berechnet:', {
@@ -189,6 +201,16 @@ if (!ENABLE_BACKEND) {
     const value = answers[key];
     return typeof value === 'number' ? value : fallback;
   }
+  
+function getRankingAnswerForStorage(
+  answers: Answers,
+  key: string,
+  fallback: string[]
+): string[] {
+  const value = answers[key];
+
+  return Array.isArray(value) ? value : fallback;
+}
 
  function getResultTypeForStorage(
     answers: Answers,

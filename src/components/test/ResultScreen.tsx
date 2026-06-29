@@ -1,5 +1,6 @@
 import type { Lang } from '../../data/siteContent';
 import TestNavigation from './TestNavigation';
+import QuestionLineGraphic from './QuestionLineGraphic';
 
 type Answers = Record<string, number | string[]>;
 
@@ -26,6 +27,7 @@ const text = {
   },
 } as const;
 
+
 export default function ResultScreen({
   lang,
   answers,
@@ -34,19 +36,20 @@ export default function ResultScreen({
   onNext,
 }: Props) {
   const t = text[lang];
+  
+const orderedValues = getRankingAnswer(answers, 'goals', [
+  'political',
+  'economic',
+  'creative',
+  'social',
+]);
 
-  const top = getNumericAnswer(answers, 'formalization', 62);
-  const right = getNumericAnswer(answers, 'space', 68);
-  const bottom = getNumericAnswer(answers, 'identity', 54);
-  const left = getNumericAnswer(answers, 'time', 46);
 
   const collectiveType = getCollectiveType({
     lang,
     answers,
     collectiveName,
   });
-
-  const polygonPoints = buildDiamondPoints({ top, right, bottom, left });
 
   return (
     <section className="test-screen result-screen">
@@ -61,29 +64,12 @@ export default function ResultScreen({
         </div>
 
         <div className="result-graphic-card" aria-hidden="true">
-          <svg
-  className="result-graphic"
-  viewBox="0 0 220 220"
-  role="img"
-  aria-label="Kollektiv-Profil"
->
-  <defs>
-    <linearGradient id="resultGradient" x1="50%" y1="0%" x2="50%" y2="100%">
-      <stop offset="0%" stopColor="#d47f4a" />
-      <stop offset="100%" stopColor="#d7ef71" />
-    </linearGradient>
-  </defs>
-
-  <line x1="110" y1="22" x2="110" y2="198" className="result-axis" />
-  <line x1="22" y1="110" x2="198" y2="110" className="result-axis" />
-
-  <polygon
-    points={polygonPoints}
-    className="result-shape"
+  <QuestionLineGraphic
+    mode="ranking"
+    answers={answers}
+    orderedValues={orderedValues}
   />
-</svg>
-        </div>
-
+</div>
         <p className="result-text">{t.body}</p>
       </div>
 
@@ -105,36 +91,7 @@ function getNumericAnswer(
   return typeof value === 'number' ? value : fallback;
 }
 
-function buildDiamondPoints({
-  top,
-  right,
-  bottom,
-  left,
-}: {
-  top: number;
-  right: number;
-  bottom: number;
-  left: number;
-}) {
-  const center = 110;
-  const minRadius = 18;
-  const maxRadius = 82;
 
-  const scale = (value: number) =>
-    minRadius + ((Math.max(0, Math.min(100, value)) / 100) * (maxRadius - minRadius));
-
-  const topY = center - scale(top);
-  const rightX = center + scale(right);
-  const bottomY = center + scale(bottom);
-  const leftX = center - scale(left);
-
-  return `
-    ${center},${topY}
-    ${rightX},${center}
-    ${center},${bottomY}
-    ${leftX},${center}
-  `;
-}
 
 function getCollectiveType({
   lang,
@@ -167,4 +124,13 @@ function getCollectiveType({
   }
 
   return lang === 'de' ? 'hybriden Kollektiv' : 'hybrid collective';
+}
+function getRankingAnswer(
+  answers: Answers,
+  key: string,
+  fallback: string[]
+): string[] {
+  const value = answers[key];
+
+  return Array.isArray(value) ? value : fallback;
 }
