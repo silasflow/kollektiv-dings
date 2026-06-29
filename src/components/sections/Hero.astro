@@ -1,8 +1,6 @@
 ---
 // Removed Button import to avoid missing module error; using a local link styled as button
 import Button from '../common/Button.astro';
-import cityMap from '../../assets/image/city-map.svg'; 
-import globalStyles from '../../styles/global.css';
 
 interface Props {
   lang: 'de' | 'en';
@@ -20,9 +18,7 @@ const { lang, content } = Astro.props;
 ---
 
 <section class="hero" id="start">
-  <div class="hero-map" aria-hidden="true">
-    <img src={cityMap.src} alt="" />
-  </div>
+ <div class="hero-map" aria-hidden="true"></div>
 
   <div class="hero-content">
     <h1 class="hero-title">
@@ -44,29 +40,43 @@ const { lang, content } = Astro.props;
     min-height: 100svh;
     overflow: hidden;
     background: var(--color-bg);
+    isolation: isolate;
   }
 
   .hero-map {
-    position: absolute;
+  position: absolute;
+  z-index: 0;
 
-    top: -8vh;
-    left: -18vw;
-    right: -18vw;
-    height: 105vh;
+  top: -2svh;
+  left: -3vw;
 
-    background-image: url("/images/city-map.svg");
-    background-repeat: no-repeat;
-    background-position: center top;
-    background-size: 100% auto;
+  width: 104vw;
+  height: 88svh;
 
-    opacity: 0.42;
+  background-image: url("/images/city-map.svg");
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-size: 100% auto;
 
-    mix-blend-mode: multiply;
-    mix-blend-mode: plus-darker;
+  opacity: 0.90;
+  mix-blend-mode: multiply;
+  
 
-    pointer-events: none;
-  }
+  pointer-events: none;
 
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    black 0%,
+    black 58%,
+    transparent 92%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    black 0%,
+    black 58%,
+    transparent 92%
+  );
+}
   .hero-content {
     position: relative;
     z-index: 1;
@@ -130,16 +140,45 @@ const { lang, content } = Astro.props;
     border-radius: 0.5rem;
   }
 
-  @media (min-width: 768px) {
-    .hero-map {
-      top: -12vh;
-      left: -22vw;
-      right: -22vw;
-      height: 110vh;
+    @media (max-width: 767px) {
+     .hero-map {
+    top: -4svh;
+    left: -14vw;
 
-      background-size: 100% auto;
-      background-position: center top;
-    }
+    width: 128vw;
+    height: 78svh;
+
+    background-size: 100% auto;
+    background-position: center top;
+
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      black 0%,
+      black 52%,
+      rgba(0, 0, 0, 0.55) 68%,
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to bottom,
+      black 0%,
+      black 52%,
+      rgba(0, 0, 0, 0.55) 68%,
+      transparent 100%
+    );
+  }
+}
+  @media (min-width: 768px) {
+      .hero-map {
+    top: -2svh;
+    left: -2vw;
+
+    width: 104vw;
+    height: 86svh;
+
+    background-size: 100% auto;
+    background-position: center top;
+  }
+
 
     .hero-content {
       max-width: 52rem;
@@ -164,16 +203,16 @@ const { lang, content } = Astro.props;
  
     
   @media (min-width: 1200px) {
-    .hero-map {
-      top: -16vh;
-      left: -30vw;
-      right: -30vw;
-      height: 115vh;
+      .hero-map {
+    top: -2.5svh;
+    left: -1.5vw;
 
-      background-size: 100% auto;
-      background-position: center top;
+    width: 103vw;
+    height: 88svh;
 
-    }
+    background-size: 100% auto;
+    background-position: center top;
+  }
 
     .hero-content {
       margin-left: clamp(2rem, 6vw, 8rem);
@@ -186,10 +225,13 @@ const { lang, content } = Astro.props;
 
   @media (min-width: 1600px) {
     .hero-map {
-      top: -18vh;
-      left: -36vw;
-      right: -36vw;
-      height: 120vh;
-    }
+    top: -3svh;
+    left: -1vw;
+
+    width: 102vw;
+    height: 88svh;
+
+    background-size: 100% auto;
+  }
   }
 </style>
