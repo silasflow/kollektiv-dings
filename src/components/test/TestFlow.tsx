@@ -36,7 +36,11 @@ export default function TestFlow({ lang }: Props) {
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<Answers>({});
 const [collectiveName, setCollectiveName] = useState('');
-const [consent, setConsent] = useState(false);
+const [consent, setConsent] = useState(false); 
+
+const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [submittedId, setSubmittedId] = useState<string | null>(null);
   /*
     Wichtig:
     sessionStorage erst nach dem ersten Render lesen.
@@ -88,7 +92,7 @@ setConsent(parsedState.consent ?? false);
 
   function goNext() {
     setStep((currentStep) =>
-      Math.min(currentStep + 1, testQuestions.length + 2)
+      Math.min(currentStep + 1, testQuestions.length + 3)
     );
   }
 
@@ -111,6 +115,99 @@ setConsent(parsedState.consent ?? false);
       [questionId]: nextOrder,
     }));
   }
+
+   async function submitResult() {
+    if (isSubmitting || submittedId) {
+      goNext();
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitError(null);
+
+    const result = {
+      type: getResultTypeForStorage(answers, collectiveName),
+      values: {
+        formalization: getNumericAnswerForStorage(answers, 'formalization', 50),
+        time: getNumericAnswerForStorage(answers, 'time', 50),
+        identity: getNumericAnswerForStorage(answers, 'identity', 50),
+        space: getNumericAnswerForStorage(answers, 'space', 50),
+      },
+    };
+
+    try {
+      const response = await fetch('/api/test-results', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          lang,
+          collectiveName,
+          notes: '',
+          consentPublic: consent,
+          answers,
+          result,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Speichern fehlgeschlagen');
+      }
+
+      const data = await response.json();
+
+      setSubmittedId(data.result.id);
+      goNext();
+    } catch {
+      setSubmitError(
+        lang === 'de'
+          ? 'Das Ergebnis konnte nicht gespeichert werden.'
+          : 'The result could not be saved.'
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
+
+   function getNumericAnswerForStorage(
+    answers: Answers,
+    key: string,
+    fallback: number
+  ): number {
+    const value = answers[key];
+    return typeof value === 'number' ? value : fallback;
+  }
+
+ function getResultTypeForStorage(
+    answers: Answers,
+    collectiveName: string
+  ): string {
+    const formalization = getNumericAnswerForStorage(answers, 'formalization', 50);
+    const time = getNumericAnswerForStorage(answers, 'time', 50);
+    const identity = getNumericAnswerForStorage(answers, 'identity', 50);
+    const space = getNumericAnswerForStorage(answers, 'space', 50);
+
+    if (collectiveName.trim().length > 0) {
+      return collectiveName.trim();
+    }
+
+    if (formalization < 35 && time < 35) {
+      return 'spontaneous_collective';
+    }
+
+    if (identity > 65 && formalization > 60) {
+      return 'structured_collective';
+    }
+
+    if (space > 65) {
+      return 'decentral_collective';
+    }
+
+    return 'hybrid_collective';
+  }
+
+  // Danach geht dein vorhandener Code normal weiter:
 
   if (!isReady) {
     return <TestIntro lang={lang} onNext={goNext} />;
@@ -143,7 +240,7 @@ if (isResultStep) {
       answers={answers}
       collectiveName={collectiveName}
       onBack={goBack}
-      onNext={goNext}
+      onNext={submitResult}
     />
   );
 }
