@@ -57,7 +57,7 @@ export default function TestIntro({ lang, onNext }: Props) {
           </div>
 
           <div className="hand">
-            <i className="ph-bold ph-hand-tap" />
+            <img src="/icons/HandPointing.svg" alt="" />
           </div>
         </div>
       </div>
