@@ -1,8 +1,10 @@
 ---
-kicker: "Über das Projekt"
+title: "Über das Projekt"
+description: "Informationen über das Projekt"
+lang: "de"
 toc:
-  - label: "Inhalt"
-    id: "inhalt"
+  - label: "Einordnung"
+    id: "einordnung"
   - label: "Warum dieses Tool?"
     id: "warum-dieses-tool"
   - label: "Wie funktioniert der Test?"

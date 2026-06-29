@@ -1,5 +1,7 @@
 ---
 title: "About the project"
+description: "Information about the project"
+lang: "en"
 toc:
   - label: "Context"
     id: "context"
