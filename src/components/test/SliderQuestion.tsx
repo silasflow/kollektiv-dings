@@ -3,11 +3,15 @@
 import type { Lang } from '../../data/siteContent';
 import type { SliderQuestion as SliderQuestionType } from '../../data/testQuestions';
 import TestNavigation from './TestNavigation';
+import QuestionLineGraphic from './QuestionLineGraphic';
+
+type Answers = Record<string, number | string[]>;
 
 type Props = {
   lang: Lang;
   question: SliderQuestionType;
   value: number;
+  answers: Answers;
   onChange: (value: number) => void;
   onBack: () => void;
   onNext: () => void;
@@ -33,6 +37,7 @@ export default function SliderQuestion({
   lang,
   question,
   value,
+  answers,
   onChange,
   onBack,
   onNext,
@@ -49,7 +54,11 @@ export default function SliderQuestion({
           <h1 className="question-title">{question.title[lang]}</h1>
         </div>
 
-        <QuestionLineGraphic value={value} />
+        <QuestionLineGraphic
+  mode="slider"
+  currentQuestionId={question.id}
+  answers={answers}
+/>
       </div>
 
          <QuestionMainGraphic graphic={question.graphic} value={value} />
@@ -86,23 +95,6 @@ export default function SliderQuestion({
 
       <TestNavigation lang={lang} onBack={onBack} onNext={onNext} />
     </section>
-  );
-}
-
-function QuestionLineGraphic({ value }: { value: number }) {
-  return (
-    <div className="question-line-graphic" aria-hidden="true">
-      <div className="line-graphic-axis line-graphic-axis--x" />
-      <div className="line-graphic-axis line-graphic-axis--y" />
-
-      <span className="line-graphic-dot" style={{ left: `${20 + value * 0.55}%`, top: '28%' }}>
-        ×
-      </span>
-
-      <span className="line-graphic-dot" style={{ left: `${78 - value * 0.25}%`, top: '50%' }}>
-        ×
-      </span>
-    </div>
   );
 }
 

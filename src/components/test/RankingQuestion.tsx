@@ -21,11 +21,15 @@ import { CSS } from '@dnd-kit/utilities';
 import type { Lang } from '../../data/siteContent';
 import type { RankingQuestion as RankingQuestionType } from '../../data/testQuestions';
 import TestNavigation from './TestNavigation';
+import QuestionLineGraphic from './QuestionLineGraphic';
+
+type Answers = Record<string, number | string[]>;
 
 type Props = {
   lang: Lang;
   question: RankingQuestionType;
   orderedValues: string[];
+  answers: Answers;
   onChange: (nextOrder: string[]) => void;
   onBack: () => void;
   onNext: () => void;
@@ -35,6 +39,7 @@ export default function RankingQuestion({
   lang,
   question,
   orderedValues,
+  answers,
   onChange,
   onBack,
   onNext,
@@ -78,7 +83,11 @@ export default function RankingQuestion({
           <h1 className="question-title">{question.title[lang]}</h1>
         </div>
 
-        <QuestionLineGraphic />
+        <QuestionLineGraphic
+  mode="ranking"
+  answers={answers}
+  orderedValues={orderedValues}
+/>
       </div>
 
       <p className="question-answer-text">{question.description[lang]}</p>
@@ -155,26 +164,5 @@ function SortableRankingItem({
         </button>
       </div>
     </li>
-  );
-}
-
-function QuestionLineGraphic() {
-  return (
-    <div className="question-line-graphic" aria-hidden="true">
-      <div className="line-graphic-axis line-graphic-axis--x" />
-      <div className="line-graphic-axis line-graphic-axis--y" />
-
-      <span className="line-graphic-dot" style={{ left: '30%', top: '28%' }}>
-        ×
-      </span>
-
-      <span className="line-graphic-dot" style={{ left: '76%', top: '50%' }}>
-        ×
-      </span>
-
-      <span className="line-graphic-dot" style={{ left: '50%', top: '70%' }}>
-        ×
-      </span>
-    </div>
   );
 }
