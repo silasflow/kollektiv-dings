@@ -1,6 +1,6 @@
 // src/pages/api/test-results.ts
 import type { APIRoute } from 'astro';
-import { pool } from '../../lib/db';
+import { pool } from './db';
 
 export const prerender = false;
 

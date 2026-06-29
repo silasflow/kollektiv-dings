@@ -29,6 +29,8 @@ type SavedTestState = {
 };
 
 const STORAGE_KEY = 'stadt-kollektiv-test-state';
+/*wieder löschen wenn server aktiv Zeile 33*/
+const ENABLE_BACKEND = false;
 
 export default function TestFlow({ lang }: Props) {
   const [isReady, setIsReady] = useState(false);
@@ -134,6 +136,19 @@ setConsent(parsedState.consent ?? false);
         space: getNumericAnswerForStorage(answers, 'space', 50),
       },
     };
+
+if (!ENABLE_BACKEND) {
+      console.log('Backend ist aktuell deaktiviert. Ergebnis nur lokal berechnet:', {
+        lang,
+        collectiveName,
+        consentPublic: consent,
+        answers,
+        result,
+      });
+
+      goNext();
+      return;
+    }
 
     try {
       const response = await fetch('/api/test-results', {
