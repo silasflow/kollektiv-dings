@@ -6,13 +6,16 @@ import TestNavigation from './TestNavigation';
 import QuestionLineGraphic from './QuestionLineGraphic';
 import QuestionMainGraphic from './QuestionMainGraphic';
 
-type Answers = Record<string, number | string[]>;
+type Answers = Record<string, number | string[] | boolean>;
 
 type Props = {
   lang: Lang;
   question: SliderQuestionType;
   value: number;
   answers: Answers;
+  isVirtualOptionVisible?: boolean;
+  actsVirtually?: boolean;
+  onVirtualChange?: (value: boolean) => void;
   onChange: (value: number) => void;
   onBack: () => void;
   onNext: () => void;
@@ -34,11 +37,19 @@ function getValueLabel(question: SliderQuestionType, value: number, lang: Lang) 
   return match.label[lang];
 }
 
+const virtualText = {
+  de: 'Wir agieren zusätzlich auch virtuell/digital.',
+  en: 'We also operate virtually/digitally.',
+} as const;
+
 export default function SliderQuestion({
   lang,
   question,
   value,
   answers,
+  isVirtualOptionVisible = false,
+  actsVirtually = false,
+  onVirtualChange,
   onChange,
   onBack,
   onNext,
@@ -56,13 +67,13 @@ export default function SliderQuestion({
         </div>
 
         <QuestionLineGraphic
-  mode="slider"
-  currentQuestionId={question.id}
-  answers={answers}
-/>
+          mode="slider"
+          currentQuestionId={question.id}
+          answers={answers as Record<string, number | string[]>}
+        />
       </div>
 
-         <QuestionMainGraphic questionId={question.id} value={value} />
+      <QuestionMainGraphic questionId={question.id} value={value} />
       <p className="question-answer-text">{answerText}</p>
 
       <div className="slider-answer-card">
@@ -94,8 +105,23 @@ export default function SliderQuestion({
         </div>
       </div>
 
+      {isVirtualOptionVisible && (
+        <label className="consent-field">
+          <input
+            type="checkbox"
+            checked={actsVirtually}
+            onChange={(event) => onVirtualChange?.(event.target.checked)}
+          />
+
+          <span className="consent-box" aria-hidden="true">
+            {actsVirtually && <i className="ph-bold ph-check" />}
+          </span>
+
+          <span>{virtualText[lang]}</span>
+        </label>
+      )}
+
       <TestNavigation lang={lang} onBack={onBack} onNext={onNext} />
     </section>
   );
 }
-

@@ -1,6 +1,7 @@
-// src/server-later/test-results.ts
+// src/pages/api/test-results.ts
+
 import type { APIRoute } from 'astro';
-import { pool } from './db';
+import { pool } from '../../server-later/db';
 
 export const prerender = false;
 
@@ -11,7 +12,8 @@ export const POST: APIRoute = async ({ request }) => {
     const {
       lang,
       collectiveName,
-      notes,
+      websiteOrInstagram,
+      location,
       consentPublic,
       answers,
       result,
@@ -28,19 +30,21 @@ export const POST: APIRoute = async ({ request }) => {
       insert into test_results (
         lang,
         collective_name,
-        notes,
+        website_or_instagram,
+        location,
         consent_public,
         answers,
         result
       )
-      values ($1, $2, $3, $4, $5::jsonb, $6::jsonb)
+      values ($1, $2, $3, $4, $5, $6::jsonb, $7::jsonb)
       returning id, created_at
     `;
 
     const values = [
       lang,
       collectiveName?.trim() || null,
-      notes?.trim() || null,
+      websiteOrInstagram?.trim() || null,
+      location?.trim() || null,
       Boolean(consentPublic),
       JSON.stringify(answers),
       JSON.stringify(result),

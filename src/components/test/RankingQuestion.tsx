@@ -23,7 +23,7 @@ import type { RankingQuestion as RankingQuestionType } from '../../data/testQues
 import TestNavigation from './TestNavigation';
 import QuestionLineGraphic from './QuestionLineGraphic';
 
-type Answers = Record<string, number | string[]>;
+type Answers = Record<string, number | string[] | boolean>;
 
 type Props = {
   lang: Lang;
@@ -84,10 +84,10 @@ export default function RankingQuestion({
         </div>
 
         <QuestionLineGraphic
-  mode="ranking"
-  answers={answers}
-  orderedValues={orderedValues}
-/>
+          mode="ranking"
+          answers={answers as Record<string, number | string[]>}
+          orderedValues={orderedValues}
+        />
       </div>
 
       <p className="question-answer-text">{question.description[lang]}</p>
@@ -97,10 +97,7 @@ export default function RankingQuestion({
         collisionDetection={closestCenter}
         onDragEnd={handleDragEnd}
       >
-        <SortableContext
-          items={itemIds}
-          strategy={verticalListSortingStrategy}
-        >
+        <SortableContext items={itemIds} strategy={verticalListSortingStrategy}>
           <ol className="ranking-list" aria-label={question.title[lang]}>
             {sortedOptions.map((option, index) => (
               <SortableRankingItem

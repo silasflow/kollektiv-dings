@@ -19,21 +19,23 @@ const languageHref = currentPath.replace(`/${lang}`, `/${otherLang}`);
 ---
 
 <header class="site-header">
-	<script client:load>
-		let menuOpen = false;
-		const header = document.querySelector(".site-header");
-		const toggle = document.getElementById("menuToggle");
-		const menu = document.getElementById("menu");
+	<script>
+		document.addEventListener("DOMContentLoaded", () => {
+			let menuOpen = false;
+			const header = document.querySelector(".site-header");
+			const toggle = document.getElementById("menuToggle");
+			const menu = document.getElementById("menu");
 
-		if (toggle && menu && header) {
-			toggle.addEventListener("click", () => {
-				menuOpen = !menuOpen;
-				menu.classList.toggle("open", menuOpen);
-				header.classList.toggle("open", menuOpen);
-				toggle.textContent = menuOpen ? "Schließen" : "Menü";
-				console.log("Menu open:", menuOpen);
-			});
-		}
+			if (toggle && menu && header) {
+				toggle.addEventListener("click", () => {
+					menuOpen = !menuOpen;
+					menu.classList.toggle("open", menuOpen);
+					header.classList.toggle("open", menuOpen);
+					toggle.textContent = menuOpen ? "Schließen" : "Menü";
+					console.log("Menu open:", menuOpen);
+				});
+			}
+		});
 	</script>
 
 	<a class="site-logo" href={`/${lang}/`} aria-label="Startseite">
