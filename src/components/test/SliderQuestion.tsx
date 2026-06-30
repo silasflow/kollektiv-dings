@@ -4,6 +4,7 @@ import type { Lang } from '../../data/siteContent';
 import type { SliderQuestion as SliderQuestionType } from '../../data/testQuestions';
 import TestNavigation from './TestNavigation';
 import QuestionLineGraphic from './QuestionLineGraphic';
+import QuestionMainGraphic from './QuestionMainGraphic';
 
 type Answers = Record<string, number | string[]>;
 
@@ -61,7 +62,7 @@ export default function SliderQuestion({
 />
       </div>
 
-         <QuestionMainGraphic graphic={question.graphic} value={value} />
+         <QuestionMainGraphic questionId={question.id} value={value} />
       <p className="question-answer-text">{answerText}</p>
 
       <div className="slider-answer-card">
@@ -98,29 +99,3 @@ export default function SliderQuestion({
   );
 }
 
-function QuestionMainGraphic({
-  graphic,
-  value,
-}: {
-  graphic: SliderQuestionType['graphic'];
-  value: number;
-}) {
-  return (
-    <div className={`question-main-graphic question-main-graphic--${graphic}`} aria-hidden="true">
-      <div
-        className="main-diamond main-diamond--outer"
-        style={{
-          transform: `rotate(45deg) scale(${0.75 + value / 260})`,
-          opacity: 0.35 + value / 260,
-        }}
-      />
-
-      <div
-        className="main-diamond main-diamond--inner"
-        style={{
-          transform: `rotate(45deg) scale(${0.45 + value / 220})`,
-        }}
-      />
-    </div>
-  );
-}

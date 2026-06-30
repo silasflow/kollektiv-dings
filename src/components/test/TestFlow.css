@@ -11,9 +11,9 @@
   gap: clamp(0.75rem, 1.8svh, 1.2rem);
 
   padding:
-    clamp(0.9rem, 2.4svh, 1.4rem)
-    var(--page-padding-x)
-    clamp(0.85rem, 2svh, 1.25rem);
+  clamp(0.75rem, 2svh, 1.15rem)
+  clamp(1rem, 4vw, 1.35rem)
+  clamp(0.75rem, 1.8svh, 1rem);
 
   overflow: hidden;
   background: var(--color-bg-dark);
@@ -248,7 +248,7 @@ text-shadow:
 
   font-family: var(--font-display);
   font-size: clamp(1.25rem, 5vw, 2rem);
-  font-weight: 700;
+  font-weight: 800;
   line-height: 1.03;
   letter-spacing: -0.055em;
 
@@ -314,38 +314,232 @@ text-shadow:
 
 /* MAIN GRAPHIC PLACEHOLDER */
 
+/* MAIN GRAPHICS */
+
 .question-main-graphic {
   position: relative;
-
   width: min(100%, 18rem);
   height: clamp(5.5rem, 19svh, 12rem);
   margin-inline: auto;
-
   display: grid;
   place-items: center;
   min-height: 0;
 }
 
-.main-diamond {
+/* ---------------------------------
+   Frage 1 – Formalisierung / Diamond
+---------------------------------- */
+
+.question-main-graphic--formalization {
+  isolation: isolate;
+}
+
+.diamond-core,
+.diamond-soft-edge,
+.diamond-outline,
+.diamond-glow {
   position: absolute;
-  width: clamp(4rem, 16svh, 7.5rem);
-  height: clamp(4rem, 16svh, 7.5rem);
-  border-radius: 1rem;
+
+  width: clamp(5rem, 15svh, 7.2rem);
+  height: clamp(5rem, 15svh, 7.2rem);
+
+  border-radius: 0.9rem;
+  transform: rotate(45deg);
+
   transition:
-    transform 180ms ease,
-    opacity 180ms ease;
+    filter 160ms ease,
+    opacity 160ms ease;
 }
 
-.main-diamond--outer {
-  border: 2px solid rgba(184, 255, 79, 0.5);
-  background: transparent;
-}
+.diamond-core {
+  z-index: 2;
 
-.main-diamond--inner {
   background:
-    radial-gradient(circle at 30% 30%, rgba(184, 255, 79, 0.9), rgba(74, 123, 108, 0.15));
-  filter: blur(0.15rem);
+    radial-gradient(
+      circle at 36% 28%,
+      #cfff62 0%,
+      #b7f35a 24%,
+      #7fc85a 56%,
+      #346f61 100%
+    );
 }
+
+.diamond-soft-edge {
+  z-index: 3;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(207, 255, 98, 0.42) 0%,
+      rgba(184, 255, 79, 0.25) 42%,
+      rgba(37, 91, 78, 0.18) 100%
+    );
+
+  border: 1px solid rgba(184, 255, 79, 0.18);
+}
+
+.diamond-outline {
+  z-index: 4;
+
+  background: transparent;
+  border: 1.5px solid rgba(184, 255, 79, 0.5);
+}
+
+.diamond-glow {
+  z-index: 1;
+
+  width: clamp(5.8rem, 17svh, 8rem);
+  height: clamp(5.8rem, 17svh, 8rem);
+
+  background:
+    radial-gradient(
+      circle at 45% 40%,
+      rgba(184, 255, 79, 0.38) 0%,
+      rgba(184, 255, 79, 0.16) 42%,
+      rgba(184, 255, 79, 0) 72%
+    );
+}
+/* ---------------------------------
+   Frage 2 – Zeit
+---------------------------------- */
+.question-main-graphic--time {
+  position: relative;
+  isolation: isolate;
+}
+
+.time-diamond-surface,
+.time-diamond-highlight,
+.time-diamond-base {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  width: clamp(5rem, 15svh, 7.2rem);
+  height: clamp(5rem, 15svh, 7.2rem);
+
+  border-radius: 0.95rem;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+/* dezente Grundfläche */
+.time-diamond-surface {
+  z-index: 1;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(116, 155, 140, 0.18) 0%,
+      rgba(78, 122, 108, 0.12) 42%,
+      rgba(33, 92, 80, 0.08) 100%
+    );
+
+  box-shadow:
+    inset 0 1px 0 rgba(220, 244, 235, 0.08),
+    inset -10px -10px 18px rgba(0, 0, 0, 0.10),
+    inset 10px 10px 14px rgba(255, 255, 255, 0.02);
+}
+
+/* weiches Licht oben links */
+.time-diamond-highlight {
+  z-index: 2;
+
+  background:
+    radial-gradient(
+      circle at 30% 25%,
+      rgba(205, 255, 128, 0.16) 0%,
+      rgba(205, 255, 128, 0.08) 24%,
+      rgba(205, 255, 128, 0) 55%
+    );
+
+  filter: blur(6px);
+  opacity: 0.75;
+}
+
+/* graue Outline */
+.time-diamond-base {
+  z-index: 3;
+
+  border: 2px solid rgba(126, 173, 155, 0.42);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+}
+
+/* grüne Fortschrittslinie */
+.time-diamond-progress {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 4;
+  overflow: visible;
+}
+
+.time-diamond-progress-path {
+  fill: none;
+  stroke: #b8ff4f;
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+
+  filter: drop-shadow(0 0 4px rgba(184, 255, 79, 0.16));
+  transition: stroke-dasharray 160ms ease;
+}
+/* =========================
+   Frage 3 – Identität
+========================= */
+/* =========================
+   Frage 3 – Identität
+========================= */
+
+.question-main-graphic--identity {
+  position: relative;
+
+  width: clamp(7rem, 22svh, 10rem);
+  height: clamp(7rem, 22svh, 10rem);
+
+  margin-inline: auto;
+
+  display: grid;
+  place-items: center;
+
+  overflow: visible;
+  isolation: isolate;
+}
+
+.identity-graphic {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.identity-svg-node {
+  transition:
+    fill 180ms ease,
+    stroke 180ms ease,
+    opacity 180ms ease,
+    filter 180ms ease;
+}
+
+.identity-svg-node--empty {
+  fill: rgba(21, 82, 77, 0.18);
+  stroke: rgba(75, 143, 137, 0.75);
+  stroke-width: 2;
+  opacity: 0.95;
+}
+
+.identity-svg-node--filled {
+  fill: url(#identityGradient);
+  stroke: rgba(220, 255, 155, 0.35);
+  stroke-width: 1;
+  opacity: 1;
+  filter:
+    drop-shadow(0 0 0.35rem rgba(184, 255, 79, 0.2))
+    drop-shadow(0 0 0.8rem rgba(184, 255, 79, 0.08));
+}
+/* ---------------------------------
+   Frage 4 – Raum
+---------------------------------- */
+
 
 /* SLIDER ANSWER */
 
@@ -909,8 +1103,8 @@ text-shadow:
 /* Tablet / Desktop: zentrierte App-Fläche, aber nicht zu breit */
 @media (min-width: 768px) {
   .test-screen {
-    width: min(100%, 44rem);
-    padding-inline: clamp(3rem, 6vw, 5rem);
+    width: min(100%, 48rem);
+    padding-inline: clamp(1.5rem, 3vw, 2.5rem);
   }
 
   /* INTRO */
@@ -942,7 +1136,7 @@ text-shadow:
   .ranking-list,
   .name-content {
     width: 100%;
-    max-width: 34rem;
+    max-width: 38rem;
     margin-inline: auto;
   }
 
@@ -1079,8 +1273,8 @@ text-shadow:
 /* Große Screens: bewusst kompakt lassen, nicht auf ganze Desktopbreite ziehen */
 @media (min-width: 1200px) {
   .test-screen {
-    width: min(100%, 46rem);
-    padding-inline: clamp(4rem, 5vw, 6rem);
+    width: min(100%, 52rem);
+    padding-inline: clamp(2rem, 3vw, 3rem);
   }
 
   .intro-content,
@@ -1090,7 +1284,7 @@ text-shadow:
   .slider-answer-card,
   .ranking-list,
   .name-content {
-    max-width: 34rem;
+    max-width: 38rem;
   }
 
   .question-main-graphic {
@@ -1326,7 +1520,7 @@ text-shadow:
 /* Sehr schmale Geräte */
 @media (max-width: 390px) {
   .test-screen {
-    padding-inline: clamp(0.9rem, 5vw, 1.2rem);
+    padding-inline: clamp(0.75rem, 4vw, 1rem);
   }
 
   .question-top {

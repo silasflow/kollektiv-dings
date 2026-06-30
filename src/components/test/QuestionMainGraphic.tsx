@@ -1,0 +1,200 @@
+type Props = {
+  questionId: string;
+  value: number;
+};
+
+export default function QuestionMainGraphic({ questionId, value }: Props) {
+  switch (questionId) {
+    case 'formalization':
+      return <FormalizationDiamondGraphic value={value} />;
+
+    case 'time':
+      return <TimeGraphic value={value} />;
+
+    case 'identity':
+      return <IdentityGraphic value={value} />;
+
+    case 'space':
+      return <SpaceGraphic value={value} />;
+
+    default:
+      return null;
+  }
+}
+
+function FormalizationDiamondGraphic({ value }: { value: number }) {
+  const t = value / 100;
+
+  /*
+    Figma-Logik:
+    - Größe bleibt gleich
+    - links weich, aber noch klar als Diamond lesbar
+    - Mitte leicht weich
+    - rechts fast scharf
+  */
+  const coreBlur = 5.5 - t * 5.1;
+  const softEdgeBlur = 3.2 - t * 2.8;
+  const glowBlur = 10 - t * 5;
+
+  const coreOpacity = 0.86 + t * 0.12;
+  const outlineOpacity = 0.18 + t * 0.5;
+  const glowOpacity = 0.34 - t * 0.12;
+
+  return (
+    <div
+      className="question-main-graphic question-main-graphic--formalization"
+      aria-hidden="true"
+    >
+      <div
+        className="diamond-glow"
+        style={{
+          opacity: glowOpacity,
+          filter: `blur(${glowBlur}px)`,
+        }}
+      />
+
+      <div
+        className="diamond-core"
+        style={{
+          filter: `blur(${coreBlur}px)`,
+          opacity: coreOpacity,
+        }}
+      />
+
+      <div
+        className="diamond-soft-edge"
+        style={{
+          filter: `blur(${softEdgeBlur}px)`,
+          opacity: 0.42 + t * 0.28,
+        }}
+      />
+
+      <div
+        className="diamond-outline"
+        style={{
+          opacity: outlineOpacity,
+        }}
+      />
+    </div>
+  );
+}
+
+function TimeGraphic({ value }: { value: number }) {
+  const t = value / 100;
+  const progressLength = 12 + t * 88;
+
+  return (
+    <div className="question-main-graphic question-main-graphic--time" aria-hidden="true">
+      <div className="time-diamond-surface" />
+      <div className="time-diamond-highlight" />
+      <div className="time-diamond-base" />
+
+      <svg
+        className="time-diamond-progress"
+        viewBox="0 0 100 100"
+        aria-hidden="true"
+      >
+        <path
+          d="M50 8 L92 50 L50 92 L8 50 Z"
+          pathLength={100}
+          className="time-diamond-progress-path"
+          style={{
+            strokeDasharray: `${progressLength} 100`,
+            strokeDashoffset: -6,
+          }}
+        />
+      </svg>
+    </div>
+  );
+}
+
+function IdentityGraphic({ value }: { value: number }) {
+  const identityPaths = [
+    'M75.7574 48.2426C78.1005 45.8995 81.8995 45.8995 84.2426 48.2426L91.7574 55.7574C94.1005 58.1005 94.1005 61.8995 91.7574 64.2426L84.2426 71.7574C81.8995 74.1005 78.1005 74.1005 75.7574 71.7574L68.2426 64.2426C65.8995 61.8995 65.8995 58.1005 68.2426 55.7574L75.7574 48.2426Z',
+    'M114.757 48.2426C117.101 45.8995 120.899 45.8995 123.243 48.2426L130.757 55.7574C133.101 58.1005 133.101 61.8995 130.757 64.2426L123.243 71.7574C120.899 74.1005 117.101 74.1005 114.757 71.7574L107.243 64.2426C104.899 61.8995 104.899 58.1005 107.243 55.7574L114.757 48.2426Z',
+    'M36.7574 48.2426C39.1005 45.8995 42.8995 45.8995 45.2426 48.2426L52.7574 55.7574C55.1005 58.1005 55.1005 61.8995 52.7574 64.2426L45.2426 71.7574C42.8995 74.1005 39.1005 74.1005 36.7574 71.7574L29.2426 64.2426C26.8995 61.8995 26.8995 58.1005 29.2426 55.7574L36.7574 48.2426Z',
+    'M75.7574 10.2426C78.1005 7.89949 81.8995 7.8995 84.2426 10.2426L91.7574 17.7574C94.1005 20.1005 94.1005 23.8995 91.7574 26.2426L84.2426 33.7574C81.8995 36.1005 78.1005 36.1005 75.7574 33.7574L68.2426 26.2426C65.8995 23.8995 65.8995 20.1005 68.2426 17.7574L75.7574 10.2426Z',
+    'M75.7574 126.243C78.1005 123.899 81.8995 123.899 84.2426 126.243L91.7574 133.757C94.1005 136.101 94.1005 139.899 91.7574 142.243L84.2426 149.757C81.8995 152.101 78.1005 152.101 75.7574 149.757L68.2426 142.243C65.8995 139.899 65.8995 136.101 68.2426 133.757L75.7574 126.243Z',
+    'M75.7574 88.2426C78.1005 85.8995 81.8995 85.8995 84.2426 88.2426L91.7574 95.7574C94.1005 98.1005 94.1005 101.899 91.7574 104.243L84.2426 111.757C81.8995 114.101 78.1005 114.101 75.7574 111.757L68.2426 104.243C65.8995 101.899 65.8995 98.1005 68.2426 95.7574L75.7574 88.2426Z',
+    'M114.757 88.2426C117.101 85.8995 120.899 85.8995 123.243 88.2426L130.757 95.7574C133.101 98.1005 133.101 101.899 130.757 104.243L123.243 111.757C120.899 114.101 117.101 114.101 114.757 111.757L107.243 104.243C104.899 101.899 104.899 98.1005 107.243 95.7574L114.757 88.2426Z',
+    'M36.7574 88.2426C39.1005 85.8995 42.8995 85.8995 45.2426 88.2426L52.7574 95.7574C55.1005 98.1005 55.1005 101.899 52.7574 104.243L45.2426 111.757C42.8995 114.101 39.1005 114.101 36.7574 111.757L29.2426 104.243C26.8995 101.899 26.8995 98.1005 29.2426 95.7574L36.7574 88.2426Z',
+    'M95.7574 29.2426C98.1005 26.8995 101.899 26.8995 104.243 29.2426L111.757 36.7574C114.101 39.1005 114.101 42.8995 111.757 45.2426L104.243 52.7574C101.899 55.1005 98.1005 55.1005 95.7574 52.7574L88.2426 45.2426C85.8995 42.8995 85.8995 39.1005 88.2426 36.7574L95.7574 29.2426Z',
+    'M95.7574 68.2426C98.1005 65.8995 101.899 65.8995 104.243 68.2426L111.757 75.7574C114.101 78.1005 114.101 81.8995 111.757 84.2426L104.243 91.7574C101.899 94.1005 98.1005 94.1005 95.7574 91.7574L88.2426 84.2426C85.8995 81.8995 85.8995 78.1005 88.2426 75.7574L95.7574 68.2426Z',
+    'M133.757 68.2426C136.101 65.8995 139.899 65.8995 142.243 68.2426L149.757 75.7574C152.101 78.1005 152.101 81.8995 149.757 84.2426L142.243 91.7574C139.899 94.1005 136.101 94.1005 133.757 91.7574L126.243 84.2426C123.899 81.8995 123.899 78.1005 126.243 75.7574L133.757 68.2426Z',
+    'M95.7574 107.243C98.1005 104.899 101.899 104.899 104.243 107.243L111.757 114.757C114.101 117.101 114.101 120.899 111.757 123.243L104.243 130.757C101.899 133.101 98.1005 133.101 95.7574 130.757L88.2426 123.243C85.8995 120.899 85.8995 117.101 88.2426 114.757L95.7574 107.243Z',
+    'M55.7574 29.2426C58.1005 26.8995 61.8995 26.8995 64.2426 29.2426L71.7574 36.7574C74.1005 39.1005 74.1005 42.8995 71.7574 45.2426L64.2426 52.7574C61.8995 55.1005 58.1005 55.1005 55.7574 52.7574L48.2426 45.2426C45.8995 42.8995 45.8995 39.1005 48.2426 36.7574L55.7574 29.2426Z',
+    'M55.7574 68.2426C58.1005 65.8995 61.8995 65.8995 64.2426 68.2426L71.7574 75.7574C74.1005 78.1005 74.1005 81.8995 71.7574 84.2426L64.2426 91.7574C61.8995 94.1005 58.1005 94.1005 55.7574 91.7574L48.2426 84.2426C45.8995 81.8995 45.8995 78.1005 48.2426 75.7574L55.7574 68.2426Z',
+    'M17.7574 68.2426C20.1005 65.8995 23.8995 65.8995 26.2426 68.2426L33.7574 75.7574C36.1005 78.1005 36.1005 81.8995 33.7574 84.2426L26.2426 91.7574C23.8995 94.1005 20.1005 94.1005 17.7574 91.7574L10.2426 84.2426C7.89949 81.8995 7.8995 78.1005 10.2426 75.7574L17.7574 68.2426Z',
+    'M55.7574 107.243C58.1005 104.899 61.8995 104.899 64.2426 107.243L71.7574 114.757C74.1005 117.101 74.1005 120.899 71.7574 123.243L64.2426 130.757C61.8995 133.101 58.1005 133.101 55.7574 130.757L48.2426 123.243C45.8995 120.899 45.8995 117.101 48.2426 114.757L55.7574 107.243Z',
+  ];
+
+  /*
+    Die Reihenfolge kannst du frei ändern.
+    Wichtig: sie enthält alle 16 IDs aus der SVG.
+    Links sind mindestens 3 gefüllt, rechts alle.
+  */
+  const fillOrder = [0, 5, 9, 13, 7, 6, 12, 8, 2, 1, 11, 15, 3, 4, 10, 14];
+
+  const filledCount = Math.max(
+    3,
+    Math.min(identityPaths.length, Math.round(3 + (value / 100) * (identityPaths.length - 3)))
+  );
+
+  const filledSet = new Set(fillOrder.slice(0, filledCount));
+
+  return (
+    <div
+      className="question-main-graphic question-main-graphic--identity"
+      aria-hidden="true"
+    >
+      <svg
+        className="identity-graphic"
+        viewBox="-120 0 400 400"
+        preserveAspectRatio="xMidYMid meet"
+      >
+        <defs>
+          <radialGradient id="identityGradient" cx="35%" cy="28%" r="82%">
+            <stop offset="0%" stopColor="#e1ff84" />
+            <stop offset="32%" stopColor="#cef56b" />
+            <stop offset="68%" stopColor="#9fd850" />
+            <stop offset="100%" stopColor="#4e8b5b" />
+          </radialGradient>
+        </defs>
+
+        {identityPaths.map((path, index) => {
+          const isFilled = filledSet.has(index);
+
+          return (
+            <path
+              key={index}
+              d={path}
+              className={
+                isFilled
+                  ? 'identity-svg-node identity-svg-node--filled'
+                  : 'identity-svg-node identity-svg-node--empty'
+              }
+            />
+          );
+        })}
+      </svg>
+    </div>
+  );
+}
+
+function SpaceGraphic({ value }: { value: number }) {
+  const t = value / 100;
+
+  return (
+    <div className="question-main-graphic question-main-graphic--space" aria-hidden="true">
+      <div className="space-ring space-ring--outer" />
+      <div className="space-ring space-ring--middle" />
+      <div
+        className="space-ring space-ring--inner"
+        style={{
+          transform: `rotate(45deg) scale(${0.55 + t * 0.35})`,
+          opacity: 0.5 + t * 0.4,
+        }}
+      />
+    </div>
+  );
+}
