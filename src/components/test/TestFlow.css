@@ -248,7 +248,7 @@ text-shadow:
 
   font-family: var(--font-display);
   font-size: clamp(1.25rem, 5vw, 2rem);
-  font-weight: 900;
+  font-weight: 700;
   line-height: 1.03;
   letter-spacing: -0.055em;
 
