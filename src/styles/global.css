@@ -40,7 +40,7 @@
 }
 
 @font-face {
-  font-family: "Archivo";
+  font-family: "Archivo Narrow";
   src: url("/fonts/archivo/ArchivoNarrow-Regular.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
@@ -100,9 +100,9 @@
   --size-label: 0.9375rem;
 
   --size-button: var(--size-p);
-  --size-h1-script: var(--size-h1) * 1.35;
-  --size-h2-script: var(--size-h2) * 1.35;
-  --size-h3-script: var(--size-h3) * 1.35;
+  --size-h1-script: calc(var(--size-h1) * 1.35);
+  --size-h2-script: calc(var(--size-h2) * 1.35);
+  --size-h3-script: calc(var(--size-h3) * 1.35);
 
   @media (max-width: 768px) {
     --size-h1: 3.125rem;
@@ -150,6 +150,18 @@ a {
   text-decoration: none;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+span,
+p {
+  margin: 0;
+  padding: 0;
+}
+
 .heading1,
 .heading2,
 .heading3 {
@@ -187,14 +199,17 @@ a {
 
 .script-heading1 {
   font-size: var(--size-h1-script);
+  transform: translateY(10%);
 }
 
 .script-heading2 {
   font-size: var(--size-h2-script);
+  transform: translateY(10%);
 }
 
 .script-heading3 {
   font-size: var(--size-h3-script);
+  transform: translateY(10%);
 }
 
 .paragraph,
@@ -219,6 +234,7 @@ a {
   font-weight: 400;
   line-height: 60%;
   letter-spacing: 1%;
+  transform: translateY(10%);
 }
 
 .text-button {
