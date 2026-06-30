@@ -6,4 +6,5 @@ import { defineConfig } from 'astro/config';
 export default defineConfig({
   site: 'https://stadt-kollektiv.de',
   integrations: [react(), mdx(), sitemap()],
+  output: 'static', // This is the default, but explicit is better
 });
