@@ -1,5 +1,4 @@
-
-  .test-screen {
+.test-screen {
   position: relative;
 
   width: min(100%, 44rem);
@@ -11,20 +10,18 @@
   gap: clamp(0.75rem, 1.8svh, 1.2rem);
 
   padding:
-  clamp(0.75rem, 2svh, 1.15rem)
-  clamp(1rem, 4vw, 1.35rem)
-  clamp(0.75rem, 1.8svh, 1rem);
+    clamp(0.75rem, 2svh, 1.15rem) clamp(1rem, 4vw, 1.35rem) clamp(0.75rem, 1.8svh, 1rem);
 
   overflow: hidden;
-  background: var(--color-bg-dark);
+  background: var(--color-bg);
 }
 
-  .status-space {
-    height: clamp(4.5rem, 10vh, 6rem);
-    flex: 0 0 auto;
-  }
+.status-space {
+  height: clamp(4.5rem, 10vh, 6rem);
+  flex: 0 0 auto;
+}
 
-  .intro-content {
+.intro-content {
   min-height: 0;
 
   display: grid;
@@ -33,7 +30,7 @@
   gap: clamp(1.5rem, 5svh, 3rem);
 }
 
-  .intro-title {
+.intro-title {
   margin: 0 0 0.8rem;
 
   font-family: var(--font-display);
@@ -55,7 +52,7 @@
   color: rgba(232, 255, 242, 0.92);
 }
 
- .slider-demo {
+.slider-demo {
   position: relative;
   width: 100%;
   max-width: min(28rem, 100%);
@@ -63,7 +60,7 @@
   margin-inline: auto;
 }
 
-  .slider-card {
+.slider-card {
   position: absolute;
   left: 0;
   right: 0;
@@ -78,20 +75,20 @@
   transform: rotate(-2.5deg);
 }
 
-  .slider-line {
-    position: absolute;
-    z-index: 2;
-    left: 1.4rem;
-    right: 1.4rem;
-    top: 4.15rem;
+.slider-line {
+  position: absolute;
+  z-index: 2;
+  left: 1.4rem;
+  right: 1.4rem;
+  top: 4.15rem;
 
-    height: 0.28rem;
-    border-radius: 999rem;
+  height: 0.28rem;
+  border-radius: 999rem;
 
-    background: rgba(19, 54, 47, 0.85);
-  }
+  background: rgba(19, 54, 47, 0.85);
+}
 
-  .slider-labels {
+.slider-labels {
   position: absolute;
   left: 1.4rem;
   right: 1.4rem;
@@ -109,28 +106,28 @@
   color: rgba(232, 255, 242, 0.9);
 }
 
-  .slider-thumb {
-    position: absolute;
-    z-index: 4;
-    top: 2.75rem;
-    left: 43%;
+.slider-thumb {
+  position: absolute;
+  z-index: 4;
+  top: 2.75rem;
+  left: 43%;
 
-    display: grid;
-    place-items: center;
+  display: grid;
+  place-items: center;
 
-    width: 3rem;
-    height: 3rem;
-    border-radius: 0.55rem;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.55rem;
 
-    background: #8568e8;
-    color: white;
-    border: 0.15rem solid rgba(232, 255, 242, 0.95);
+  background: #8568e8;
+  color: white;
+  border: 0.15rem solid rgba(232, 255, 242, 0.95);
 
-    font-size: 1.4rem;
-    box-shadow: 0 0.8rem 1.4rem rgba(0, 0, 0, 0.2);
-  }
+  font-size: 1.4rem;
+  box-shadow: 0 0.8rem 1.4rem rgba(0, 0, 0, 0.2);
+}
 
-  .hand {
+.hand {
   position: absolute;
   z-index: 5;
   top: 2.4rem;
@@ -143,7 +140,7 @@
   display: block;
   width: clamp(10rem, 18vw, 6.8rem);
   height: auto;
-text-shadow:
+  text-shadow:
     0 4px 4px rgba(255, 255, 255, 0.25),
     0 -4px 4px rgba(0, 57, 48, 0.3);
 
@@ -151,7 +148,7 @@ text-shadow:
   filter: drop-shadow(0 0.45rem 0.55rem rgba(0, 0, 0, 0.16));
 }
 
-  .test-navigation {
+.test-navigation {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -161,7 +158,7 @@ text-shadow:
   padding-top: 0;
 }
 
-  .nav-button {
+.nav-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -169,7 +166,7 @@ text-shadow:
   min-height: clamp(2.9rem, 6.5svh, 3.4rem);
   border-radius: 0.85rem;
 
-   border: 0;
+  border: 0;
   appearance: none;
   -webkit-appearance: none;
 
@@ -196,27 +193,24 @@ text-shadow:
   font-size: clamp(0.88rem, 2.6svh, 1rem);
 }
 
-  .sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
-  }
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
 
 .question-screen {
   min-height: 0;
 
   display: grid;
   grid-template-rows:
-    auto
-    minmax(3.5rem, 1fr)
-    auto
-    auto;
+    auto minmax(3.5rem, 1fr) auto auto;
   gap: clamp(0.55rem, 1.35svh, 0.95rem);
 }
 
@@ -226,6 +220,7 @@ text-shadow:
   align-items: start;
   gap: clamp(0.75rem, 3vw, 1.25rem);
 }
+
 .question-copy {
   min-width: 0;
   max-width: 100%;
@@ -355,25 +350,21 @@ text-shadow:
   z-index: 2;
 
   background:
-    radial-gradient(
-      circle at 36% 28%,
+    radial-gradient(circle at 36% 28%,
       #cfff62 0%,
       #b7f35a 24%,
       #7fc85a 56%,
-      #346f61 100%
-    );
+      #346f61 100%);
 }
 
 .diamond-soft-edge {
   z-index: 3;
 
   background:
-    linear-gradient(
-      135deg,
+    linear-gradient(135deg,
       rgba(207, 255, 98, 0.42) 0%,
       rgba(184, 255, 79, 0.25) 42%,
-      rgba(37, 91, 78, 0.18) 100%
-    );
+      rgba(37, 91, 78, 0.18) 100%);
 
   border: 1px solid rgba(184, 255, 79, 0.18);
 }
@@ -392,13 +383,12 @@ text-shadow:
   height: clamp(5.8rem, 17svh, 8rem);
 
   background:
-    radial-gradient(
-      circle at 45% 40%,
+    radial-gradient(circle at 45% 40%,
       rgba(184, 255, 79, 0.38) 0%,
       rgba(184, 255, 79, 0.16) 42%,
-      rgba(184, 255, 79, 0) 72%
-    );
+      rgba(184, 255, 79, 0) 72%);
 }
+
 /* ---------------------------------
    Frage 2 – Zeit
 ---------------------------------- */
@@ -426,12 +416,10 @@ text-shadow:
   z-index: 1;
 
   background:
-    linear-gradient(
-      135deg,
+    linear-gradient(135deg,
       rgba(116, 155, 140, 0.18) 0%,
       rgba(78, 122, 108, 0.12) 42%,
-      rgba(33, 92, 80, 0.08) 100%
-    );
+      rgba(33, 92, 80, 0.08) 100%);
 
   box-shadow:
     inset 0 1px 0 rgba(220, 244, 235, 0.08),
@@ -444,12 +432,10 @@ text-shadow:
   z-index: 2;
 
   background:
-    radial-gradient(
-      circle at 30% 25%,
+    radial-gradient(circle at 30% 25%,
       rgba(205, 255, 128, 0.16) 0%,
       rgba(205, 255, 128, 0.08) 24%,
-      rgba(205, 255, 128, 0) 55%
-    );
+      rgba(205, 255, 128, 0) 55%);
 
   filter: blur(6px);
   opacity: 0.75;
@@ -483,6 +469,7 @@ text-shadow:
   filter: drop-shadow(0 0 4px rgba(184, 255, 79, 0.16));
   transition: stroke-dasharray 160ms ease;
 }
+
 /* =========================
    Frage 3 – Identität
 ========================= */
@@ -533,9 +520,9 @@ text-shadow:
   stroke-width: 1;
   opacity: 1;
   filter:
-    drop-shadow(0 0 0.35rem rgba(184, 255, 79, 0.2))
-    drop-shadow(0 0 0.8rem rgba(184, 255, 79, 0.08));
+    drop-shadow(0 0 0.35rem rgba(184, 255, 79, 0.2)) drop-shadow(0 0 0.8rem rgba(184, 255, 79, 0.08));
 }
+
 /* ---------------------------------
    Frage 4 – Raum
 ---------------------------------- */
@@ -625,9 +612,7 @@ text-shadow:
 /* RANKING QUESTION */
 .ranking-screen {
   grid-template-rows:
-    auto
-    auto
-    minmax(0, 1fr);
+    auto auto minmax(0, 1fr);
   gap: clamp(0.65rem, 1.6svh, 1rem);
 }
 
@@ -818,13 +803,14 @@ text-shadow:
   letter-spacing: 0;
   color: var(--color-accent);
   font-size: 5rem;
-   margin-left: 0.18em;
+  margin-left: 0.18em;
   margin-right: 0.001em;
 }
+
 .name-title-end {
   display: inline-block;
   font-size: 1.3em;
-  }
+}
 
 .name-field {
   display: grid;
@@ -897,10 +883,11 @@ text-shadow:
   font-size: 1.2rem;
 }
 
-.consent-field input:checked + .consent-box {
+.consent-field input:checked+.consent-box {
   background: #8568e8;
   border-color: #8568e8;
 }
+
 /* -----------------------------------------
    RESULT SCREEN
 ----------------------------------------- */
@@ -1014,6 +1001,7 @@ text-shadow:
   line-height: 1;
   text-shadow: 0 0 0.35rem rgba(184, 255, 79, 0.4);
 }
+
 .result-content {
   justify-items: center;
 }
@@ -1084,10 +1072,11 @@ text-shadow:
     margin-inline: auto;
   }
 }
+
 /* --------------------------------------------------
    RESPONSIVE TEST LAYOUT
    -------------------------------------------------- */
-  @media (max-width: 700px) {
+@media (max-width: 700px) {
   .question-top {
     grid-template-columns: 1fr;
   }
@@ -1209,65 +1198,66 @@ text-shadow:
   .nav-button--secondary {
     width: clamp(3rem, 6vh, 3.4rem);
   }
+
   .result-content {
-  gap: 0.8rem;
-}
+    gap: 0.8rem;
+  }
 
-.result-title {
-  font-size: clamp(1.2rem, 4.7vw, 1.7rem);
-}
+  .result-title {
+    font-size: clamp(1.2rem, 4.7vw, 1.7rem);
+  }
 
-.result-kicker {
-  font-size: 1rem;
-}
+  .result-kicker {
+    font-size: 1rem;
+  }
 
-/* RESULT: große finale Grafik ohne doppelten Rahmen */
+  /* RESULT: große finale Grafik ohne doppelten Rahmen */
 
-.result-graphic-card {
-  width: min(100%, 18rem);
-  aspect-ratio: 1 / 1;
-  padding: 0;
+  .result-graphic-card {
+    width: min(100%, 18rem);
+    aspect-ratio: 1 / 1;
+    padding: 0;
 
-  display: grid;
-  place-items: stretch;
+    display: grid;
+    place-items: stretch;
 
-  border-radius: 1.35rem;
-  background: rgba(74, 123, 108, 0.72);
-  overflow: hidden;
-}
+    border-radius: 1.35rem;
+    background: rgba(74, 123, 108, 0.72);
+    overflow: hidden;
+  }
 
-.result-graphic-card .question-line-graphic {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  justify-self: stretch;
+  .result-graphic-card .question-line-graphic {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    justify-self: stretch;
 
-  border-radius: inherit;
-  background: transparent;
-}
+    border-radius: inherit;
+    background: transparent;
+  }
 
-.result-graphic-card .line-graphic-axis--x {
-  left: 8%;
-  right: 8%;
-}
+  .result-graphic-card .line-graphic-axis--x {
+    left: 8%;
+    right: 8%;
+  }
 
-.result-graphic-card .line-graphic-axis--y {
-  top: 8%;
-  bottom: 8%;
-}
+  .result-graphic-card .line-graphic-axis--y {
+    top: 8%;
+    bottom: 8%;
+  }
 
-.result-graphic-card .line-graphic-dot {
-  font-size: clamp(2.4rem, 7vw, 3.8rem);
-}
+  .result-graphic-card .line-graphic-dot {
+    font-size: clamp(2.4rem, 7vw, 3.8rem);
+  }
 
-.result-graphic-card .line-graphic-polygon {
-  stroke-width: 1.6;
-}
+  .result-graphic-card .line-graphic-polygon {
+    stroke-width: 1.6;
+  }
 
-.result-text {
-  font-size: 0.92rem;
-  line-height: 1.18;
-}
+  .result-text {
+    font-size: 0.92rem;
+    line-height: 1.18;
+  }
 }
 
 /* Große Screens: bewusst kompakt lassen, nicht auf ganze Desktopbreite ziehen */
@@ -1414,11 +1404,13 @@ text-shadow:
   }
 
   .ranking-list {
-  gap: 0.5rem;
-}
-.ranking-item:first-child {
-  margin-bottom: 0.25rem;
-}
+    gap: 0.5rem;
+  }
+
+  .ranking-item:first-child {
+    margin-bottom: 0.25rem;
+  }
+
   .ranking-card {
     min-height: 2.45rem;
     padding: 0.3rem 0.35rem 0.3rem 0.75rem;
@@ -1507,13 +1499,14 @@ text-shadow:
     height: 2rem;
     font-size: 1.25rem;
   }
-  .result-content {
-  max-width: 34rem;
-}
 
-.result-title {
-  font-size: clamp(2rem, 3vw, 2.7rem);
-}
+  .result-content {
+    max-width: 34rem;
+  }
+
+  .result-title {
+    font-size: clamp(2rem, 3vw, 2.7rem);
+  }
 
 }
 
@@ -1560,12 +1553,12 @@ text-shadow:
   }
 
   .ranking-list {
-  gap: 0.42rem;
-}
+    gap: 0.42rem;
+  }
 
-.ranking-item:first-child {
-  margin-bottom: 0.2rem;
-}
+  .ranking-item:first-child {
+    margin-bottom: 0.2rem;
+  }
 
   .ranking-card {
     min-height: 2.25rem;

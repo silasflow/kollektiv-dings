@@ -22,6 +22,7 @@
   font-style: normal;
   font-display: swap;
 }
+
 @font-face {
   font-family: "Archivo";
   src: url("/fonts/archivo/Archivo-Black.woff2") format("woff2");
@@ -53,18 +54,26 @@
   font-style: normal;
   font-display: swap;
 }
-:root {
-  /* Farben aus der dunklen grünen Entwurfsrichtung */
-  --color-bg: #004C43;
-  --color-bg-dark: #00564c;
-  --color-text: #e8fff2;
-  --color-text-dark: #CAFBE4;
-  --color-accent: #b8ff4f;
 
-  --color-button-bg: #CAFBE4;
-  --color-button-text: #003930;
-  --color-button-icon-bg: #8166EA;
-  --color-button-icon-text: #CAFBE4;
+:root {
+  --brand-lime: #CEFE6B;
+  --brand-forest: #004C43;
+  --brand-deep-forest: #003930;
+  --brand-light-forest: #00665A;
+  --brand-fresh-white: #CAFBE4;
+  --brand-violet: #8166EA;
+
+  --color-bg: var(--brand-forest);
+  --color-card-bg: var(--brand-light-forest);
+  --color-text: var(--brand-fresh-white);
+  --color-text-highlight: var(--brand-lime);
+  --color-text-dark: var(--brand-fresh-white) opacity(0.75);
+  --color-accent: var(--brand-lime);
+
+  --color-button-bg: var(--brand-fresh-white);
+  --color-button-text: var(--brand-deep-forest);
+  --color-button-icon-bg: var(--brand-violet);
+  --color-button-icon-text: var(--brand-fresh-white);
 
   /*
     Responsive Seitenabstände.
@@ -81,7 +90,7 @@
   --font-display: "Archivo", system-ui, sans-serif;
   --font-hand: "Gochi Hand", italic;
   --font-narrow: "Archivo Narrow", system-ui, sans-serif;
-  
+
   --size-h1: 6.5rem;
   --size-h2: 3.5rem;
   --size-h3: 2.375rem;
@@ -91,7 +100,7 @@
   --size-label: 0.9375rem;
 
   --size-button: var(--size-p);
-  --size-h1-script:  var(--size-h1) * 1.35;
+  --size-h1-script: var(--size-h1) * 1.35;
   --size-h2-script: var(--size-h2) * 1.35;
   --size-h3-script: var(--size-h3) * 1.35;
 
@@ -141,71 +150,67 @@ a {
   text-decoration: none;
 }
 
-.heading1 {
+.heading1,
+.heading2,
+.heading3 {
   font-family: var(--font-display);
-  font-size: var(--size-h1);
   font-weight: 700;
-  line-height: 100%;
   letter-spacing: -3%;
+}
+
+
+.heading1 {
+  font-size: var(--size-h1);
+  line-height: 100%;
 }
 
 .heading2 {
-  font-family: var(--font-display);
   font-size: var(--size-h2);
-  font-weight: 700;
   line-height: 110%;
-  letter-spacing: -3%;
 }
 
 .heading3 {
-  font-family: var(--font-display);
   font-size: var(--size-h3);
-  font-weight: 700;
   line-height: 110%;
+}
+
+.script-heading1,
+.script-heading2,
+.script-heading3 {
+  font-family: var(--font-hand);
+  font-weight: 400;
+  line-height: 60%;
   letter-spacing: -3%;
+  text-transform: uppercase;
+  color: var(--color-text-highlight);
 }
 
 .script-heading1 {
-  font-family: var(--font-hand);
   font-size: var(--size-h1-script);
-  font-weight: 700;
-  line-height: 60%;
-  letter-spacing: -3%;
-  text-transform: uppercase;
 }
 
 .script-heading2 {
-  font-family: var(--font-hand);
   font-size: var(--size-h2-script);
-  font-weight: 700;
-  line-height: 60%;
-  letter-spacing: -3%;
-  text-transform: uppercase;
 }
 
 .script-heading3 {
-  font-family: var(--font-hand);
   font-size: var(--size-h3-script);
-  font-weight: 700;
-  line-height: 60%;
-  letter-spacing: -3%;
-  text-transform: uppercase;
+}
+
+.paragraph,
+.paragraph-emphasised {
+  font-family: var(--font-body);
+  font-weight: 400;
+  line-height: 130%;
+  letter-spacing: 1%;
 }
 
 .paragraph {
-  font-family: var(--font-body);
   font-size: var(--size-p);
-  font-weight: 400;
-  line-height: 130%;
-  letter-spacing: 1%;
 }
 
 .paragraph-emphasised {
-  font-family: var(--font-body);
   font-size: var(--size-p-emphasised);
-  font-weight: 400;
-  line-height: 130%;
-  letter-spacing: 1%;
 }
 
 .paragraph-highlight {
@@ -216,10 +221,10 @@ a {
   letter-spacing: 1%;
 }
 
-.button {
+.text-button {
   font-family: var(--font-body);
   font-size: var(--size-button);
-  font-weight: 700;
+  font-weight: 400;
   line-height: auto;
 }
 
