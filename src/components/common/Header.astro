@@ -1,92 +1,200 @@
-
 ---
 interface Props {
-  lang: 'de' | 'en';
-  nav: {
-    test: string;
-    caseStudies: string;
-    about: string;
-    languageLabel: string;
-    languageHref: string;
-  };
+	lang: "de" | "en";
+	nav: {
+		test: string;
+		caseStudies: string;
+		about: string;
+		languageLabel: string;
+		languageHref: string;
+	};
 }
 
 const { lang, nav } = Astro.props;
 
-const otherLang = lang === 'de' ? 'en' : 'de';
+const otherLang = lang === "de" ? "en" : "de";
 
 const currentPath = Astro.url.pathname;
 const languageHref = currentPath.replace(`/${lang}`, `/${otherLang}`);
 ---
+
 <header class="site-header">
-  <a class="site-logo" href={`/${lang}/`} aria-label="Startseite">
-    <img src="/favicon.svg" alt="" class="site-logo-icon" />
-  </a>
+	<script client:load>
+		let menuOpen = false;
+		const header = document.querySelector(".site-header");
+		const toggle = document.getElementById("menuToggle");
+		const menu = document.getElementById("menu");
 
-  <nav class="site-nav" aria-label="Hauptnavigation">
-  <a class="site-nav__hand" href={`/${lang}/test/`}>
-    {nav.test}
-  </a>
+		if (toggle && menu && header) {
+			toggle.addEventListener("click", () => {
+				menuOpen = !menuOpen;
+				menu.classList.toggle("open", menuOpen);
+				header.classList.toggle("open", menuOpen);
+				toggle.textContent = menuOpen ? "Schließen" : "Menü";
+				console.log("Menu open:", menuOpen);
+			});
+		}
+	</script>
 
-  <a href={`/${lang}/case-studies/`}>
-    {nav.caseStudies}
-  </a>
+	<a class="site-logo" href={`/${lang}/`} aria-label="Startseite">
+		<img src="/favicon.svg" alt="" class="site-logo-icon" />
+	</a>
 
-  <a href={`/${lang}/about/`}>
-    {nav.about}
-  </a>
+	<nav class="site-nav-desktop" aria-label="Hauptnavigation">
+		<a href={`/${lang}/test/`}>
+			{nav.test}
+		</a>
 
-  <a class="language-switch" href={languageHref}>
-  {nav.languageLabel}
-</a>
-</nav>
+		<a href={`/${lang}/case-studies/`}>
+			{nav.caseStudies}
+		</a>
 
-<style>
-  .site-header {
-    position: absolute;
-    z-index: 20;
-    top: 0;
-    left: 0;
-    width: 100%;
+		<a href={`/${lang}/about/`}>
+			{nav.about}
+		</a>
 
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
+		<a class="language-switch" href={languageHref}>
+			{nav.languageLabel}
+		</a>
+	</nav>
 
-    padding: 0.8rem var(--page-padding-x);
+	<nav class="site-nav-mobile" aria-label="Hauptnavigation">
+		<div class="menu-toggle" id="menuToggle">Menü</div>
 
-    color: var(--color-text);
-    font-family: var(--font-body);
-  }
+		<div class="mobile-nav-links" id="menu">
+			<a href={`/${lang}/test/`}>
+				{nav.test}
+			</a>
 
-  .site-logo {
-	font-family: var(--font-body);
-    font-size: 0.7rem;
-    font-weight: 900;
-    letter-spacing: -0.04em;
-  }
+			<a href={`/${lang}/case-studies/`}>
+				{nav.caseStudies}
+			</a>
 
-  .site-nav {
-    display: none;
-    align-items: center;
-    gap: 1.75rem;
- 	font-family: var(--font-body);
-    font-size: 0.9rem;
-    font-weight: 900;
-    letter-spacing: -0.03em;
-  }
-  .site-nav__hand {
-    font-family: var(--font-hand);
-    font-size: 1.25rem;
-    font-weight: 400;
-    letter-spacing: 0;
-	color: var(--color-accent);
-  }
+			<a href={`/${lang}/about/`}>
+				{nav.about}
+			</a>
 
-  @media (min-width: 768px) {
-    .site-nav {
-      display: flex;
-    }
-  }
-</style>
+			<a class="language-switch" href={languageHref}>
+				{nav.languageLabel}
+			</a>
+		</div>
+	</nav>
+
+	<style>
+		.site-header {
+			position: absolute;
+			z-index: 20;
+			top: 0;
+			left: 0;
+			width: 100%;
+
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 1rem;
+
+			padding: 0.8rem var(--page-padding-x);
+
+			color: var(--color-text);
+			font-family: var(--font-body);
+
+			.menu-toggle {
+				cursor: pointer;
+				font-family: var(--font-hand);
+				font-size: 1.25rem;
+				font-weight: 400;
+				letter-spacing: 0;
+			}
+		}
+
+		.site-header.open {
+			background-color: var(--color-deep-forest);
+		}
+
+		.site-nav-desktop {
+			display: none;
+			align-items: center;
+			gap: 0.5rem;
+			font-family: var(--font-body);
+			font-size: var(--size-paragraph);
+			letter-spacing: -0.03em;
+
+			a {
+				text-decoration: none;
+				padding: 1rem 0.75rem 1rem 0.75rem;
+				background-color: transparent;
+				color: var(--color-text);
+				transition: color 0.2s ease-in-out;
+				border-radius: 0.5rem;
+
+				&:hover {
+					background-color: var(--color-card-bg);
+				}
+
+				&:active {
+					color: var(--color-accent);
+					font-family: var(--font-hand);
+					font-size: var(--paragraph-highlight);
+				}
+			}
+		}
+
+		.site-nav-mobile {
+			position: relative;
+
+			.mobile-nav-links {
+				display: none;
+				background-color: var(--brand-deep-forest);
+				position: fixed;
+				top: 72px;
+				left: 0;
+				width: 100svw;
+				flex-direction: column;
+
+				padding: 1rem 2rem;
+				gap: 0.25rem;
+
+				a {
+					text-decoration: none;
+					padding: 1rem 0.75rem 1rem 0.75rem;
+					background-color: transparent;
+					color: var(--color-text);
+					transition: color 0.2s ease-in-out;
+					border-radius: 0.5rem;
+
+					&:hover {
+						background-color: var(--color-bg);
+					}
+
+					&:active {
+						color: var(--color-accent);
+						font-family: var(--font-hand);
+						font-size: var(--paragraph-highlight);
+					}
+				}
+
+				.mobile-nav-links.open {
+					display: flex;
+				}
+			}
+		}
+
+		.site-nav__hand {
+			font-family: var(--font-hand);
+			font-size: 1.25rem;
+			font-weight: 400;
+			letter-spacing: 0;
+			color: var(--color-accent);
+		}
+
+		@media (min-width: 768px) {
+			.site-nav-desktop {
+				display: flex;
+			}
+
+			.site-nav-mobile {
+				display: none;
+			}
+		}
+	</style>
+</header>
