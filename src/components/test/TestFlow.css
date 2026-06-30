@@ -851,8 +851,8 @@
 .consent-field {
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  align-items: start;
+  justify-content: start;
+  align-items: center;
   gap: 0.9rem;
   max-width: 600px;
   width: 100%;
