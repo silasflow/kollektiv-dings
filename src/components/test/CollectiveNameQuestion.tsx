@@ -49,13 +49,13 @@ export default function CollectiveNameQuestion({
     <section className="test-screen name-screen">
       <div className="name-content">
         <h1 className="name-title">
-  <span>{t.titleStart}</span>{' '}
-  <span className="name-title-highlight">{t.titleHighlight}</span>
-  <span className="name-title-end">{t.titleEnd}</span>
+  <span className="heading2">{t.titleStart}</span>{' '}
+  <span className="name-title-highlight script-heading2">{t.titleHighlight}</span>
+  <span className="name-title-end heading2">{t.titleEnd}</span>
 </h1>
 
         <label className="name-field">
-          <span>{t.label}</span>
+          <span className="label">{t.label}</span>
 
           <input
             type="text"

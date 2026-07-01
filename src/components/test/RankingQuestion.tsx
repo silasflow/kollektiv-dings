@@ -80,7 +80,8 @@ export default function RankingQuestion({
       <div className="question-top">
         <div className="question-copy">
           <p className="question-category">{question.category[lang]}</p>
-          <h1 className="question-title">{question.title[lang]}</h1>
+          <h1 className="question-title heading2">{question.title[lang]}</h1>
+          <p className="question-answer-text paragraph-emphasised">{question.description[lang]}</p>
         </div>
 
         <QuestionLineGraphic
@@ -90,7 +91,6 @@ export default function RankingQuestion({
         />
       </div>
 
-      <p className="question-answer-text">{question.description[lang]}</p>
 
       <DndContext
         sensors={sensors}
@@ -145,10 +145,10 @@ function SortableRankingItem({
       style={style}
       className={`ranking-item ${isDragging ? 'ranking-item--dragging' : ''}`}
     >
-      <span className="ranking-number">{index + 1}</span>
+      <span className="ranking-number paragraph">{index + 1}</span>
 
       <div className="ranking-card">
-        <span className="ranking-label">{label}</span>
+        <span className="ranking-label text-button">{label}</span>
 
         <button
           className="ranking-handle"

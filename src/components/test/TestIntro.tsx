@@ -33,11 +33,11 @@ export default function TestIntro({ lang, onNext }: Props) {
 
       <div className="intro-content">
         <div>
-          <h1 id="intro-title" className="intro-title">
+          <h1 id="intro-title" className="intro-title heading2">
             {t.introTitle}
           </h1>
 
-          <p className="intro-text">
+          <p className="intro-text paragraph-emphasized">
             {t.introText}
           </p>
         </div>
@@ -46,14 +46,14 @@ export default function TestIntro({ lang, onNext }: Props) {
           <div className="slider-line" />
 
           <div className="slider-card">
-            <div className="slider-labels">
+            <div className="slider-labels label">
               <span>{t.sliderStart}</span>
               <span>{t.sliderEnd}</span>
             </div>
           </div>
 
           <div className="slider-thumb">
-            <i className="ph-bold ph-dots-six-vertical" />
+            <i className="ph-bold ph-dots-six" />
           </div>
 
           <div className="hand">

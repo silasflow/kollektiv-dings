@@ -16,7 +16,7 @@ type Props = {
 
 const text = {
   de: {
-    kicker: 'Dein Kollektiv-Typ',
+    kicker: 'Euer Kollektiv-Typ',
     title: 'Ihr seid ein',
     body: 'Das Ergebnis basiert auf euren Antworten. Das Rautennetz wird zusätzlich gespeichert, damit es später zusammen mit anderen Kollektiven auf der Ergebnisseite angezeigt werden kann.',
   },
@@ -69,16 +69,16 @@ export default function ResultScreen({
     <section className="test-screen result-screen">
       <div className="result-content">
         <div className="result-copy">
-          <p className="result-kicker">{t.kicker}</p>
+          <p className="result-kicker script-heading4">{t.kicker}</p>
 
           <h1 className="result-title">
-            <span>{t.title}</span>
-            <span className="result-type-name">{collectiveType}</span>
+            <span className="heading3">{t.title}</span>
+            <span className="result-type-name heading3">{collectiveType}</span>
           </h1>
         </div>
 
         {collectiveName.trim().length > 0 && (
-          <p className="result-text">{collectiveName.trim()}</p>
+          <p className="result-text paragraph">{collectiveName.trim()}</p>
         )}
 
         <div className="result-graphic-card" aria-hidden="true">
@@ -89,7 +89,7 @@ export default function ResultScreen({
           />
         </div>
 
-        <p className="result-text">{t.body}</p>
+        <p className="result-text paragraph">{t.body}</p>
       </div>
 
       <TestNavigation lang={lang} onBack={onBack} onNext={onNext} />

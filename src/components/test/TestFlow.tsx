@@ -320,18 +320,18 @@ export default function TestFlow({ lang }: Props) {
       <section className="test-screen result-screen">
         <div className="result-content">
           <div className="result-copy">
-            <p className="result-kicker">
+            <p className="result-kicker script-heading4">
               {lang === 'de' ? 'Gespeichert' : 'Saved'}
             </p>
 
-            <h1 className="result-title">
+            <h1 className="result-title heading2">
               {lang === 'de'
                 ? 'Das Ergebnis wurde lokal gespeichert.'
                 : 'The result was saved locally.'}
             </h1>
           </div>
 
-          <p className="result-text">
+          <p className="result-text paragraph">
             {lang === 'de'
               ? `In diesem Browser sind aktuell ${localResultCount} Ergebnis(se) gespeichert. Lade die JSON-Datei am Ende des Interviewtages herunter, damit nichts verloren geht.`
               : `${localResultCount} result(s) are currently saved in this browser. Download the JSON file at the end of the interview day so nothing gets lost.`}
@@ -340,11 +340,12 @@ export default function TestFlow({ lang }: Props) {
           {submitError && <p className="result-text">{submitError}</p>}
 
           <div className="test-local-actions">
-            <button type="button" className="test-nav-button" onClick={downloadLocalResults}>
+            <button type="button" className="test-nav-button text-button" onClick={downloadLocalResults}>
               {lang === 'de' ? 'Lokale Ergebnisse herunterladen' : 'Download local results'}
+              <i className="ph-bold ph-download-simple" />
             </button>
 
-            <button type="button" className="test-nav-button" onClick={startNewTest}>
+            <button type="button" className="test-nav-button text-button" onClick={startNewTest}>
               {lang === 'de' ? 'Neuen Test starten' : 'Start new test'}
             </button>
           </div>
