@@ -314,67 +314,52 @@ export const testQuestions: TestQuestion[] = [
         min: 51,
         max: 100,
         label: {
-          de: 'virtuell',
-          en: 'virtual',
+          de: 'translokal',
+          en: 'translocal',
         },
       },
     {
         min: 51,
         max: 100,
         label: {
-      de: 'lokal',
-      en: 'local',
+      de: 'global',
+      en: 'global',
     },
 },
-    {
-        min: 51,
-        max: 100,
-        label: {
-      de: 'virtuell',
-      en: 'virtual',
-    },
-    }
+  
     ],
     minLabel: {
       de: 'lokal',
       en: 'local',
     },
     maxLabel: {
-      de: 'virtuell',
-      en: 'virtual',
+      de: 'global',
+      en: 'global',
     },  
 
     answerTexts: [
       {
         min: 0,
-        max: 25,
+        max: 33,
         text: {
           de: 'Unser Kollektiv ist lokal verankert – unser Handeln und unsere Identität sind an einen konkreten Ort gebunden.',
           en: 'Our collective has strong local roots – our actions and our identity are tied to a specific place.',
         },
       },
       {
-        min: 26,
-        max: 50,
+        min: 34,
+        max: 66,
         text: {
          de: 'Unser Kollektiv verbindet mehrere lokale Räume.',
          en: 'Our collective brings together several local spaces.',
    },
       },
       {
-        min: 51,
-        max: 75,
+        min: 67,
+        max: 100,
         text: {
           de: 'Unser Kollektiv hat globale Reichweite und ist in mehreren Nationen vertreten.',
           en: 'Our collective has global reach and is represented in several countries.',
-        },
-      },
-       {
-        min: 76,
-        max: 100,
-        text: {
-          de: 'Unser Kollektiv agiert primär digital und ist nicht an physische Räume gebunden.',
-          en: 'Our collective primarily operates online and is not bound to physical spaces.',
         },
       },
     ],
