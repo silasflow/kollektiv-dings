@@ -304,22 +304,22 @@ export const testQuestions: TestQuestion[] = [
     valueLabels: [
       {
         min: 0,
-        max: 50,
+        max: 33,
         label: {
           de: 'lokal',
           en: 'local',
         },
       },
       {
-        min: 51,
-        max: 100,
+        min: 34,
+        max: 66,
         label: {
           de: 'translokal',
           en: 'translocal',
         },
       },
     {
-        min: 51,
+        min: 67,
         max: 100,
         label: {
       de: 'global',

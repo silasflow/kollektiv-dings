@@ -163,9 +163,6 @@
   align-items: center;
   justify-content: center;
 
-  min-height: clamp(2.9rem, 6.5svh, 3.4rem);
-  border-radius: 0.85rem;
-
   border: 0;
   appearance: none;
   -webkit-appearance: none;
@@ -174,23 +171,49 @@
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: -0.04em;
+  line-height: 1;
+
+  cursor: pointer;
+}
+
+.nav-button--primary {
+  gap: 1rem;
+
+  min-height: 0;
+  padding: 0.85rem 0.85rem 0.85rem 1.25rem;
+
+  border-radius: 1rem;
+  background: var(--color-button-bg);
+  color: var(--color-button-text);
+
+  font-size: clamp(0.95rem, 2vw, 1.05rem);
+}
+
+.nav-button--primary i,
+.nav-button--primary .button-icon {
+  display: grid;
+  place-items: center;
+
+  width: 2.5rem;
+  height: 2.5rem;
+
+  border-radius: 0.45rem;
+  background: var(--color-button-icon-bg);
+  color: var(--color-button-icon-text);
+
+  font-size: 1.6rem;
+  line-height: 1;
 }
 
 .nav-button--secondary {
   width: clamp(2.9rem, 6.5svh, 3.4rem);
+  min-height: clamp(2.9rem, 6.5svh, 3.4rem);
+
+  border-radius: 0.85rem;
   background: rgba(74, 123, 108, 0.8);
   color: var(--color-text);
+
   font-size: clamp(1.35rem, 4svh, 1.7rem);
-}
-
-.nav-button--primary {
-  gap: 0.55rem;
-  padding: 0.45rem 0.5rem 0.45rem 1rem;
-
-  background: #d9fce8;
-  color: var(--color-button-text);
-
-  font-size: clamp(0.88rem, 2.6svh, 1rem);
 }
 
 .sr-only {
@@ -1493,15 +1516,18 @@
   }
 
   .nav-button--primary {
-    padding: 0.4rem 0.45rem 0.4rem 0.9rem;
-    font-size: 0.85rem;
-  }
+  gap: 0.75rem;
+  padding: 0.7rem 0.7rem 0.7rem 1rem;
+  font-size: 0.9rem;
+  border-radius: 0.9rem;
+}
 
-  .nav-button--primary i {
-    width: 2rem;
-    height: 2rem;
-    font-size: 1.25rem;
-  }
+.nav-button--primary i,
+.nav-button--primary .button-icon {
+  width: 2.25rem;
+  height: 2.25rem;
+  font-size: 1.35rem;
+}
 
   .result-content {
     max-width: 34rem;
@@ -1589,8 +1615,9 @@
     width: 2.55rem;
   }
 
-  .nav-button--primary i {
-    width: 1.85rem;
-    height: 1.85rem;
-  }
+  .nav-button--primary i,
+.nav-button--primary .button-icon {
+  width: 2rem;
+  height: 2rem;
+}
 }
