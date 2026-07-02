@@ -2,13 +2,15 @@
 
 import {
   DndContext,
-  PointerSensor,
+  MouseSensor,
+  TouchSensor,
   KeyboardSensor,
   closestCenter,
   useSensor,
   useSensors,
   type DragEndEvent,
 } from '@dnd-kit/core';
+
 import {
   SortableContext,
   arrayMove,
@@ -50,15 +52,21 @@ export default function RankingQuestion({
       : question.options.map((option) => option.id);
 
   const sensors = useSensors(
-    useSensor(PointerSensor, {
-      activationConstraint: {
-        distance: 6,
-      },
-    }),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    })
-  );
+  useSensor(MouseSensor, {
+    activationConstraint: {
+      distance: 6,
+    },
+  }),
+  useSensor(TouchSensor, {
+    activationConstraint: {
+      delay: 120,
+      tolerance: 8,
+    },
+  }),
+  useSensor(KeyboardSensor, {
+    coordinateGetter: sortableKeyboardCoordinates,
+  })
+);
 
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event;
@@ -140,26 +148,27 @@ function SortableRankingItem({
   };
 
   return (
-    <li
-      ref={setNodeRef}
-      style={style}
-      className={`ranking-item ${isDragging ? 'ranking-item--dragging' : ''}`}
+  <li
+    ref={setNodeRef}
+    style={style}
+    className={`ranking-item ${isDragging ? 'ranking-item--dragging' : ''}`}
+  >
+    <span className="ranking-number paragraph">{index + 1}</span>
+
+    <div
+      className="ranking-card"
+      {...attributes}
+      {...listeners}
     >
-      <span className="ranking-number paragraph">{index + 1}</span>
+      <span className="ranking-label text-button">{label}</span>
 
-      <div className="ranking-card">
-        <span className="ranking-label text-button">{label}</span>
-
-        <button
-          className="ranking-handle"
-          type="button"
-          aria-label={`${label} verschieben`}
-          {...attributes}
-          {...listeners}
-        >
-          <i className="ph-bold ph-dots-six-vertical" />
-        </button>
-      </div>
-    </li>
-  );
+      <span
+        className="ranking-handle"
+        aria-hidden="true"
+      >
+        <i className="ph-bold ph-dots-six-vertical" />
+      </span>
+    </div>
+  </li>
+);
 }
