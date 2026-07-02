@@ -135,7 +135,43 @@
   filter: drop-shadow(0 0.45rem 0.55rem rgba(0, 0, 0, 0.16));
   filter: drop-shadow(0 0.45rem 0.55rem rgba(0, 0, 0, 0.16));
 }
+.slider-thumb {
+  animation: intro-slider-thumb-move 4.2s ease-in-out infinite;
+}
 
+.hand {
+  animation: intro-slider-hand-move 4.2s ease-in-out infinite;
+}
+
+@keyframes intro-slider-thumb-move {
+  0%,
+  100% {
+    transform: translateX(-1.15rem) rotate(-2.5deg);
+  }
+
+  50% {
+    transform: translateX(1.15rem) rotate(-2.5deg);
+  }
+}
+
+@keyframes intro-slider-hand-move {
+  0%,
+  100% {
+    transform: translateX(-1.15rem);
+  }
+
+  50% {
+    transform: translateX(1.15rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .slider-thumb,
+  .hand 
+  .question-main-graphic {
+    animation: none;
+  }
+}
 .test-navigation {
   display: flex;
   justify-content: space-between;
@@ -323,6 +359,27 @@
   min-height: 0;
 }
 
+.range-thresholds {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.range-threshold {
+  position: absolute;
+  top: 50%;
+
+  width: 0.12rem;
+  height: 0.7rem;
+  border-radius: 999rem;
+
+  background: rgba(232, 255, 242, 0.42);
+
+  transform: translate(-50%, -50%);
+}
+
+
 /* ---------------------------------
    Frage 1 – Formalisierung / Diamond
 ---------------------------------- */
@@ -448,6 +505,7 @@
   z-index: 3;
 
   border: 2px solid rgba(126, 173, 155, 0.42);
+
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
 }
 
@@ -508,18 +566,18 @@
 
 .identity-svg-node--empty {
   fill: rgba(21, 82, 77, 0.18);
-  stroke: rgba(75, 143, 137, 0.75);
-  stroke-width: 2;
+  stroke: rgba(126, 173, 155, 0.42);
+  stroke-width: 0.4;
   opacity: 0.95;
 }
 
 .identity-svg-node--filled {
   fill: url(#identityGradient);
-  stroke: rgba(220, 255, 155, 0.35);
-  stroke-width: 1;
+  stroke: rgba(126, 173, 155, 0.42);
+  stroke-width: 1.8;
   opacity: 1;
   filter:
-    drop-shadow(0 0 0.35rem rgba(184, 255, 79, 0.2)) drop-shadow(0 0 0.8rem rgba(184, 255, 79, 0.08));
+    drop-shadow(0 0 0.35rem rgba(126, 173, 155, 0.2)) drop-shadow(0 0 0.8rem rgba(126, 173, 155, 0.08));
 }
 
 /* ---------------------------------
@@ -531,82 +589,97 @@
   place-items: center;
 }
 
+.space-ring-glow {
+  position: absolute;
+  border-radius: 1.15rem;
+  transform: rotate(45deg);
+  pointer-events: none;
+  filter: blur(10px);
+}
+
+.space-ring-glow--outer {
+  width: clamp(7.1rem, 21svh, 10.4rem);
+  height: clamp(7.1rem, 21svh, 10.4rem);
+  background: radial-gradient(
+    circle at 35% 30%,
+    rgba(216, 251, 229, 0.08) 0%,
+    rgba(216, 251, 229, 0.03) 45%,
+    rgba(216, 251, 229, 0) 78%
+  );
+  opacity: 0.6;
+}
+
+.space-ring-glow--middle {
+  width: clamp(5.3rem, 16svh, 7.8rem);
+  height: clamp(5.3rem, 16svh, 7.8rem);
+  background: radial-gradient(
+    circle at 35% 30%,
+    rgba(216, 251, 229, 0.09) 0%,
+    rgba(216, 251, 229, 0.04) 48%,
+    rgba(216, 251, 229, 0) 80%
+  );
+  opacity: 0.68;
+}
+
 .space-ring {
   position: absolute;
-
-  width: clamp(5.5rem, 17svh, 8.5rem);
-  height: clamp(5.5rem, 17svh, 8.5rem);
-
-  border: 2px solid rgba(216, 251, 229, 0.22);
-  border-radius: 1.1rem;
-
+  border: 1.5px solid rgba(202, 239, 230, 0.22);
+  border-radius: 1.15rem;
   transform: rotate(45deg);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    inset 0 -10px 18px rgba(0, 0, 0, 0.06);
 }
 
 .space-ring--outer {
-  width: clamp(7.2rem, 22svh, 11rem);
-  height: clamp(7.2rem, 22svh, 11rem);
-  border-color: rgba(216, 251, 229, 0.26);
+  width: clamp(7.1rem, 21svh, 10.4rem);
+  height: clamp(7.1rem, 21svh, 10.4rem);
+ border: 2px solid rgba(126, 173, 155, 0.42);
+
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
 }
 
 .space-ring--middle {
-  width: clamp(5.7rem, 17svh, 8.6rem);
-  height: clamp(5.7rem, 17svh, 8.6rem);
-  border-color: rgba(216, 251, 229, 0.2);
+  width: clamp(5.3rem, 16svh, 7.8rem);
+  height: clamp(5.3rem, 16svh, 7.8rem);
+  border: 2px solid rgba(126, 173, 155, 0.42);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
 }
 
-.space-pixel-diamond {
+.space-pixel-outline {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  filter:
+    drop-shadow(0 0 0.22rem rgba(184, 255, 79, 0.22))
+    drop-shadow(0 0 0.45rem rgba(184, 255, 79, 0.12));
+}
+
+.space-pixel-rect {
+  fill: #b8ff4f;
+  stroke: rgba(255, 255, 255, 0.3);
+}
+
+.space-virtual-diamond {
   position: absolute;
   left: 50%;
   top: 50%;
-  z-index: 2;
-
-  display: grid;
-  grid-template-columns: repeat(7, 0.55rem);
-  grid-template-rows: repeat(7, 0.55rem);
-  gap: 0.08rem;
-
-  transform-origin: center;
-  filter: drop-shadow(0 0.35rem 0.55rem rgba(0, 0, 0, 0.18));
-  transition:
-    transform 180ms ease,
-    opacity 180ms ease;
-}
-
-.space-pixel {
-  width: 0.55rem;
-  height: 0.55rem;
-  border-radius: 0.04rem;
-}
-
-.space-pixel--core {
-  background: #d8ff8a;
-}
-
-.space-pixel--edge {
-  background: rgba(184, 255, 79, 0.7);
-}
-
-.space-pixel-diamond--virtual {
   z-index: 3;
 
-  grid-template-columns: repeat(5, 0.34rem);
-  grid-template-rows: repeat(5, 0.34rem);
-  gap: 0.06rem;
+  width: 0.95rem;
+  height: 0.95rem;
 
-  transform: translate(-50%, -50%) rotate(45deg) scale(0.8);
-  opacity: 0.95;
+  background: #8d72f2;
+  border-radius: 0.18rem;
+
+  transform: translate(-50%, -50%) rotate(45deg);
+
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.06),
+    0 0 0.42rem rgba(141, 114, 242, 0.26);
 }
-
-.space-pixel--virtual {
-  width: 0.34rem;
-  height: 0.34rem;
-  border-radius: 0.03rem;
-
-  background: #8568e8;
-  box-shadow: 0 0 0.25rem rgba(133, 104, 232, 0.55);
-}
-
 /* SLIDER ANSWER */
 
 .slider-answer-card {
@@ -747,6 +820,19 @@
   transition:
     transform 160ms ease,
     box-shadow 160ms ease;
+
+  touch-action: none;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+    
+}
+.ranking-card:active {
+  cursor: grabbing;
+}
+
+.ranking-handle {
+  pointer-events: none;
 }
 
 .ranking-item:first-child {
