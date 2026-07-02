@@ -1,9 +1,13 @@
 type Props = {
   questionId: string;
   value: number;
+  actsVirtually?: boolean;
 };
-
-export default function QuestionMainGraphic({ questionId, value }: Props) {
+export default function QuestionMainGraphic({
+  questionId,
+  value,
+  actsVirtually = false,
+}: Props) {
   switch (questionId) {
     case 'formalization':
       return <FormalizationDiamondGraphic value={value} />;
@@ -15,7 +19,7 @@ export default function QuestionMainGraphic({ questionId, value }: Props) {
       return <IdentityGraphic value={value} />;
 
     case 'space':
-      return <SpaceGraphic value={value} />;
+  return <SpaceGraphic value={value} actsVirtually={actsVirtually} />;
 
     default:
       return null;
@@ -181,20 +185,80 @@ function IdentityGraphic({ value }: { value: number }) {
   );
 }
 
-function SpaceGraphic({ value }: { value: number }) {
+function SpaceGraphic({
+  value,
+  actsVirtually,
+}: {
+  value: number;
+  actsVirtually: boolean;
+}) {
   const t = value / 100;
+
+  const pixelScale = 0.45 + t * 0.85;
+  const pixelOpacity = 0.65 + t * 0.3;
 
   return (
     <div className="question-main-graphic question-main-graphic--space" aria-hidden="true">
       <div className="space-ring space-ring--outer" />
       <div className="space-ring space-ring--middle" />
+
       <div
-        className="space-ring space-ring--inner"
+        className="space-pixel-diamond"
         style={{
-          transform: `rotate(45deg) scale(${0.55 + t * 0.35})`,
-          opacity: 0.5 + t * 0.4,
+          transform: `translate(-50%, -50%) rotate(45deg) scale(${pixelScale})`,
+          opacity: pixelOpacity,
         }}
-      />
+      >
+        {Array.from({ length: 7 }).map((_, rowIndex) =>
+          Array.from({ length: 7 }).map((_, colIndex) => {
+            const distance = Math.abs(rowIndex - 3) + Math.abs(colIndex - 3);
+            const isVisible = distance <= 3;
+
+            if (!isVisible) return null;
+
+            const isCore = distance <= 1;
+
+            return (
+              <span
+                key={`${rowIndex}-${colIndex}`}
+                className={
+                  isCore
+                    ? 'space-pixel space-pixel--core'
+                    : 'space-pixel space-pixel--edge'
+                }
+                style={{
+                  gridColumn: colIndex + 1,
+                  gridRow: rowIndex + 1,
+                }}
+              />
+            );
+          })
+        )}
+      </div>
+
+      {actsVirtually && (
+        <div className="space-pixel-diamond space-pixel-diamond--virtual">
+          {Array.from({ length: 5 }).map((_, rowIndex) =>
+            Array.from({ length: 5 }).map((_, colIndex) => {
+              const distance = Math.abs(rowIndex - 2) + Math.abs(colIndex - 2);
+              const isVisible = distance <= 2;
+
+              if (!isVisible) return null;
+
+              return (
+                <span
+                  key={`${rowIndex}-${colIndex}`}
+                  className="space-pixel space-pixel--virtual"
+                  style={{
+                    gridColumn: colIndex + 1,
+                    gridRow: rowIndex + 1,
+                  }}
+                />
+              );
+            })
+          )}
+        </div>
+      )}
     </div>
   );
 }
