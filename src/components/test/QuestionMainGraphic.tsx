@@ -194,71 +194,79 @@ function SpaceGraphic({
 }) {
   const t = value / 100;
 
-  const pixelScale = 0.45 + t * 0.85;
-  const pixelOpacity = 0.65 + t * 0.3;
+  // nur die Highlight-Raute wächst
+  const outlineRadius = 10 + t * 18;
+  const outlineOpacity = 0.72 + t * 0.18;
+
+  // Pixelgröße bleibt fast gleich
+  const pixelSize = 4.2;
+
+  // Je weiter rechts, desto mehr Pixel entlang der Outline
+  const stepsPerEdge = Math.round(3 + t * 6); // links ca. 3, rechts ca. 9
+
+  const outlinePoints = buildDiamondOutlinePoints(stepsPerEdge);
 
   return (
     <div className="question-main-graphic question-main-graphic--space" aria-hidden="true">
+      <div className="space-ring-glow space-ring-glow--outer" />
       <div className="space-ring space-ring--outer" />
+
+      <div className="space-ring-glow space-ring-glow--middle" />
       <div className="space-ring space-ring--middle" />
 
-      <div
-        className="space-pixel-diamond"
-        style={{
-          transform: `translate(-50%, -50%) rotate(45deg) scale(${pixelScale})`,
-          opacity: pixelOpacity,
-        }}
+      <svg
+        className="space-pixel-outline"
+        viewBox="0 0 100 100"
+        aria-hidden="true"
+        style={{ opacity: outlineOpacity }}
       >
-        {Array.from({ length: 7 }).map((_, rowIndex) =>
-          Array.from({ length: 7 }).map((_, colIndex) => {
-            const distance = Math.abs(rowIndex - 3) + Math.abs(colIndex - 3);
-            const isVisible = distance <= 3;
+        {outlinePoints.map((point, index) => {
+          const x = 50 + point.x * outlineRadius - pixelSize / 2;
+          const y = 50 + point.y * outlineRadius - pixelSize / 2;
 
-            if (!isVisible) return null;
+          return (
+            <rect
+              key={index}
+              x={x}
+              y={y}
+              width={pixelSize}
+              height={pixelSize}
+              rx="0.45"
+              ry="0.45"
+              className="space-pixel-rect"
+            />
+          );
+        })}
+      </svg>
 
-            const isCore = distance <= 1;
-
-            return (
-              <span
-                key={`${rowIndex}-${colIndex}`}
-                className={
-                  isCore
-                    ? 'space-pixel space-pixel--core'
-                    : 'space-pixel space-pixel--edge'
-                }
-                style={{
-                  gridColumn: colIndex + 1,
-                  gridRow: rowIndex + 1,
-                }}
-              />
-            );
-          })
-        )}
-      </div>
-
-      {actsVirtually && (
-        <div className="space-pixel-diamond space-pixel-diamond--virtual">
-          {Array.from({ length: 5 }).map((_, rowIndex) =>
-            Array.from({ length: 5 }).map((_, colIndex) => {
-              const distance = Math.abs(rowIndex - 2) + Math.abs(colIndex - 2);
-              const isVisible = distance <= 2;
-
-              if (!isVisible) return null;
-
-              return (
-                <span
-                  key={`${rowIndex}-${colIndex}`}
-                  className="space-pixel space-pixel--virtual"
-                  style={{
-                    gridColumn: colIndex + 1,
-                    gridRow: rowIndex + 1,
-                  }}
-                />
-              );
-            })
-          )}
-        </div>
-      )}
+      {actsVirtually && <div className="space-virtual-diamond" />}
     </div>
   );
+}
+
+function buildDiamondOutlinePoints(stepsPerEdge: number) {
+  const corners = [
+    { x: 0, y: -1 }, // top
+    { x: 1, y: 0 },  // right
+    { x: 0, y: 1 },  // bottom
+    { x: -1, y: 0 }, // left
+  ];
+
+  const points: { x: number; y: number }[] = [];
+
+  for (let edge = 0; edge < corners.length; edge += 1) {
+    const start = corners[edge];
+    const end = corners[(edge + 1) % corners.length];
+
+    for (let step = 0; step < stepsPerEdge; step += 1) {
+      const t = step / stepsPerEdge;
+
+      points.push({
+        x: start.x + (end.x - start.x) * t,
+        y: start.y + (end.y - start.y) * t,
+      });
+    }
+  }
+
+  return points;
 }
