@@ -61,9 +61,9 @@ export default function SliderQuestion({
     <section className="test-screen question-screen">
       <div className="question-top">
         <div className="question-copy">
-          <p className="script-heading4">{question.category[lang]}</p>
+          <p className="question-category">{question.category[lang]}</p>
 
-          <h1 className="question-title heading3">{question.title[lang]}</h1>
+          <h1 className="question-title">{question.title[lang]}</h1>
         </div>
 
         <QuestionLineGraphic
@@ -73,11 +73,15 @@ export default function SliderQuestion({
         />
       </div>
 
-      <QuestionMainGraphic questionId={question.id} value={value} />
-      <p className="question-answer-text paragraph-emphasised">{answerText}</p>
+      <QuestionMainGraphic
+  questionId={question.id}
+  value={value}
+  actsVirtually={actsVirtually}
+/>
+      <p className="question-answer-text">{answerText}</p>
 
       <div className="slider-answer-card">
-        <h2 className="heading3">{valueLabel}</h2>
+        <h2>{valueLabel}</h2>
 
         <div className="range-wrap">
           <input
@@ -95,18 +99,18 @@ export default function SliderQuestion({
             style={{ left: `${value}%` }}
             aria-hidden="true"
           >
-            <i className="ph-bold ph-dots-six" />
+            <i className="ph-bold ph-dots-six-vertical" />
           </div>
         </div>
 
-        <div className="slider-answer-labels label">
+        <div className="slider-answer-labels">
           <span>{question.minLabel[lang]}</span>
           <span>{question.maxLabel[lang]}</span>
         </div>
       </div>
 
       {isVirtualOptionVisible && (
-        <label className="consent-field paragraph">
+        <label className="consent-field">
           <input
             type="checkbox"
             checked={actsVirtually}
@@ -117,7 +121,7 @@ export default function SliderQuestion({
             {actsVirtually && <i className="ph-bold ph-check" />}
           </span>
 
-          <span className="paragraph">{virtualText[lang]}</span>
+          <span>{virtualText[lang]}</span>
         </label>
       )}
 
