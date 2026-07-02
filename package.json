@@ -25,6 +25,8 @@
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "astro": "^6.4.8",
+    "node-addon-api": "^8.9.0",
+    "node-gyp": "^13.0.0",
     "pg": "^8.22.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
