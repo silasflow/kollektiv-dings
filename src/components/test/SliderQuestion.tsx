@@ -37,6 +37,19 @@ function getValueLabel(question: SliderQuestionType, value: number, lang: Lang) 
   return match.label[lang];
 }
 
+function getValueRange(question: SliderQuestionType, value: number) {
+  return (
+    question.valueLabels.find((item) => value >= item.min && value <= item.max) ??
+    question.valueLabels[0]
+  );
+}
+
+function getThresholds(question: SliderQuestionType) {
+  return question.valueLabels
+    .map((item) => item.max)
+    .filter((max) => max > 0 && max < 100);
+}
+
 const virtualText = {
   de: 'Wir agieren zusätzlich auch virtuell/digital.',
   en: 'We also operate virtually/digitally.',
@@ -56,6 +69,7 @@ export default function SliderQuestion({
 }: Props) {
   const answerText = getAnswerText(question, value, lang);
   const valueLabel = getValueLabel(question, value, lang);
+  const thresholds = getThresholds(question);
 
   return (
     <section className="test-screen question-screen">
@@ -73,11 +87,7 @@ export default function SliderQuestion({
         />
       </div>
 
-      <QuestionMainGraphic
-  questionId={question.id}
-  value={value}
-  actsVirtually={actsVirtually}
-/>
+      <QuestionMainGraphic questionId={question.id} value={value} />
       <p className="question-answer-text">{answerText}</p>
 
       <div className="slider-answer-card">
@@ -101,6 +111,15 @@ export default function SliderQuestion({
           >
             <i className="ph-bold ph-dots-six-vertical" />
           </div>
+          <div className="range-thresholds" aria-hidden="true">
+  {thresholds.map((threshold) => (
+    <span
+      key={threshold}
+      className="range-threshold"
+      style={{ left: `${threshold}%` }}
+    />
+  ))}
+</div>
         </div>
 
         <div className="slider-answer-labels">
