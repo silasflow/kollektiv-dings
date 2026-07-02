@@ -6,8 +6,12 @@ import TestNavigation from './TestNavigation';
 type Props = {
   lang: Lang;
   collectiveName: string;
+  websiteOrInstagram: string;
+  location: string;
   consent: boolean;
   onNameChange: (value: string) => void;
+  onWebsiteOrInstagramChange: (value: string) => void;
+  onLocationChange: (value: string) => void;
   onConsentChange: (value: boolean) => void;
   onBack: () => void;
   onNext: () => void;
@@ -15,30 +19,42 @@ type Props = {
 
 const text = {
   de: {
-    titleStart: 'Wie heißt euer  ',
-    titleHighlight: ' Kollektiv ',
-    titleEnd: '?',
-    label: 'Kollektiv Name',
-    placeholder: 'Name eingeben',
+    titleStart: 'Erzählt uns kurz, wer euer',
+    titleHighlight: 'Kollektiv',
+    titleEnd: 'ist',
+    nameLabel: 'Kollektivname',
+    namePlaceholder: 'Name eingeben',
+    websiteLabel: 'Website oder Instagram',
+    websitePlaceholder: 'https://… oder @name',
+    locationLabel: 'Standort',
+    locationPlaceholder: 'z. B. Berlin-Neukölln, Potsdam, Brandenburg',
     consent:
-      'Ich stimme zu, dass mein Ergebnis auf der Startseite angezeigt werden darf.',
+      'Ich stimme zu, dass Name, Standort, Website/Insta und Ergebnis öffentlich auf der Website angezeigt werden dürfen.',
   },
   en: {
-    titleStart: 'What is your',
+    titleStart: 'Tell us briefly who your',
     titleHighlight: 'collective',
-    titleEnd: ' called?',
-    label: 'Collective name',
-    placeholder: 'Enter name',
+    titleEnd: 'is',
+    nameLabel: 'Collective name',
+    namePlaceholder: 'Enter name',
+    websiteLabel: 'Website or Instagram',
+    websitePlaceholder: 'https://… or @name',
+    locationLabel: 'Location',
+    locationPlaceholder: 'e.g. Berlin-Neukölln, Potsdam, Brandenburg',
     consent:
-      'I agree that my result may be displayed on the homepage.',
+      'I agree that name, location, website/Insta and result may be shown publicly on the website.',
   },
 } as const;
 
 export default function CollectiveNameQuestion({
   lang,
   collectiveName,
+  websiteOrInstagram,
+  location,
   consent,
   onNameChange,
+  onWebsiteOrInstagramChange,
+  onLocationChange,
   onConsentChange,
   onBack,
   onNext,
@@ -49,19 +65,41 @@ export default function CollectiveNameQuestion({
     <section className="test-screen name-screen">
       <div className="name-content">
         <h1 className="name-title">
-  <span>{t.titleStart}</span>{' '}
-  <span className="name-title-highlight">{t.titleHighlight}</span>
-  <span className="name-title-end">{t.titleEnd}</span>
-</h1>
+          <span>{t.titleStart}</span>{' '}
+          <span className="name-title-highlight">{t.titleHighlight}</span>{' '}
+          <span className="name-title-end">{t.titleEnd}</span>
+        </h1>
 
         <label className="name-field">
-          <span>{t.label}</span>
+          <span>{t.nameLabel}</span>
 
           <input
             type="text"
             value={collectiveName}
             onChange={(event) => onNameChange(event.target.value)}
-            placeholder={t.placeholder}
+            placeholder={t.namePlaceholder}
+          />
+        </label>
+
+        <label className="name-field">
+          <span>{t.websiteLabel}</span>
+
+          <input
+            type="text"
+            value={websiteOrInstagram}
+            onChange={(event) => onWebsiteOrInstagramChange(event.target.value)}
+            placeholder={t.websitePlaceholder}
+          />
+        </label>
+
+        <label className="name-field">
+          <span>{t.locationLabel}</span>
+
+          <input
+            type="text"
+            value={location}
+            onChange={(event) => onLocationChange(event.target.value)}
+            placeholder={t.locationPlaceholder}
           />
         </label>
 
@@ -80,11 +118,7 @@ export default function CollectiveNameQuestion({
         </label>
       </div>
 
-      <TestNavigation
-        lang={lang}
-        onBack={onBack}
-        onNext={onNext}
-      />
+      <TestNavigation lang={lang} onBack={onBack} onNext={onNext} />
     </section>
   );
 }

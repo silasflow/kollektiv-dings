@@ -156,7 +156,16 @@ const kicker = frontmatter.kicker ?? frontmatter.title;
     color: var(--color-accent);
   }
 
-  .about-content :global(h1),
+  .about-content :global(h1){
+     margin: 0;
+
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-format: uppercase;
+  letter-spacing: -0.055em;
+  color: var(--color-text);
+  }
+
 .about-content :global(h2),
 .about-content :global(h3) {
   margin: 0;
@@ -169,7 +178,7 @@ const kicker = frontmatter.kicker ?? frontmatter.title;
 
 .about-content :global(h1) {
   margin-bottom: 1.6rem;
-
+  text-transform: uppercase;
   font-family: var(--font-hand);
   font-size: clamp(4rem, 5vw, 3rem);
   font-weight: 400;
