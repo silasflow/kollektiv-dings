@@ -87,7 +87,12 @@ export default function SliderQuestion({
         />
       </div>
 
-      <QuestionMainGraphic questionId={question.id} value={value} />
+      <QuestionMainGraphic
+  questionId={question.id}
+  value={value}
+  actsVirtually={actsVirtually}
+/>
+
       <p className="question-answer-text">{answerText}</p>
 
       <div className="slider-answer-card">

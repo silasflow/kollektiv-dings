@@ -192,64 +192,89 @@ function SpaceGraphic({
   value: number;
   actsVirtually: boolean;
 }) {
-  const t = value / 100;
+  const activeLayer = getSpaceActiveLayer(value);
 
-  // nur die Highlight-Raute wächst
-  const outlineRadius = 10 + t * 18;
-  const outlineOpacity = 0.72 + t * 0.18;
+  const pixelRadiusByLayer = {
+    inner: 12,
+    middle: 20,
+    outer: 28,
+  } as const;
 
-  // Pixelgröße bleibt fast gleich
-  const pixelSize = 4.2;
-
-  // Je weiter rechts, desto mehr Pixel entlang der Outline
-  const stepsPerEdge = Math.round(3 + t * 6); // links ca. 3, rechts ca. 9
-
-  const outlinePoints = buildDiamondOutlinePoints(stepsPerEdge);
+  const pixelRadius = pixelRadiusByLayer[activeLayer];
 
   return (
     <div className="question-main-graphic question-main-graphic--space" aria-hidden="true">
       <div className="space-ring-glow space-ring-glow--outer" />
-      <div className="space-ring space-ring--outer" />
+      <div
+        className={`space-ring space-ring--outer ${
+          activeLayer === 'outer' && !actsVirtually ? 'space-ring--active' : ''
+        }`}
+      />
 
       <div className="space-ring-glow space-ring-glow--middle" />
-      <div className="space-ring space-ring--middle" />
+      <div
+        className={`space-ring space-ring--middle ${
+          activeLayer === 'middle' && !actsVirtually ? 'space-ring--active' : ''
+        }`}
+      />
 
-      <svg
-        className="space-pixel-outline"
-        viewBox="0 0 100 100"
-        aria-hidden="true"
-        style={{ opacity: outlineOpacity }}
-      >
-        {outlinePoints.map((point, index) => {
-          const x = 50 + point.x * outlineRadius - pixelSize / 2;
-          const y = 50 + point.y * outlineRadius - pixelSize / 2;
+      <div
+        className={`space-ring space-ring--inner ${
+          activeLayer === 'inner' && !actsVirtually ? 'space-ring--active' : ''
+        }`}
+      />
 
-          return (
-            <rect
-              key={index}
-              x={x}
-              y={y}
-              width={pixelSize}
-              height={pixelSize}
-              rx="0.45"
-              ry="0.45"
-              className="space-pixel-rect"
-            />
-          );
-        })}
-      </svg>
-
-      {actsVirtually && <div className="space-virtual-diamond" />}
+      {actsVirtually && (
+        <SpacePixelOutline radius={pixelRadius} />
+      )}
     </div>
+  );
+}
+
+function getSpaceActiveLayer(value: number): 'inner' | 'middle' | 'outer' {
+  if (value <= 33) return 'inner';
+  if (value <= 66) return 'middle';
+  return 'outer';
+}
+
+function SpacePixelOutline({ radius }: { radius: number }) {
+  const pixelSize = 4.2;
+  const stepsPerEdge = Math.max(4, Math.round(radius / 3.1));
+  const outlinePoints = buildDiamondOutlinePoints(stepsPerEdge);
+
+  return (
+    <svg
+      className="space-pixel-outline"
+      viewBox="0 0 100 100"
+      aria-hidden="true"
+    >
+      {outlinePoints.map((point, index) => {
+        const x = 50 + point.x * radius - pixelSize / 2;
+        const y = 50 + point.y * radius - pixelSize / 2;
+
+        return (
+          <rect
+            key={index}
+            x={x}
+            y={y}
+            width={pixelSize}
+            height={pixelSize}
+            rx="0.45"
+            ry="0.45"
+            className="space-pixel-rect"
+          />
+        );
+      })}
+    </svg>
   );
 }
 
 function buildDiamondOutlinePoints(stepsPerEdge: number) {
   const corners = [
-    { x: 0, y: -1 }, // top
-    { x: 1, y: 0 },  // right
-    { x: 0, y: 1 },  // bottom
-    { x: -1, y: 0 }, // left
+    { x: 0, y: -1 },
+    { x: 1, y: 0 },
+    { x: 0, y: 1 },
+    { x: -1, y: 0 },
   ];
 
   const points: { x: number; y: number }[] = [];
