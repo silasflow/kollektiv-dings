@@ -2,6 +2,7 @@
 // Removed Button import to avoid missing module error; using a local link styled as button
 import Button from '../common/Button.astro';
 
+
 interface Props {
   lang: 'de' | 'en';
   content: {
@@ -9,8 +10,12 @@ interface Props {
     titleLine2: string;
     highlight: string;
     titleLine3: string;
-    description: string;
+    intro: string;
+    testKicker: string;
+    testTitleLine: string;
+    testHighlight: string;
     testDescription: string;
+    testMeta: string;
     buttonLabel: string;
   };
 }
@@ -19,29 +24,35 @@ const { lang, content } = Astro.props;
 ---
 
 <section class="hero" id="start">
- <div class="hero-map" aria-hidden="true"></div>
+  <div class="hero-map" aria-hidden="true"></div>
 
-  <div class="hero-content">
-    <h1 class="hero-title">
-      <span class="heading1">{content.titleLine1}</span>
-      <span class="heading1">{content.titleLine2}</span>
-      <span class="script-heading1" style="">{content.highlight}</span>
-      <span class="heading1">{content.titleLine3}</span>
-    </h1>
+  <div class="hero-inner">
+    <div class="hero-content">
+      <h1 class="hero-title">
+        <span class="heading1">{content.titleLine1}</span>
+        <span class="heading1">{content.titleLine2}</span>
+        <span class="script-heading1">{content.highlight}</span>
+        <span class="heading1">{content.titleLine3}</span>
+      </h1>
 
-    <p class="hero-text paragraph-emphasised">{content.description}</p>
+      <p class="hero-text paragraph-emphasised">{content.intro}</p>
+    </div>
 
-  </div>
-  <div class="hero-content-test">
-    <h2 class="heading3">
-      Du bist selbst Teil eines Kollektivs?
-    </h2>
-    <h3>
-      <span class="heading2">Mache jetzt den</span>
-      <span class="script-heading2">Kollektiv-Personality-Test</span>
-    </h3>
-    <p class="hero-text paragraph">{content.testDescription}</p>
-    <Button href={`/${lang}/test/`} label={content.buttonLabel} />
+    <aside class="hero-content-test" aria-labelledby="hero-test-title">
+      <p class="test-kicker paragraph-emphasised">{content.testKicker}</p>
+
+      <h2 class="test-title" id="hero-test-title">
+        <span class="heading2">{content.testTitleLine}</span>
+        <span class="script-heading2">{content.testHighlight}</span>
+      </h2>
+
+      <p class="test-description paragraph">{content.testDescription}</p>
+      <p class="test-meta paragraph">{content.testMeta}</p>
+
+      <div class="button-row">
+        <Button href={`/${lang}/test/`} label={content.buttonLabel} />
+      </div>
+    </aside>
   </div>
 </section>
 
@@ -113,7 +124,8 @@ const { lang, content } = Astro.props;
     flex-direction: column;
     gap: 1rem;
     z-index: 1;
-    padding: 0 10%;
+    padding: 0 20%;
+    padding-top: 8rem;
   }
 
   .hero-title {
@@ -129,10 +141,11 @@ const { lang, content } = Astro.props;
   }
 
   .hero-text {
-    max-width: 34rem;
+    max-width: 65rem;
     margin: 0;
+    padding: 0 5%;
 
-    color: rgba(232, 255, 242, 0.94);
+    color: var(--color-text);
   }
 
   .hero-btn {
