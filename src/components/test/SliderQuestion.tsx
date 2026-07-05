@@ -114,7 +114,7 @@ export default function SliderQuestion({
             style={{ left: `${value}%` }}
             aria-hidden="true"
           >
-            <i className="ph-bold ph-dots-six-vertical" />
+            <i className="ph-bold ph-dots-six" />
           </div>
           <div className="range-thresholds" aria-hidden="true">
   {thresholds.map((threshold) => (

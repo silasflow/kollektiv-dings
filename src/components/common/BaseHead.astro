@@ -1,11 +1,10 @@
 ---
 // Import the global.css file here so that it is included on
 // all pages through the use of the <BaseHead /> component.
-import '../../styles/global.css';
-import type { ImageMetadata } from 'astro';
-import FallbackImage from '../../assets/image/Fallback.png';
-import { SITE_TITLE } from '../../consts';
-
+import "../../styles/global.css";
+import type { ImageMetadata } from "astro";
+import FallbackImage from "../../assets/image/Fallback.png";
+import { SITE_TITLE } from "../../consts";
 
 interface Props {
 	title: string;
@@ -28,10 +27,9 @@ const { title, description, image = FallbackImage } = Astro.props;
 	rel="alternate"
 	type="application/rss+xml"
 	title={SITE_TITLE}
-	href={new URL('rss.xml', Astro.site)}
+	href={new URL("rss.xml", Astro.site)}
 />
 <meta name="generator" content={Astro.generator} />
-
 
 <!-- Icons -->
 <link
@@ -39,7 +37,10 @@ const { title, description, image = FallbackImage } = Astro.props;
 	type="text/css"
 	href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/bold/style.css"
 />
-<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+<link
+	rel="stylesheet"
+	href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css"
+/>
 
 <!-- Canonical URL -->
 <link rel="canonical" href={canonicalURL} />

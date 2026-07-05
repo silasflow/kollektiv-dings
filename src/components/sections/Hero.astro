@@ -1,236 +1,241 @@
 ---
 // Removed Button import to avoid missing module error; using a local link styled as button
-import Button from '../common/Button.astro';
-
+// import Button from '../common/Button.astro';
+import Button from "../common/Button.tsx";
 
 interface Props {
-  lang: 'de' | 'en';
-  content: {
-    titleLine1: string;
-    titleLine2: string;
-    highlight: string;
-    titleLine3: string;
-    intro: string;
-    testKicker: string;
-    testTitleLine: string;
-    testHighlight: string;
-    testDescription: string;
-    testMeta: string;
-    buttonLabel: string;
-  };
+	lang: "de" | "en";
+	content: {
+		titleLine1: string;
+		titleLine2: string;
+		highlight: string;
+		titleLine3: string;
+		intro: string;
+		testKicker: string;
+		testTitleLine: string;
+		testHighlight: string;
+		testDescription: string;
+		testMeta: string;
+		buttonLabel: string;
+	};
 }
 
 const { lang, content } = Astro.props;
 ---
 
 <section class="hero" id="start">
-  <div class="hero-map" aria-hidden="true"></div>
+	<div class="hero-map" aria-hidden="true"></div>
 
-  <div class="hero-inner">
-    <div class="hero-content">
-      <h1 class="hero-title">
-        <span class="heading1">{content.titleLine1}</span>
-        <span class="heading1">{content.titleLine2}</span>
-        <span class="script-heading1">{content.highlight}</span>
-        <span class="heading1">{content.titleLine3}</span>
-      </h1>
+	<div class="hero-inner">
+		<div class="hero-content">
+			<h1 class="hero-title">
+				<span class="heading1">{content.titleLine1}</span>
+				<span class="heading1">{content.titleLine2}</span>
+				<span class="script-heading1">{content.highlight}</span>
+				<span class="heading1">{content.titleLine3}</span>
+			</h1>
 
-      <p class="hero-text paragraph-emphasised">{content.intro}</p>
-    </div>
+			<p class="hero-text paragraph-emphasised">{content.intro}</p>
+		</div>
 
-    <aside class="hero-content-test" aria-labelledby="hero-test-title">
-      <p class="test-kicker paragraph-emphasised">{content.testKicker}</p>
+		<aside class="hero-content-test" aria-labelledby="hero-test-title">
+			<p class="test-kicker paragraph-emphasised">{content.testKicker}</p>
 
-      <h2 class="test-title" id="hero-test-title">
-        <span class="heading2">{content.testTitleLine}</span>
-        <span class="script-heading2">{content.testHighlight}</span>
-      </h2>
+			<h2 class="test-title" id="hero-test-title">
+				<span class="heading2">{content.testTitleLine}</span>
+				<span class="script-heading2">{content.testHighlight}</span>
+			</h2>
 
-      <p class="test-description paragraph">{content.testDescription}</p>
-      <p class="test-meta paragraph">{content.testMeta}</p>
+			<p class="test-description paragraph">{content.testDescription}</p>
+			<p class="test-meta paragraph">{content.testMeta}</p>
 
-      <div class="button-row">
-        <Button href={`/${lang}/test/`} label={content.buttonLabel} />
-      </div>
-    </aside>
-  </div>
+			<div class="button-row">
+				<Button
+					client:load
+					variant="primary"
+					href={`/${lang}/test/`}
+					icon="arrow-up-right"
+				>
+					{content.buttonLabel}
+				</Button>
+				<!-- <Button href={`/${lang}/test/`} label={content.buttonLabel} /> -->
+			</div>
+		</aside>
+	</div>
 </section>
 
 <style>
-  .hero {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 4rem;
-    min-height: 100svh;
-    overflow: hidden;
-    background: var(--color-bg);
-    isolation: isolate;
+	.hero {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		gap: 4rem;
+		min-height: 100svh;
+		overflow: hidden;
+		background: var(--color-bg);
+		isolation: isolate;
 
-    padding-top: var(--page-padding-top);
-    padding-right: var(--page-padding-x);
-    padding-bottom: 4rem;
-    padding-left: var(--page-padding-x);
-  }
+		padding-top: var(--page-padding-top);
+		padding-right: var(--page-padding-x);
+		padding-bottom: 4rem;
+		padding-left: var(--page-padding-x);
+	}
 
-  .hero-map {
-  position: absolute;
-  z-index: 0;
+	.hero-map {
+		position: absolute;
+		z-index: 0;
 
-  top: -2svh;
-  left: -3vw;
+		top: -2svh;
+		left: -3vw;
 
-  width: 104vw;
-  height: 88svh;
+		width: 104vw;
+		height: 88svh;
 
-  background-image: url("/images/city-map.svg");
-  background-repeat: no-repeat;
-  background-position: center top;
-  background-size: 100% auto;
+		background-image: url("/images/city-map.svg");
+		background-repeat: no-repeat;
+		background-position: center top;
+		background-size: 100% auto;
 
-  opacity: 0.90;
-  mix-blend-mode: multiply;
-  
+		opacity: 0.9;
+		mix-blend-mode: multiply;
 
-  pointer-events: none;
+		pointer-events: none;
 
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    black 0%,
-    black 85%,
-    transparent 99%
-  );
-  mask-image: linear-gradient(
-    to bottom,
-    black 0%,
-    black 85%,
-    transparent 99%
-  );
-}
-  .hero-content {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-    z-index: 1;
+		-webkit-mask-image: linear-gradient(
+			to bottom,
+			black 0%,
+			black 85%,
+			transparent 99%
+		);
+		mask-image: linear-gradient(
+			to bottom,
+			black 0%,
+			black 85%,
+			transparent 99%
+		);
+	}
+	.hero-content {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		gap: 2rem;
+		z-index: 1;
 
-    width: 100%;
-    max-width: 44rem;
-  }
-  
-  .hero-content-test {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    z-index: 1;
-    padding: 0 20%;
-    padding-top: 8rem;
-  }
+		width: 100%;
+		max-width: 44rem;
+	}
 
-  .hero-title {
-    margin: 0;
-    text-transform: uppercase;
+	.hero-content-test {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+		z-index: 1;
+		padding: 0 20%;
+		padding-top: 8rem;
+	}
 
-    color: var(--color-text);
-  }
+	.hero-title {
+		margin: 0;
+		text-transform: uppercase;
 
-  .hero-title span {
-    display: block;
-    white-space: nowrap;
-  }
+		color: var(--color-text);
+	}
 
-  .hero-text {
-    max-width: 65rem;
-    margin: 0;
-    padding: 0 5%;
+	.hero-title span {
+		display: block;
+		white-space: nowrap;
+	}
 
-    color: var(--color-text);
-  }
+	.hero-text {
+		max-width: 65rem;
+		margin: 0;
+		padding: 0 5%;
 
-  .hero-btn {
-    display: inline-block;
-    margin-top: 1.25rem;
-    padding: 0.75rem 1.25rem;
-    background: var(--color-accent);
-    color: var(--color-bg);
-    font-weight: 700;
-    text-decoration: none;
-    border-radius: 0.5rem;
-  }
+		color: var(--color-text);
+	}
 
-    @media (max-width: 767px) {
-    .hero-map {
-    top: -4svh;
-    left: -14vw;
+	.hero-btn {
+		display: inline-block;
+		margin-top: 1.25rem;
+		padding: 0.75rem 1.25rem;
+		background: var(--color-accent);
+		color: var(--color-bg);
+		font-weight: 700;
+		text-decoration: none;
+		border-radius: 0.5rem;
+	}
 
-    width: 128vw;
-    height: 78svh;
+	@media (max-width: 767px) {
+		.hero-map {
+			top: -4svh;
+			left: -14vw;
 
-    background-size: 100% auto;
-    background-position: center top;
+			width: 128vw;
+			height: 78svh;
 
-    -webkit-mask-image: linear-gradient(
-      to bottom,
-      black 0%,
-      black 52%,
-      rgba(0, 0, 0, 0.55) 68%,
-      transparent 100%
-    );
-    mask-image: linear-gradient(
-      to bottom,
-      black 0%,
-      black 52%,
-      rgba(0, 0, 0, 0.55) 68%,
-      transparent 100%
-    );
-  }
-}
-  @media (min-width: 768px) {
-  .hero-map {
-    top: -2svh;
-    left: -2vw;
+			background-size: 100% auto;
+			background-position: center top;
 
-    width: 104vw;
-    height: 86svh;
+			-webkit-mask-image: linear-gradient(
+				to bottom,
+				black 0%,
+				black 52%,
+				rgba(0, 0, 0, 0.55) 68%,
+				transparent 100%
+			);
+			mask-image: linear-gradient(
+				to bottom,
+				black 0%,
+				black 52%,
+				rgba(0, 0, 0, 0.55) 68%,
+				transparent 100%
+			);
+		}
+	}
+	@media (min-width: 768px) {
+		.hero-map {
+			top: -2svh;
+			left: -2vw;
 
-    background-size: 100% auto;
-    background-position: center top;
-  }
+			width: 104vw;
+			height: 86svh;
 
+			background-size: 100% auto;
+			background-position: center top;
+		}
 
-    .hero-content {
-      max-width: 52rem;
-    }
-  }
- 
-    
-  @media (min-width: 1200px) {
-      .hero-map {
-    top: -2.5svh;
-    left: -1.5vw;
+		.hero-content {
+			max-width: 52rem;
+		}
+	}
 
-    width: 103vw;
-    height: 88svh;
+	@media (min-width: 1200px) {
+		.hero-map {
+			top: -2.5svh;
+			left: -1.5vw;
 
-    background-size: 100% auto;
-    background-position: center top;
-  }
+			width: 103vw;
+			height: 88svh;
 
-    .hero-title {
-      max-width: 58rem;
-    }
-  }
+			background-size: 100% auto;
+			background-position: center top;
+		}
 
-  @media (min-width: 1600px) {
-    .hero-map {
-    top: -3svh;
-    left: -1vw;
+		.hero-title {
+			max-width: 58rem;
+		}
+	}
 
-    width: 102vw;
-    height: 88svh;
+	@media (min-width: 1600px) {
+		.hero-map {
+			top: -3svh;
+			left: -1vw;
 
-    background-size: 100% auto;
-  }
-  }
+			width: 102vw;
+			height: 88svh;
+
+			background-size: 100% auto;
+		}
+	}
 </style>

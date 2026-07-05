@@ -9,6 +9,7 @@ import RankingQuestion from './RankingQuestion';
 import './TestFlow.css';
 import CollectiveNameQuestion from './CollectiveNameQuestion';
 import ResultScreen from './ResultScreen';
+import Button from '../common/button';
 
 type Props = {
   lang: Lang;
@@ -340,14 +341,27 @@ export default function TestFlow({ lang }: Props) {
           {submitError && <p className="result-text">{submitError}</p>}
 
           <div className="test-local-actions">
-            <button type="button" className="test-nav-button text-button" onClick={downloadLocalResults}>
+            {/* <button type="button" className="test-nav-button text-button" onClick={downloadLocalResults}>
               {lang === 'de' ? 'Lokale Ergebnisse herunterladen' : 'Download local results'}
               <i className="ph-bold ph-download-simple" />
-            </button>
+            </button> */}
+            <Button
+              variant="secondary"
+              icon="download-simple"
+              onClick={downloadLocalResults}
+            >
+              {lang === 'de' ? 'Lokale Ergebnisse herunterladen' : 'Download local results'}
+            </Button>
 
-            <button type="button" className="test-nav-button text-button" onClick={startNewTest}>
+            {/* <button type="button" className="test-nav-button text-button" onClick={startNewTest}>
               {lang === 'de' ? 'Neuen Test starten' : 'Start new test'}
-            </button>
+            </button> */}
+            <Button
+              variant="secondary"
+              onClick={startNewTest}
+            >
+              {lang === 'de' ? 'Neuen Test starten' : 'Start new test'}
+            </Button>
           </div>
         </div>
       </section>
