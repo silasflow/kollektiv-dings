@@ -75,9 +75,9 @@ export default function SliderQuestion({
     <section className="test-screen question-screen">
       <div className="question-top">
         <div className="question-copy">
-          <p className="question-category">{question.category[lang]}</p>
+          <p className="question-category script-heading4">{question.category[lang]}</p>
 
-          <h1 className="question-title">{question.title[lang]}</h1>
+          <h1 className="question-title heading3">{question.title[lang]}</h1>
         </div>
 
         <QuestionLineGraphic
@@ -93,10 +93,10 @@ export default function SliderQuestion({
   actsVirtually={actsVirtually}
 />
 
-      <p className="question-answer-text">{answerText}</p>
+      <p className="question-answer-text paragraph-emphasised">{answerText}</p>
 
       <div className="slider-answer-card">
-        <h2>{valueLabel}</h2>
+        <h2 className="heading3">{valueLabel}</h2>
 
         <div className="range-wrap">
           <input
@@ -127,7 +127,7 @@ export default function SliderQuestion({
 </div>
         </div>
 
-        <div className="slider-answer-labels">
+        <div className="slider-answer-labels label">
           <span>{question.minLabel[lang]}</span>
           <span>{question.maxLabel[lang]}</span>
         </div>

@@ -87,8 +87,8 @@ export default function RankingQuestion({
     <section className="test-screen question-screen ranking-screen">
       <div className="question-top">
         <div className="question-copy">
-          <p className="question-category">{question.category[lang]}</p>
-          <h1 className="question-title heading2">{question.title[lang]}</h1>
+          <p className="question-category script-heading4">{question.category[lang]}</p>
+          <h1 className="question-title heading3">{question.title[lang]}</h1>
           <p className="question-answer-text paragraph-emphasised">{question.description[lang]}</p>
         </div>
 

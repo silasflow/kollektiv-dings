@@ -65,13 +65,13 @@ export default function CollectiveNameQuestion({
     <section className="test-screen name-screen">
       <div className="name-content">
         <h1 className="name-title">
-          <span>{t.titleStart}</span>{' '}
-          <span className="name-title-highlight">{t.titleHighlight}</span>{' '}
-          <span className="name-title-end">{t.titleEnd}</span>
+          <span className="heading3">{t.titleStart}</span>{' '}
+          <span className="script-heading3">{t.titleHighlight}</span>{' '}
+          <span className="heading3">{t.titleEnd}</span>
         </h1>
 
         <label className="name-field">
-          <span>{t.nameLabel}</span>
+          <span className="label">{t.nameLabel}</span>
 
           <input
             type="text"
@@ -82,7 +82,7 @@ export default function CollectiveNameQuestion({
         </label>
 
         <label className="name-field">
-          <span>{t.websiteLabel}</span>
+          <span className="label">{t.websiteLabel}</span>
 
           <input
             type="text"
@@ -93,7 +93,7 @@ export default function CollectiveNameQuestion({
         </label>
 
         <label className="name-field">
-          <span>{t.locationLabel}</span>
+          <span className="label">{t.locationLabel}</span>
 
           <input
             type="text"
@@ -114,7 +114,7 @@ export default function CollectiveNameQuestion({
             {consent && <i className="ph-bold ph-check" />}
           </span>
 
-          <span>{t.consent}</span>
+          <span className='paragraph'>{t.consent}</span>
         </label>
       </div>
 
