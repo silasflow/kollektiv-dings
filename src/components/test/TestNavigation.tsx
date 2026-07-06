@@ -1,7 +1,7 @@
 // src/components/test/TestNavigation.tsx
 
 import type { Lang } from '../../data/siteContent';
-import Button from '../common/button';
+import Button from '../common/Button';
 
 type Props = {
   lang: Lang;

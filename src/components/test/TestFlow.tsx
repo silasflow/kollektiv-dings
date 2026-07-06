@@ -9,7 +9,7 @@ import RankingQuestion from './RankingQuestion';
 import './TestFlow.css';
 import CollectiveNameQuestion from './CollectiveNameQuestion';
 import ResultScreen from './ResultScreen';
-import Button from '../common/button';
+import Button from '../common/Button';
 
 type Props = {
   lang: Lang;
