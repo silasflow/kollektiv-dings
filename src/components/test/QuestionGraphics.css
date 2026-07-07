@@ -507,11 +507,12 @@
 @media (min-width: 768px) {
   /* QUESTION SCREENS */
 
-  .question-main-graphic,
+  .question-answer-text .question-main-graphic,
   .slider-answer-card,
   .ranking-list,
   .name-content {
     width: 100%;
+    max-width: 34rem;
     margin-inline: auto;
   }
 

@@ -324,7 +324,7 @@
 }
 
 .question-answer-text {
-  margin: 0;
+  margin: auto;
   max-width: 34rem;
 
   color: var(--color-text);
@@ -443,9 +443,10 @@
 .result-content {
   min-height: 0;
 
-  display: grid;
+  display: flex;
+  flex-direction: column;
   align-content: center;
-  gap: clamp(1rem, 2.5svh, 1.8rem);
+  gap: 2rem;
 
   width: 100%;
   max-width: 34rem;
@@ -525,12 +526,13 @@
 -------------------------------------------------- */
 
 .result-submit-actions {
-  width: min(100%, 34rem);
+  width: 100%;
   margin-inline: auto;
 
   display: flex;
+  flex-grow: 1;
   justify-content: space-between;
-  align-items: center;
+  align-items: end;
   gap: 1rem;
 }
 

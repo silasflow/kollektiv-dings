@@ -68,14 +68,15 @@ export default function Button({
     };
 
 
-    const hoverStyles: React.CSSProperties = {
-        transform: 'scale(1.05) rotate(-3deg)',
-        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+    const hoverStylesPrimary: React.CSSProperties = {
+        outline: "2px solid var(--color-action)",
     };
 
-    const pressedStyles: React.CSSProperties = {
-        transform: 'scale(0.95)',
+    const hoverStylesSecondary: React.CSSProperties = {
+        outline: "2px solid var(--color-text)",
     };
+
+    const hoverStyles = variant === 'primary' ? hoverStylesPrimary : hoverStylesSecondary;
 
     const iconStyles: React.CSSProperties = {
         fontSize: '24px',
@@ -107,13 +108,10 @@ export default function Button({
                     ...buttonStyles,
                     ...(isHovered ? hoverStyles : {}),
                     ...(disabled ? disabledStyles : {}),
-                    ...(isPressed ? pressedStyles : {}),
                 }}
                 onClick={onClick}
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
-                onMouseDown={() => setIsPressed(true)}
-                onMouseUp={() => setIsPressed(false)}
             >
                 {(children) && <span style={{ paddingLeft: '8px', paddingRight: icon ? undefined : '8px' }} className="text-button">{children}</span>}
                 {icon && children &&
@@ -135,13 +133,10 @@ export default function Button({
                 ...buttonStyles,
                 ...(isHovered ? hoverStyles : {}),
                 ...(disabled ? disabledStyles : {}),
-                ...(isPressed ? pressedStyles : {}),
             }}
             onClick={onClick}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
-            onMouseDown={() => setIsPressed(true)}
-            onMouseUp={() => setIsPressed(false)}
         >
             {(children) && <span style={{ paddingLeft: '8px', paddingRight: icon ? undefined : '8px' }} className="text-button">{children}</span>}
             {icon && children &&

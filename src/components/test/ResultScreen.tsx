@@ -112,7 +112,7 @@ export default function ResultScreen({
 
         <Button
           variant="primary"
-          icon="upload-simple"
+          icon="arrow-up-right"
           onClick={onNext}
           disabled={isSubmitting}
         >
