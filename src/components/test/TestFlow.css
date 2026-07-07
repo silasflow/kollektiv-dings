@@ -496,6 +496,82 @@
     opacity: 0.8;
   }
 }
+/* --------------------------------------------------
+   Result submit / database save feedback
+   In TestFlow.css ans Ende hängen.
+-------------------------------------------------- */
+
+.result-submit-actions {
+  width: min(100%, 34rem);
+  margin-inline: auto;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.result-error {
+  width: 100%;
+  margin: 0;
+  padding: 0.85rem 1rem;
+  border-radius: 0.85rem;
+
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--color-text);
+}
+
+.save-result-screen .result-content {
+  max-width: 40rem;
+}
+
+.save-status-card {
+  width: 100%;
+  display: grid;
+  gap: 0.7rem;
+
+  padding: clamp(1rem, 2.5svh, 1.35rem);
+  border-radius: 1rem;
+
+  background: var(--color-card-bg);
+  color: var(--color-text);
+}
+
+.save-status-card p {
+  margin: 0;
+}
+
+.save-status-card--success {
+  border: 2px solid rgba(184, 255, 79, 0.45);
+}
+
+.save-status-card--warning {
+  border: 2px solid rgba(255, 255, 255, 0.28);
+}
+
+.save-status-detail {
+  opacity: 0.85;
+}
+
+.test-done-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+@media (max-width: 700px) {
+  .result-submit-actions,
+  .test-done-actions {
+    width: 100%;
+  }
+
+  .test-done-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
 
 /* --------------------------------------------------
    RESPONSIVE TEST LAYOUT

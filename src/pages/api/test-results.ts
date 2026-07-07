@@ -5,6 +5,33 @@ import { pool } from '../../lib/db';
 
 export const prerender = false;
 
+export const GET: APIRoute = async () => {
+  try {
+    const { rows } = await pool.query(
+      'select count(*)::int as count from public.test_results'
+    );
+
+    return new Response(
+      JSON.stringify({ ok: true, count: rows[0]?.count ?? 0 }),
+      {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+      }
+    );
+  } catch (error) {
+    const detail = error instanceof Error ? error.message : 'Unknown database error';
+    console.error('[api/test-results GET]', error);
+
+    return new Response(
+      JSON.stringify({ error: 'Could not connect to database', detail }),
+      {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' },
+      }
+    );
+  }
+};
+
 export const POST: APIRoute = async ({ request }) => {
   try {
     const body = await request.json();
@@ -22,7 +49,10 @@ export const POST: APIRoute = async ({ request }) => {
     if (!lang || !answers || !result) {
       return new Response(
         JSON.stringify({ error: 'Missing required fields' }),
-        { status: 400 }
+        {
+          status: 400,
+          headers: { 'Content-Type': 'application/json' },
+        }
       );
     }
 
@@ -54,14 +84,21 @@ export const POST: APIRoute = async ({ request }) => {
 
     return new Response(
       JSON.stringify({ ok: true, result: rows[0] }),
-      { status: 201 }
+      {
+        status: 201,
+        headers: { 'Content-Type': 'application/json' },
+      }
     );
   } catch (error) {
-    console.error(error);
+    const detail = error instanceof Error ? error.message : 'Unknown database error';
+    console.error('[api/test-results POST]', error);
 
     return new Response(
-      JSON.stringify({ error: 'Could not save test result' }),
-      { status: 500 }
+      JSON.stringify({ error: 'Could not save test result', detail }),
+      {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' },
+      }
     );
   }
 };

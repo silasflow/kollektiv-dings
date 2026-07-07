@@ -1,7 +1,7 @@
 // src/components/test/ResultScreen.tsx
 
 import type { Lang } from '../../data/siteContent';
-import TestNavigation from './TestNavigation';
+import Button from '../common/Button';
 import QuestionLineGraphic from './QuestionLineGraphic';
 
 type Answers = Record<string, number | string[] | boolean>;
@@ -10,6 +10,8 @@ type Props = {
   lang: Lang;
   answers: Answers;
   collectiveName: string;
+  isSubmitting: boolean;
+  submitError: string | null;
   onBack: () => void;
   onNext: () => void;
 };
@@ -18,12 +20,16 @@ const text = {
   de: {
     kicker: 'Euer Kollektiv-Typ',
     title: 'Ihr seid ein',
-    body: 'Das Ergebnis basiert auf euren Antworten. Das Rautennetz wird zusätzlich gespeichert, damit es später zusammen mit anderen Kollektiven auf der Ergebnisseite angezeigt werden kann.',
+    body: 'Prüft das Ergebnis kurz. Mit „Ergebnis speichern“ sendet ihr es an die Datenbank. Zusätzlich wird beim Speichern immer eine lokale Sicherung im Browser angelegt.',
+    submit: 'Ergebnis speichern',
+    submitting: 'Speichert …',
   },
   en: {
     kicker: 'Your collective type',
     title: 'You are a',
-    body: 'The result is based on your answers. The diamond network is also saved so it can later be displayed together with other collectives on the results page.',
+    body: 'Quickly check the result. With “Save result”, it will be sent to the database. A local browser backup is always created as well.',
+    submit: 'Save result',
+    submitting: 'Saving …',
   },
 } as const;
 
@@ -50,6 +56,8 @@ export default function ResultScreen({
   lang,
   answers,
   collectiveName,
+  isSubmitting,
+  submitError,
   onBack,
   onNext,
 }: Props) {
@@ -90,9 +98,27 @@ export default function ResultScreen({
         </div>
 
         <p className="result-text paragraph">{t.body}</p>
+
+        {submitError && <p className="result-error paragraph">{submitError}</p>}
       </div>
 
-      <TestNavigation lang={lang} onBack={onBack} onNext={onNext} />
+      <div className="result-submit-actions">
+        <Button
+          variant="secondary"
+          icon="arrow-left"
+          onClick={onBack}
+          disabled={isSubmitting}
+        />
+
+        <Button
+          variant="primary"
+          icon="upload-simple"
+          onClick={onNext}
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? t.submitting : t.submit}
+        </Button>
+      </div>
     </section>
   );
 }
