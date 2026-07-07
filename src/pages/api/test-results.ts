@@ -6,10 +6,16 @@ import { pool } from '../../lib/db';
 export const prerender = false;
 
 export const GET: APIRoute = async () => {
+  console.log('[api/test-results GET] route reached');
+
   try {
     const { rows } = await pool.query(
       'select count(*)::int as count from public.test_results'
     );
+
+    console.log('[api/test-results GET] database connected', {
+      count: rows[0]?.count ?? 0,
+    });
 
     return new Response(
       JSON.stringify({ ok: true, count: rows[0]?.count ?? 0 }),
@@ -19,7 +25,7 @@ export const GET: APIRoute = async () => {
       }
     );
   } catch (error) {
-    console.error('[api/test-results GET]', error);
+    console.error('[api/test-results GET] database error', error);
 
     return new Response(
       JSON.stringify({ error: 'Could not connect to database' }),
@@ -32,8 +38,20 @@ export const GET: APIRoute = async () => {
 };
 
 export const POST: APIRoute = async ({ request }) => {
+  console.log('[api/test-results POST] route reached');
+
   try {
     const body = await request.json();
+
+    console.log('[api/test-results POST] body received', {
+      hasLang: Boolean(body.lang),
+      hasAnswers: Boolean(body.answers),
+      hasResult: Boolean(body.result),
+      collectiveName: body.collectiveName,
+      websiteOrInstagram: body.websiteOrInstagram,
+      location: body.location,
+      consentPublic: body.consentPublic,
+    });
 
     const {
       lang,
@@ -46,6 +64,8 @@ export const POST: APIRoute = async ({ request }) => {
     } = body;
 
     if (!lang || !answers || !result) {
+      console.error('[api/test-results POST] missing required fields');
+
       return new Response(
         JSON.stringify({ error: 'Missing required fields' }),
         {
@@ -79,7 +99,14 @@ export const POST: APIRoute = async ({ request }) => {
       JSON.stringify(result),
     ];
 
+    console.log('[api/test-results POST] inserting into database');
+
     const { rows } = await pool.query(query, values);
+
+    console.log('[api/test-results POST] saved successfully', {
+      id: rows[0]?.id,
+      createdAt: rows[0]?.created_at,
+    });
 
     return new Response(
       JSON.stringify({ ok: true, result: rows[0] }),
@@ -89,7 +116,7 @@ export const POST: APIRoute = async ({ request }) => {
       }
     );
   } catch (error) {
-    console.error('[api/test-results POST]', error);
+    console.error('[api/test-results POST] database or insert error', error);
 
     return new Response(
       JSON.stringify({ error: 'Could not save test result' }),
