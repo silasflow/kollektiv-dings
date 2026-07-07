@@ -80,7 +80,7 @@ export default function Button({
     const iconStyles: React.CSSProperties = {
         fontSize: '24px',
         lineHeight: 1,
-    };    
+    };
 
     const disabledStyles: React.CSSProperties = {
         opacity: 0.5,
@@ -101,6 +101,7 @@ export default function Button({
     if (href) {
         return (
             <a
+                className="button"
                 href={href}
                 style={{
                     ...buttonStyles,
@@ -114,7 +115,7 @@ export default function Button({
                 onMouseDown={() => setIsPressed(true)}
                 onMouseUp={() => setIsPressed(false)}
             >
-                { (children) && <span style={{ paddingLeft: '8px', paddingRight: icon ? undefined : '8px' }} className="text-button">{children}</span> }
+                {(children) && <span style={{ paddingLeft: '8px', paddingRight: icon ? undefined : '8px' }} className="text-button">{children}</span>}
                 {icon && children &&
                     <div style={variant === 'primary' ? iconContainerPrimary : iconContainerSecondary}>
                         <i className={`ph-bold ph-${icon}`} style={iconStyles} aria-hidden="true" />
@@ -129,6 +130,7 @@ export default function Button({
 
     return (
         <button
+            className="button"
             style={{
                 ...buttonStyles,
                 ...(isHovered ? hoverStyles : {}),
@@ -141,7 +143,7 @@ export default function Button({
             onMouseDown={() => setIsPressed(true)}
             onMouseUp={() => setIsPressed(false)}
         >
-            { (children) && <span style={{ paddingLeft: '8px', paddingRight: icon ? undefined : '8px' }} className="text-button">{children}</span> }
+            {(children) && <span style={{ paddingLeft: '8px', paddingRight: icon ? undefined : '8px' }} className="text-button">{children}</span>}
             {icon && children &&
                 <div style={variant === 'primary' ? iconContainerPrimary : iconContainerSecondary}>
                     <i className={`ph-bold ph-${icon}`} style={iconStyles} aria-hidden="true" />

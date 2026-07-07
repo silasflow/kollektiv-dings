@@ -111,9 +111,9 @@
 
   @media (max-width: 768px) {
     --size-h1: 3.125rem;
-    --size-h2: 1.5625rem;
-    --size-h3: 1.125rem;
-    --size-h4: 1rem;
+    --size-h2: 2rem;
+    --size-h3: 1.5rem;
+    --size-h4: 1.25rem;
     --size-p: 1rem;
     --size-p-emphasised: 1.125rem;
     --size-p-highlight: 1.35rem;
@@ -268,4 +268,9 @@ p {
 
 .ph-bold {
   font-size: 1.5rem;
+}
+
+.button:focus {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
 }
