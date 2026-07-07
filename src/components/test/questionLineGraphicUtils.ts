@@ -109,6 +109,7 @@ const rankingColors: Record<string, string> = {
   economic: '#8568E8',
   political: '#003930',
   creative: '#CAFBE4',
+  ecological: '#3c0855',
 };
 
 export function getGradientStopsFromRanking(orderedValues: string[]) {
@@ -116,9 +117,10 @@ export function getGradientStopsFromRanking(orderedValues: string[]) {
 
   return [
     { offset: '0%', color: colors[0] ?? '#B8FF4F' },
-    { offset: '33%', color: colors[1] ?? '#8568E8' },
-    { offset: '66%', color: colors[2] ?? '#74F2C8' },
-    { offset: '100%', color: colors[3] ?? '#D8FBE5' },
+    { offset: '25%', color: colors[1] ?? '#8568E8' },
+    { offset: '50%', color: colors[2] ?? '#74F2C8' },
+    { offset: '75%', color: colors[3] ?? '#D8FBE5' },
+    { offset: '100%', color: colors[4] ?? '#3c0855' },
   ];
 }
 
