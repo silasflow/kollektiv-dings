@@ -90,15 +90,13 @@ export default function QuestionLineGraphic(props: Props) {
 
       {points.map((point) => (
         <span
-          key={point.id}
-          className="line-graphic-dot"
-          style={{
-            left: `${point.left}%`,
-            top: `${point.top}%`,
-          }}
-        >
-          ×
-        </span>
+  key={point.id}
+  className="line-graphic-dot"
+  style={{
+    left: `${point.left}%`,
+    top: `${point.top}%`,
+  }}
+/>
       ))}
     </div>
   );
