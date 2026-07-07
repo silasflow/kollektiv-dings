@@ -74,7 +74,7 @@ type TestResultPayload = {
 };
 
 
-type SaveStatus = 'idle' | 'database_saved' | 'local_saved';
+type SaveStatus = 'idle' | 'database_saved' | 'database_failed' | 'local_only';
 
 const STORAGE_KEY = 'stadt-kollektiv-test-state';
 const LOCAL_RESULTS_KEY = 'stadt-kollektiv-local-results';
@@ -210,12 +210,7 @@ export default function TestFlow({ lang }: Props) {
     const data = await response.json().catch(() => null);
 
     if (!response.ok) {
-      const message =
-        data?.detail ??
-        data?.error ??
-        (lang === 'de' ? 'Speichern in der Datenbank fehlgeschlagen.' : 'Saving to the database failed.');
-
-      throw new Error(message);
+      throw new Error(getDatabaseErrorMessage(lang));
     }
 
     return data;
@@ -244,7 +239,7 @@ export default function TestFlow({ lang }: Props) {
 
     if (!ENABLE_BACKEND) {
       setSubmittedId(payload.id);
-      setSaveStatus('local_saved');
+      setSaveStatus('local_only');
       setSubmitError(
         lang === 'de'
           ? 'Backend ist aktuell deaktiviert. Das Ergebnis wurde nur lokal gesichert.'
@@ -263,14 +258,8 @@ export default function TestFlow({ lang }: Props) {
       setSubmitError(null);
     } catch (error) {
       setSubmittedId(payload.id);
-      setSaveStatus('local_saved');
-      setSubmitError(
-        error instanceof Error
-          ? error.message
-          : lang === 'de'
-            ? 'Das Ergebnis konnte nicht in der Datenbank gespeichert werden.'
-            : 'The result could not be saved to the database.'
-      );
+      setSaveStatus('database_failed');
+      setSubmitError(getDatabaseErrorMessage(lang));
     } finally {
       goNext();
       setIsSubmitting(false);
@@ -296,11 +285,11 @@ export default function TestFlow({ lang }: Props) {
     setSubmitError(null);
 
     if (!ENABLE_BACKEND) {
-      setSaveStatus('local_saved');
+      setSaveStatus('local_only');
       setSubmitError(
         lang === 'de'
-          ? 'Backend ist aktuell deaktiviert. Das Ergebnis bleibt lokal gesichert.'
-          : 'Backend is currently disabled. The result remains saved locally.'
+          ? 'Backend ist aktuell deaktiviert. Das Ergebnis bleibt als Sicherheitskopie im Browser.'
+          : 'Backend is currently disabled. The result remains kept as a browser backup.'
       );
       setIsSubmitting(false);
       return;
@@ -313,14 +302,8 @@ export default function TestFlow({ lang }: Props) {
       setSaveStatus('database_saved');
       setSubmitError(null);
     } catch (error) {
-      setSaveStatus('local_saved');
-      setSubmitError(
-        error instanceof Error
-          ? error.message
-          : lang === 'de'
-            ? 'Das Ergebnis konnte weiterhin nicht in der Datenbank gespeichert werden.'
-            : 'The result still could not be saved to the database.'
-      );
+      setSaveStatus('database_failed');
+      setSubmitError(getDatabaseErrorMessage(lang));
     } finally {
       setIsSubmitting(false);
     }
@@ -417,9 +400,13 @@ export default function TestFlow({ lang }: Props) {
                 ? lang === 'de'
                   ? 'Gespeichert'
                   : 'Saved'
-                : lang === 'de'
-                  ? 'Lokal gesichert'
-                  : 'Saved locally'}
+                : saveStatus === 'local_only'
+                  ? lang === 'de'
+                    ? 'Nur lokal zwischengespeichert'
+                    : 'Kept locally only'
+                  : lang === 'de'
+                    ? 'Datenbank nicht erreicht'
+                    : 'Database not reached'}
             </p>
 
             <h1 className="result-title heading2">
@@ -427,9 +414,13 @@ export default function TestFlow({ lang }: Props) {
                 ? lang === 'de'
                   ? 'Das Ergebnis wurde in der Datenbank gespeichert.'
                   : 'The result was saved to the database.'
-                : lang === 'de'
-                  ? 'Die Datenbank-Speicherung hat noch nicht geklappt.'
-                  : 'Saving to the database did not work yet.'}
+                : saveStatus === 'local_only'
+                  ? lang === 'de'
+                    ? 'Das Backend ist gerade deaktiviert.'
+                    : 'The backend is currently disabled.'
+                  : lang === 'de'
+                    ? 'Die Datenbank-Speicherung hat noch nicht geklappt.'
+                    : 'Saving to the database did not work yet.'}
             </h1>
           </div>
 
@@ -439,11 +430,15 @@ export default function TestFlow({ lang }: Props) {
             <p className="paragraph">
               {databaseSaved
                 ? lang === 'de'
-                  ? 'Alles gut: Das Ergebnis ist zusätzlich weiterhin lokal im Browser gesichert.'
-                  : 'All good: the result is also still saved locally in this browser.'
-                : lang === 'de'
-                  ? 'Keine Panik: Das Ergebnis wurde lokal im Browser gesichert. Du kannst den Datenbank-Upload gleich nochmal versuchen oder die lokale JSON-Datei herunterladen.'
-                  : 'No panic: the result was saved locally in this browser. You can try the database upload again or download the local JSON file.'}
+                  ? 'Alles gut: Die Datenbank hat das Ergebnis gespeichert. Eine lokale Sicherheitskopie bleibt zusätzlich in diesem Browser.'
+                  : 'All good: the database saved the result. A local browser backup remains as well.'
+                : saveStatus === 'local_only'
+                  ? lang === 'de'
+                    ? 'Das Ergebnis wurde als Sicherheitskopie im Browser behalten. Du kannst die lokale JSON-Datei herunterladen und später importieren oder übertragen.'
+                    : 'The result was kept as a browser backup. You can download the local JSON file and import or transfer it later.'
+                  : lang === 'de'
+                    ? 'Der Datenbank-Upload konnte gerade nicht abgeschlossen werden. Das Ergebnis wurde vorsorglich als Sicherheitskopie im Browser behalten.'
+                    : 'The database upload could not be completed right now. The result was kept as a browser backup.'}
             </p>
 
             {submitError && <p className="save-status-detail paragraph">{submitError}</p>}
@@ -563,6 +558,12 @@ export default function TestFlow({ lang }: Props) {
   }
 
   return null;
+}
+
+function getDatabaseErrorMessage(lang: Lang): string {
+  return lang === 'de'
+    ? 'Die Datenbank konnte gerade nicht erreicht werden. Bitte versuche es nochmal oder lade die lokale JSON-Datei als Sicherung herunter.'
+    : 'The database could not be reached right now. Please try again or download the local JSON file as a backup.';
 }
 
 function buildTestResultPayload({

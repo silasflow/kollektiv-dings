@@ -19,11 +19,10 @@ export const GET: APIRoute = async () => {
       }
     );
   } catch (error) {
-    const detail = error instanceof Error ? error.message : 'Unknown database error';
     console.error('[api/test-results GET]', error);
 
     return new Response(
-      JSON.stringify({ error: 'Could not connect to database', detail }),
+      JSON.stringify({ error: 'Could not connect to database' }),
       {
         status: 500,
         headers: { 'Content-Type': 'application/json' },
@@ -90,11 +89,10 @@ export const POST: APIRoute = async ({ request }) => {
       }
     );
   } catch (error) {
-    const detail = error instanceof Error ? error.message : 'Unknown database error';
     console.error('[api/test-results POST]', error);
 
     return new Response(
-      JSON.stringify({ error: 'Could not save test result', detail }),
+      JSON.stringify({ error: 'Could not save test result' }),
       {
         status: 500,
         headers: { 'Content-Type': 'application/json' },
