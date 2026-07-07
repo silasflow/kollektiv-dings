@@ -74,66 +74,66 @@ export const testQuestions: TestQuestion[] = [
       en: '1/5 Formalization',
     },
     title: {
-      de: 'Wie sind die Strukturen und Entscheidungsprozesse in eurem Kollektiv organisiert?',
-      en: 'How are the structures and decision-making processes organised within your collective??',
+      de: 'Wie trefft ihr Entscheidungen und wie sind eure Regeln?',
+      en: 'How do you make decisions and what are your rules?',
     },
     valueLabels: [
       {
         min: 0,
         max: 33,
         label: {
-          de: 'Informell',
-          en: 'Informal',
+          de: 'zwanglos',
+          en: 'informal',
         }
       },
       {
         min: 34,
         max: 66,
         label: {
-          de: 'Teilweise formalisiert',
-          en: 'Partially formalized',
+          de: 'teilweise strukturiert',
+          en: 'partially structured',
         }
       },
       {
         min: 67,
         max: 100,
         label: {
-          de: 'Formalisiert',
-          en: 'Formalized',
+          de: 'komplett strukturiert',
+          en: 'Fully structured',
         }
       }
     ],
     minLabel: {
-      de: 'informell',
+      de: 'zwanglos',
       en: 'Informal',
     },
     maxLabel: {
-      de: 'Formalisiert',
-      en: 'Formalized',
+      de: 'komplett strukturiert',
+      en: 'Fully structured',
     },
     answerTexts: [
       {
         min: 0,
         max: 33,
         text: {
-          de: 'Wir handeln spontan und flexibel – ohne feste Regeln, Statuten oder formelle Führungsstrukturen. Unsere Praktiken entwickeln sich durch direkte Aushandlung.',
-          en: 'We act spontaneously and flexibly – without fixed rules, statutes or formal management structures. Our practices evolve through direct negotiation.',
+          de: '„Wir machen einfach, was gerade nötig ist – ohne feste Regeln oder Rollen. Alles wird einfach besprochen.“ ',
+          en: '"We just do what is needed at the moment – without fixed rules or roles. Everything is simply discussed."',
         },
       },
       {
         min: 34,
         max: 66,
         text: {
-          de: 'Wir haben bereits einige feste Abläufe und Rollen, aber keine formale Satzung oder Rechtspersönlichkeit. Entscheidungen werden gemeinsam ausgehandelt, und es gibt erste bürokratische Elemente.',
-          en: 'We already have a number of established procedures and roles, but no formal constitution or legal status. Decisions are negotiated collectively, and the first signs of bureaucracy are beginning to emerge.',
+          de: '„Wir haben ein paar feste Abläufe und Rollen, aber keine offizielle Satzung. Entscheidungen treffen wir gemeinsam.“',
+          en: '"We have some fixed processes and roles, but no official constitution. We make decisions together."',
         },
       },
       {
         min: 67,
         max: 100,
         text: {
-          de: 'Unser Kollektiv ist klar strukturiert: Wir haben Statuten, feste Mitgliedschaftskriterien und formelle Entscheidungsgremien. Unsere Prozesse sind institutionalisiert und bürokratisch verankert.',
-          en: 'Our collective is clearly structured: we have a constitution, fixed membership criteria and formal decision-making bodies. Our processes are institutionalised and embedded within a bureaucratic framework.',
+          de: '„Wir haben klare Regeln, eine Art Satzung, Mitgliedschaftsbedingungen oder offizielle Rollen. Alles ist fest strukturiert.“',
+          en: '"We have clear rules, a kind of constitution, membership conditions or official roles. Everything is firmly structured."',
         },
       },
      
@@ -149,8 +149,8 @@ export const testQuestions: TestQuestion[] = [
       en: '2/5 Time',
     },
     title: {
-      de: 'Wie lange und in welchem Rhythmus agiert euer Kollektiv?',
-      en: 'How long has your collective been active, and how often do you meet?',
+      de: 'Wie lange existiert euer Kollektiv und wie oft kommt ihr zusammen?',
+      en: 'How long has your collective existed and how often do you meet?',
     },
     valueLabels: [
       {
@@ -165,8 +165,8 @@ export const testQuestions: TestQuestion[] = [
         min: 34,
         max: 66,
         label: {
-          de: 'regelmäßig',
-          en: 'regularly',
+          de: 'zeitlich begrenzt/ wiederkehrend',
+          en: 'periodically',
         }
       },
       {
@@ -191,24 +191,24 @@ export const testQuestions: TestQuestion[] = [
         min: 0,
         max: 33,
         text: {
-          de: 'Unser Kollektiv entsteht spontan und löst sich schnell wieder auf – wir handeln kurzfristig und ungeplant.',
-          en: 'Our collective comes together spontaneously and quickly disbands again – we act on the spur of the moment and without planning.',
+          de: '„Wir kommen spontan zusammen und lösen uns schnell wieder auf.“',
+          en: '"We come together spontaneously and quickly dissolve again."',
         },
       },
       {
         min: 34,
         max: 66,
         text: {
-         de: 'Unser Kollektiv hat einen klaren Zeitrahmen oder kehrt regelmäßig zurück – z. B. für Projekte oder jährliche Events.',
-         en: 'Our collective has a clear timeframe or meets regularly – for example, for projects or annual events.',
+         de: '„Wir haben einen festen Zeitrahmen oder treffen uns regelmäßig – z. B. für Projekte oder Events.“ ',
+         en: '"We have a fixed time frame or meet regularly – e.g. for projects or events."',
    },
       },
       {
         min: 67,
         max: 100,
         text: {
-          de: 'Unser Kollektiv besteht dauerhaft und hat langfristige Strukturen.',
-          en: 'Our collective is permanent and has long-term structures.',
+          de: '„Uns gibt es schon länger und wir arbeiten dauerhaft zusammen.“',
+          en: '"We have existed for a while and work together permanently."',
         },
       },
     ],
@@ -223,8 +223,8 @@ export const testQuestions: TestQuestion[] = [
       en: '3/5 Identity',
     },
     title: {
-      de: 'Wie stark ausgeprägt ist die gemeinsame Identität in eurem Kollektiv?',
-      en: 'How strong is the shared identity in your collective?',
+      de: 'Wie sehr fühlt ihr euch als Kollektiv verbunden und wie ausgeprägt ist eure gemeinsame Identität?',
+      en: 'How strongly do you feel connected as a collective and how pronounced is your shared identity?',
     },
     valueLabels: [
       {
@@ -239,15 +239,15 @@ export const testQuestions: TestQuestion[] = [
         min: 26,
         max: 50,
         label: {
-          de: 'geteilte Werte',
-          en: 'shared values',
+          de: 'geteiltes Problembewusstsein',
+          en: 'shared problem awareness',
         },
       },
       {
         min: 51,
         max: 75,
         label: {
-          de: 'stabile Identität',
+          de: 'stabilisierte Identität',
           en: 'stable identity',
         },
       },
@@ -273,32 +273,32 @@ export const testQuestions: TestQuestion[] = [
         min: 0,
         max: 25,
         text: {
-          de: 'Unsere Identität basiert auf sozialen Kontakten – wir haben ein gemeinsames Erlebnis oder Ziel, aber noch keine festen Strukturen.',
-          en: 'Our identity is based on social contacts – we share an experience or a goal, but do not yet have any fixed structures.',
+          de: '„Wir sind durch unseren sozialen Kontakt verbunden. Was uns verbindet ist ein gemeinsames Erlebnis.“',
+          en: '"We are connected through our social contact. What connects us is a shared experience."',
         },
       },
       {
         min: 26,
         max: 50,
         text: {
-         de: 'Wir haben ein klares Problembewusstsein und einen geteilten Konsens, der unser Handeln leitet – auch wenn es manchmal Konflikte gibt.',
-         en: 'We have a clear awareness of the problem and a shared consensus that guides our actions – even if there are sometimes conflicts.',
+         de: '„Wir kennen uns gut, haben ein gemeinsames Ziel, und handeln danach.“ ',
+         en: '"We know each other well, have a common goal, and act accordingly."',
    },
       },
       {
         min: 51,
         max: 75,
         text: {
-          de: 'Unsere Identität ist stabil: Wir haben ein starkes Wir-Gefühl, feste Strukturen und institutionalisierte Positionen.',
-          en: 'Our identity is stable: we have a strong sense of togetherness, solid structures and institutionalised roles.',
+          de: '„Wir haben ein starkes Wir-Gefühl, feste Strukturen und klare Positionen.“ ',
+          en: '"We have a strong sense of togetherness, established structures and clear positions."',
         },
       },
        {
         min: 76,
         max: 100,
         text: {
-          de: 'Unsere Identität ist etabliert: Wir haben eine geteilte Geschichte, ein Narrativ und werden als Kollektiv anerkannt.',
-          en: 'Our identity is well established: we share a common history and narrative, and are recognised as a collective.',
+          de: '„Wir haben eine gemeinsame Geschichte, werden als Gruppe anerkannt und haben eine klare Identität.“',
+          en: '"We have a shared history, are recognized as a group and have a clear identity."',
         },
       },
     ],
@@ -313,8 +313,8 @@ export const testQuestions: TestQuestion[] = [
       en: '4/5 Spatial Placement',
     },
     title: {
-      de: 'Wie ist euer Kollektiv räumlich verankert?',
-      en: 'Where is your collective based?',
+      de: 'Wo findet eure primär Arbeit statt?',
+      en: 'Where does your primary work take place?',
     },
     valueLabels: [
       {
@@ -357,24 +357,24 @@ export const testQuestions: TestQuestion[] = [
         min: 0,
         max: 33,
         text: {
-          de: 'Unser Kollektiv ist lokal verankert – unser Handeln und unsere Identität sind an einen konkreten Ort gebunden.',
-          en: 'Our collective has strong local roots – our actions and our identity are tied to a specific place.',
+          de: '„Wir sind an einem konkreten Ort in einer bestimmten Gegend aktiv.“ ',
+          en: '"We are active in a specific place in a certain area."',
         },
       },
       {
         min: 34,
         max: 66,
         text: {
-         de: 'Unser Kollektiv verbindet mehrere lokale Räume.',
-         en: 'Our collective brings together several local spaces.',
+         de: '„Wir arbeiten in mehreren Orten oder Regionen zusammen.“',
+         en: '"We work together in several places or regions."',
    },
       },
       {
         min: 67,
         max: 100,
         text: {
-          de: 'Unser Kollektiv hat globale Reichweite und ist in mehreren Nationen vertreten.',
-          en: 'Our collective has global reach and is represented in several countries.',
+          de: '„Wir sind in mehreren Ländern oder weltweit aktiv.“',
+          en: '"We are active in several countries or globally."',
         },
       },
     ],
@@ -388,12 +388,12 @@ export const testQuestions: TestQuestion[] = [
       en: '5/5 Goals',
     },
     title: {
-      de: 'Wie sieht das primäre Ziel eures Kollektivs aus?',
-      en: 'What is the primary goal of your collective?',
+      de: 'Welche der Methoden passt am besten zu eurem Kollektiv?',
+      en: 'Which method best fits your collective?',
     },
     description: {
-      de: 'Wählt die Ziele aus, die für euer Kollektiv besonders wichtig sind.',
-      en: 'Select the goals that are especially important for your collective.',
+      de: 'Wählt die Methoden aus, die für euer Kollektiv besonders wichtig sind.',
+      en: 'Select the methods that are especially important for your collective.',
     },
     options: [
       {
@@ -422,6 +422,13 @@ export const testQuestions: TestQuestion[] = [
         label: {
           de: 'Sozial',
           en: 'Social',
+        },
+      },
+      {
+        id: 'ecological',
+        label: {
+          de: 'Ökologisch',
+          en: 'Ecological',
         },
       },
     ],
