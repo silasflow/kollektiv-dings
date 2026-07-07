@@ -196,15 +196,17 @@ export default function TestFlow({ lang }: Props) {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        lang: payload.lang,
-        collectiveName: payload.collectiveName,
-        websiteOrInstagram: payload.websiteOrInstagram,
-        location: payload.location,
-        consentPublic: payload.consentPublic,
-        answers: payload.answers,
-        result: payload.result,
-      }),
+     body: JSON.stringify({
+  id: payload.id,
+  createdAt: payload.createdAt,
+  lang: payload.lang,
+  collectiveName: payload.collectiveName,
+  websiteOrInstagram: payload.websiteOrInstagram,
+  location: payload.location,
+  consentPublic: payload.consentPublic,
+  answers: payload.answers,
+  result: payload.result,
+}),
     });
 
     const data = await response.json().catch(() => null);
