@@ -19,9 +19,8 @@ type Props = {
 
 const text = {
   de: {
-    titleStart: 'Erzählt uns kurz, wer euer',
+    titleStart: 'Erzählt uns mehr über euer',
     titleHighlight: 'Kollektiv',
-    titleEnd: 'ist',
     nameLabel: 'Kollektivname',
     namePlaceholder: 'Name eingeben',
     websiteLabel: 'Website oder Instagram',
@@ -32,9 +31,8 @@ const text = {
       'Ich stimme zu, dass Name, Standort, Website/Insta und Ergebnis öffentlich auf der Website angezeigt werden dürfen.',
   },
   en: {
-    titleStart: 'Tell us briefly who your',
+    titleStart: 'Tell us more about your',
     titleHighlight: 'collective',
-    titleEnd: 'is',
     nameLabel: 'Collective name',
     namePlaceholder: 'Enter name',
     websiteLabel: 'Website or Instagram',
@@ -67,7 +65,6 @@ export default function CollectiveNameQuestion({
         <h1 className="name-title">
           <span className="heading3">{t.titleStart}</span>{' '}
           <span className="script-heading3">{t.titleHighlight}</span>{' '}
-          <span className="heading3">{t.titleEnd}</span>
         </h1>
 
         <label className="name-field">
