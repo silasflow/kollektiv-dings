@@ -507,13 +507,11 @@
 @media (min-width: 768px) {
   /* QUESTION SCREENS */
 
-  .question-answer-text,
   .question-main-graphic,
   .slider-answer-card,
   .ranking-list,
   .name-content {
     width: 100%;
-    max-width: 38rem;
     margin-inline: auto;
   }
 
@@ -576,15 +574,6 @@
 }
 
 @media (min-width: 1200px) {
-
-  .intro-content,
-  .question-answer-text,
-  .question-main-graphic,
-  .slider-answer-card,
-  .ranking-list,
-  .name-content {
-    max-width: 38rem;
-  }
 
   .question-main-graphic {
     height: clamp(8rem, 18vh, 12rem);

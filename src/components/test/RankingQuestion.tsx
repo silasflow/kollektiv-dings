@@ -52,21 +52,21 @@ export default function RankingQuestion({
       : question.options.map((option) => option.id);
 
   const sensors = useSensors(
-  useSensor(MouseSensor, {
-    activationConstraint: {
-      distance: 6,
-    },
-  }),
-  useSensor(TouchSensor, {
-    activationConstraint: {
-      delay: 120,
-      tolerance: 8,
-    },
-  }),
-  useSensor(KeyboardSensor, {
-    coordinateGetter: sortableKeyboardCoordinates,
-  })
-);
+    useSensor(MouseSensor, {
+      activationConstraint: {
+        distance: 6,
+      },
+    }),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 120,
+        tolerance: 8,
+      },
+    }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
 
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event;
@@ -89,7 +89,7 @@ export default function RankingQuestion({
         <div className="question-copy">
           <p className="question-category script-heading4">{question.category[lang]}</p>
           <h1 className="question-title heading3">{question.title[lang]}</h1>
-          <p className="question-answer-text paragraph-emphasised">{question.description[lang]}</p>
+          <p className="paragraph-emphasised">{question.description[lang]}</p>
         </div>
 
         <QuestionLineGraphic
@@ -148,27 +148,27 @@ function SortableRankingItem({
   };
 
   return (
-  <li
-    ref={setNodeRef}
-    style={style}
-    className={`ranking-item ${isDragging ? 'ranking-item--dragging' : ''}`}
-  >
-    <span className="ranking-number paragraph">{index + 1}</span>
-
-    <div
-      className="ranking-card"
-      {...attributes}
-      {...listeners}
+    <li
+      ref={setNodeRef}
+      style={style}
+      className={`ranking-item ${isDragging ? 'ranking-item--dragging' : ''}`}
     >
-      <span className="ranking-label text-button">{label}</span>
+      <span className="ranking-number paragraph">{index + 1}</span>
 
-      <span
-        className="ranking-handle"
-        aria-hidden="true"
+      <div
+        className="ranking-card"
+        {...attributes}
+        {...listeners}
       >
-        <i className="ph-bold ph-dots-six-vertical" />
-      </span>
-    </div>
-  </li>
-);
+        <span className="ranking-label text-button">{label}</span>
+
+        <span
+          className="ranking-handle"
+          aria-hidden="true"
+        >
+          <i className="ph-bold ph-dots-six-vertical" />
+        </span>
+      </div>
+    </li>
+  );
 }
