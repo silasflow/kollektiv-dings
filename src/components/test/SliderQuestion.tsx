@@ -88,68 +88,70 @@ export default function SliderQuestion({
       </div>
 
       <QuestionMainGraphic
-  questionId={question.id}
-  value={value}
-  actsVirtually={actsVirtually}
-/>
+        questionId={question.id}
+        value={value}
+        actsVirtually={actsVirtually}
+      />
 
-      <p className="question-answer-text paragraph-emphasised">{answerText}</p>
+      <div className="question-container">
+        <p className="question-answer-text paragraph-emphasised">{answerText}</p>
 
-      <div className="slider-answer-card">
-        <h2 className="heading3">{valueLabel}</h2>
+        <div className="slider-answer-card">
+          <h2 className="heading3">{valueLabel}</h2>
 
-        <div className="range-wrap">
-          <input
-            className="range-input"
-            type="range"
-            min="0"
-            max="100"
-            value={value}
-            onChange={(event) => onChange(Number(event.target.value))}
-            aria-label={question.title[lang]}
-          />
+          <div className="range-wrap">
+            <input
+              className="range-input"
+              type="range"
+              min="0"
+              max="100"
+              value={value}
+              onChange={(event) => onChange(Number(event.target.value))}
+              aria-label={question.title[lang]}
+            />
 
-          <div
-            className="range-thumb-visual"
-            style={{ left: `${value}%` }}
-            aria-hidden="true"
-          >
-            <i className="ph-bold ph-dots-six" />
+            <div
+              className="range-thumb-visual"
+              style={{ left: `${value}%` }}
+              aria-hidden="true"
+            >
+              <i className="ph-bold ph-dots-six" />
+            </div>
+            <div className="range-thresholds" aria-hidden="true">
+              {thresholds.map((threshold) => (
+                <span
+                  key={threshold}
+                  className="range-threshold"
+                  style={{ left: `${threshold}%` }}
+                />
+              ))}
+            </div>
           </div>
-          <div className="range-thresholds" aria-hidden="true">
-  {thresholds.map((threshold) => (
-    <span
-      key={threshold}
-      className="range-threshold"
-      style={{ left: `${threshold}%` }}
-    />
-  ))}
-</div>
+
+          <div className="slider-answer-labels label">
+            <span>{question.minLabel[lang]}</span>
+            <span>{question.maxLabel[lang]}</span>
+          </div>
         </div>
 
-        <div className="slider-answer-labels label">
-          <span>{question.minLabel[lang]}</span>
-          <span>{question.maxLabel[lang]}</span>
-        </div>
+        {isVirtualOptionVisible && (
+          <label className="consent-field">
+            <input
+              type="checkbox"
+              checked={actsVirtually}
+              onChange={(event) => onVirtualChange?.(event.target.checked)}
+            />
+
+            <span className="consent-box" aria-hidden="true">
+              {actsVirtually && <i className="ph-bold ph-check" />}
+            </span>
+
+            <span>{virtualText[lang]}</span>
+          </label>
+        )}
+
+        <TestNavigation lang={lang} onBack={onBack} onNext={onNext} />
       </div>
-
-      {isVirtualOptionVisible && (
-        <label className="consent-field">
-          <input
-            type="checkbox"
-            checked={actsVirtually}
-            onChange={(event) => onVirtualChange?.(event.target.checked)}
-          />
-
-          <span className="consent-box" aria-hidden="true">
-            {actsVirtually && <i className="ph-bold ph-check" />}
-          </span>
-
-          <span>{virtualText[lang]}</span>
-        </label>
-      )}
-
-      <TestNavigation lang={lang} onBack={onBack} onNext={onNext} />
     </section>
   );
 }
