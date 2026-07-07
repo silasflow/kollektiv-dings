@@ -1,0 +1,137 @@
+/* SliderQuestion.css — Slider-Frage, Range Input und Slider-Antwortkarte.
+   Aus der bisherigen TestFlow.css ausgelagert, ohne CSS-Werte zu verändern. */
+
+.range-thresholds {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.range-threshold {
+  position: absolute;
+  top: 50%;
+
+  width: 0.5rem;
+  height: 0.7rem;
+
+  background: var(--color-card-bg);
+
+  transform: translate(-50%, -50%);
+}
+
+/* SLIDER ANSWER */
+
+.slider-answer-card {
+  padding: clamp(0.9rem, 2.5svh, 1.25rem);
+  border-radius: 0.8rem;
+
+  background: var(--color-card-bg);
+
+  h2 {
+    text-transform: uppercase;
+    text-align: center;
+  }
+}
+
+.slider-answer-card h2 {
+  margin: 0 0 0.9rem;
+}
+
+.range-wrap {
+  position: relative;
+  height: 2.2rem;
+}
+
+.range-input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+
+  opacity: 0;
+  cursor: grabbing;
+  z-index: 3;
+}
+
+.range-wrap::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+
+  height: 0.28rem;
+  border-radius: 999rem;
+  background: rgba(19, 54, 47, 0.9);
+
+  transform: translateY(-50%);
+}
+
+.range-thumb-visual {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+
+  display: grid;
+  place-items: center;
+
+  width: 3rem;
+  height: 2.5rem;
+
+  border-radius: 0.5rem;
+  border: 0.1250rem solid var(--color-text);
+  background: var(--color-action);
+  color: var(--color-text);
+  font-size: 1.5rem;
+
+  transform: translate(-50%, -50%);
+  cursor: grabbing;
+}
+
+.slider-answer-labels {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+
+  margin-top: 0.75rem;
+
+  color: var(--color-text);
+}
+
+@media (min-width: 768px) {
+  /* SLIDER */
+
+  .slider-answer-card {
+      padding: clamp(1rem, 2.2vh, 1.25rem);
+    }
+
+  .slider-answer-card h2 {
+      font-size: clamp(1rem, 2vw, 1.25rem);
+    }
+}
+
+@media (max-height: 720px) {
+  /* SLIDER */
+
+  .slider-answer-card {
+      padding: 0.65rem;
+    }
+
+  .slider-answer-card h2 {
+      margin-bottom: 0.55rem;
+      font-size: 0.9rem;
+    }
+
+  .range-wrap {
+      height: 1.8rem;
+    }
+
+  .range-thumb-visual {
+      width: 2rem;
+      height: 2rem;
+    }
+
+  .slider-answer-labels {
+      margin-top: 0.45rem;
+    }
+}

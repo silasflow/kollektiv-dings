@@ -132,11 +132,7 @@ function IdentityGraphic({ value }: { value: number }) {
     'M55.7574 107.243C58.1005 104.899 61.8995 104.899 64.2426 107.243L71.7574 114.757C74.1005 117.101 74.1005 120.899 71.7574 123.243L64.2426 130.757C61.8995 133.101 58.1005 133.101 55.7574 130.757L48.2426 123.243C45.8995 120.899 45.8995 117.101 48.2426 114.757L55.7574 107.243Z',
   ];
 
-  /*
-    Die Reihenfolge kannst du frei ändern.
-    Wichtig: sie enthält alle 16 IDs aus der SVG.
-    Links sind mindestens 3 gefüllt, rechts alle.
-  */
+  
   const fillOrder = [0, 7, 4, 13, 5, 6, 14, 8, 2, 1, 11, 15, 3, 12, 10, 9];
 
   const filledCount = Math.max(
@@ -153,7 +149,7 @@ function IdentityGraphic({ value }: { value: number }) {
     >
       <svg
         className="identity-graphic"
-        viewBox="-120 0 400 400"
+        viewBox="0 0 160 160"
         preserveAspectRatio="xMidYMid meet"
       >
         <defs>

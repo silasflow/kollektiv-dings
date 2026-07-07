@@ -1,0 +1,318 @@
+/* RankingQuestion.css — Ranking-Frage und Drag-and-drop-Karten.
+   Aus der bisherigen TestFlow.css ausgelagert, ohne CSS-Werte zu verändern. */
+
+/* RANKING QUESTION */
+
+.ranking-screen {
+  grid-template-rows:
+    auto auto minmax(0, 1fr);
+  gap: clamp(0.65rem, 1.6svh, 1rem);
+}
+
+.ranking-list {
+  display: grid;
+  gap: clamp(0.65rem, 1.5svh, 0.95rem);
+
+  padding: 0;
+  list-style: none;
+
+  min-height: 0;
+  align-content: center;
+  align-self: end;
+}
+
+.ranking-item {
+  display: grid;
+  grid-template-columns: clamp(2.5rem, 7svh, 3rem) minmax(0, 1fr);
+  align-items: center;
+  gap: 0.65rem;
+
+  touch-action: none;
+}
+
+.ranking-number {
+  display: grid;
+  place-items: center;
+
+  width: clamp(2.5rem, 7svh, 3rem);
+  height: clamp(2.5rem, 7svh, 3rem);
+
+  border-radius: 0.8rem;
+  background: var(--color-card-bg);
+
+  color: var(--color-text);
+}
+
+.ranking-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+
+  min-height: clamp(3rem, 7svh, 3.45rem);
+  padding: 0.45rem 0.45rem 0.45rem clamp(0.9rem, 3vw, 1.25rem);
+
+  border-radius: 0.75rem;
+  background: var(--brand-fresh-white);
+  color: var(--color-text-inverted);
+
+  box-shadow: 0 0.75rem 1.2rem rgba(0, 0, 0, 0.16);
+
+  transition:
+    transform 160ms ease,
+    box-shadow 160ms ease;
+
+  touch-action: none;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+
+}
+
+.ranking-card:active {
+  cursor: grabbing;
+}
+
+.ranking-handle {
+  pointer-events: none;
+}
+
+.ranking-item:first-child {
+  position: relative;
+  margin-bottom: clamp(0.25rem, 0.8svh, 0.45rem);
+}
+
+.ranking-item:first-child::after {
+  content: '';
+  position: absolute;
+  z-index: 0;
+
+  left: clamp(1rem, 7svh, 5rem);
+  right: 0;
+  top: 0.55rem;
+  bottom: -0.45rem;
+
+  border-radius: 0.75rem;
+  background: rgba(0, 0, 0, 0.25);
+  filter: blur(0.1rem);
+}
+
+.ranking-item:first-child .ranking-number,
+.ranking-item:first-child .ranking-card {
+  position: relative;
+  z-index: 1;
+}
+
+.ranking-item:first-child .ranking-card {
+  transform: rotate(-2deg);
+  border: 2px solid var(--color-action);
+
+  /* Schatten hier rausnehmen, sonst dreht er sich mit */
+  box-shadow: none;
+}
+
+.ranking-item--dragging {
+  z-index: 10;
+  opacity: 0.96;
+}
+
+.ranking-item--dragging .ranking-card {
+  transform: rotate(-2deg) scale(1.15);
+  border-color: var(--color-action);
+  box-shadow: none;
+}
+
+.ranking-label {
+  min-width: 0;
+  text-transform: uppercase;
+
+  color: var(--color-text-inverted);
+  opacity: 1;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ranking-handle {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+
+  width: clamp(2.1rem, 5.7svh, 2.75rem);
+  height: clamp(2.1rem, 5.7svh, 2.75rem);
+
+  border: 0;
+  border-radius: 0.45rem;
+
+  appearance: none;
+  -webkit-appearance: none;
+
+  background: var(--color-action);
+  color: var(--color-text);
+
+  font-size: clamp(1.05rem, 3svh, 1.35rem);
+  cursor: grab;
+}
+
+.ranking-handle:focus {
+  outline: none;
+}
+
+.ranking-handle:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+.ranking-handle:active {
+  cursor: grabbing;
+}
+
+@media (min-width: 768px) {
+  .ranking-list {
+      width: 100%;
+      max-width: 34rem;
+      margin-inline: auto;
+    }
+}
+
+@media (min-width: 768px) {
+  /* RANKING */
+
+  .ranking-list {
+      gap: clamp(0.45rem, 1.2vh, 0.65rem);
+    }
+
+  .ranking-item {
+      grid-template-columns: clamp(2.6rem, 5vh, 3rem) minmax(0, 1fr);
+    }
+
+  .ranking-card {
+      min-height: clamp(3rem, 6.2vh, 3.45rem);
+    }
+
+  .ranking-label {
+      font-size: clamp(0.95rem, 1.8vw, 1.08rem);
+    }
+}
+
+@media (max-height: 720px) {
+  .intro-content,
+    .question-screen,
+    .ranking-screen,
+    .name-content {
+      gap: 0.5rem;
+    }
+
+  /* RANKING */
+
+  .ranking-screen {
+      gap: 0.45rem;
+    }
+
+  .ranking-list {
+      gap: 0.5rem;
+    }
+
+  .ranking-item:first-child {
+      margin-bottom: 0.25rem;
+    }
+
+  .ranking-card {
+      min-height: 2.45rem;
+      padding: 0.3rem 0.35rem 0.3rem 0.75rem;
+    }
+
+  .ranking-number {
+      width: 2.35rem;
+      height: 2.35rem;
+      border-radius: 0.65rem;
+      font-size: 0.95rem;
+    }
+
+  .ranking-item {
+      grid-template-columns: 2.35rem minmax(0, 1fr);
+      gap: 0.45rem;
+    }
+
+  .ranking-handle {
+      width: 2rem;
+      height: 2rem;
+      font-size: 1.05rem;
+    }
+
+  .ranking-label {
+      font-size: 0.88rem;
+    }
+}
+
+@media (max-width: 390px) {
+  .ranking-label {
+      font-size: 0.84rem;
+    }
+
+  .ranking-card {
+      padding-left: 0.7rem;
+    }
+}
+
+@media (max-width: 390px) and (max-height: 720px) {
+  .ranking-list {
+      gap: 0.42rem;
+    }
+
+  .ranking-item:first-child {
+      margin-bottom: 0.2rem;
+    }
+
+  .ranking-card {
+      min-height: 2.25rem;
+    }
+
+  .ranking-number {
+      width: 2.15rem;
+      height: 2.15rem;
+    }
+
+  .ranking-item {
+      grid-template-columns: 2.15rem minmax(0, 1fr);
+    }
+
+  .ranking-handle {
+      width: 1.85rem;
+      height: 1.85rem;
+    }
+}
+
+.question-screen:not(.ranking-screen):not(.name-screen):not(.result-screen) {
+  --q-graphic-zone: clamp(6.8rem, 19svh, 11.2rem);
+  --q-graphic-size: clamp(6.5rem, 16svh, 9rem);
+
+  grid-template-rows:
+    auto
+    var(--q-graphic-zone)
+    auto
+    auto;
+
+  gap: clamp(0.55rem, 1.25svh, 0.9rem);
+}
+
+@media (max-width: 700px) {
+  .question-screen:not(.ranking-screen):not(.name-screen):not(.result-screen) {
+      --q-graphic-zone: clamp(6.7rem, 18svh, 8.2rem);
+      --q-graphic-size: clamp(6rem, 24vw, 7.6rem);
+    }
+}
+
+@media (max-height: 720px) {
+  .question-screen:not(.ranking-screen):not(.name-screen):not(.result-screen) {
+      --q-graphic-zone: clamp(5.25rem, 15.5svh, 7.25rem);
+      --q-graphic-size: clamp(5.4rem, 13svh, 6.7rem);
+    }
+}
+
+@media (max-width: 390px) and (max-height: 720px) {
+  .question-screen:not(.ranking-screen):not(.name-screen):not(.result-screen) {
+      --q-graphic-zone: clamp(5.6rem, 15svh, 6.8rem);
+    }
+}
