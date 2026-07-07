@@ -2,27 +2,29 @@
 
 import { useEffect, useState } from 'react';
 import type { Lang } from '../../data/siteContent';
-import { testQuestions } from '../../data/testQuestions';
+import { testQuestions, type TestAnswers } from '../../data/testQuestions';
+
 import TestIntro from './TestIntro';
 import SliderQuestion from './SliderQuestion';
 import RankingQuestion from './RankingQuestion';
+import GoalOptionsQuestion from './GoalOptionsQuestion';
+import CollectiveNameQuestion from './CollectiveNameQuestion';
+import ResultScreen from './ResultScreen';
+import Button from '../common/Button';
+
 import './TestFlow.css';
 import './QuestionGraphics.css';
 import './SliderQuestion.css';
 import './RankingQuestion.css';
-import CollectiveNameQuestion from './CollectiveNameQuestion';
-import ResultScreen from './ResultScreen';
-import Button from '../common/Button';
+import './GoalOptionsQuestion.css';
 
 type Props = {
   lang: Lang;
 };
 
-type Answers = Record<string, number | string[] | boolean>;
-
 type SavedTestState = {
   step: number;
-  answers: Answers;
+  answers: TestAnswers;
   collectiveName: string;
   websiteOrInstagram: string;
   location: string;
@@ -37,7 +39,7 @@ type TestResultPayload = {
   websiteOrInstagram: string;
   location: string;
   consentPublic: boolean;
-  answers: Answers;
+  answers: TestAnswers;
   result: {
     archetypeId: string;
     values: {
@@ -55,6 +57,10 @@ type TestResultPayload = {
       primaryGoal: string;
       goalRanking: string[];
     };
+    goalDetails: {
+  selectedGoalTopics: string[];
+  ownGoalTopics: string[];
+};
     networkShape: {
       formalization: number;
       time: number;
@@ -73,30 +79,23 @@ type TestResultPayload = {
   };
 };
 
-
 type SaveStatus = 'idle' | 'database_saved' | 'database_failed' | 'local_only';
 
 const STORAGE_KEY = 'stadt-kollektiv-test-state';
 const LOCAL_RESULTS_KEY = 'stadt-kollektiv-local-results';
 
-// Passe diesen Pfad an, wenn eure spätere Gesamtergebnisseite anders heißt.
 const RESULTS_PAGE_HREF: Record<Lang, string> = {
   de: '/de/case-studies',
   en: '/en/case-studies',
 };
 
-/*
-  Für GitHub Pages / lokale Tests bleibt das auf false.
-  Dann wird nicht an /api/test-results gesendet, sondern lokal im Browser gespeichert.
-  Wenn die Website später auf dem Server läuft, kannst du auf true stellen.
-*/
 const ENABLE_BACKEND = true;
 
 export default function TestFlow({ lang }: Props) {
   const [isReady, setIsReady] = useState(false);
 
   const [step, setStep] = useState(0);
-  const [answers, setAnswers] = useState<Answers>({});
+  const [answers, setAnswers] = useState<TestAnswers>({});
   const [collectiveName, setCollectiveName] = useState('');
   const [websiteOrInstagram, setWebsiteOrInstagram] = useState('');
   const [location, setLocation] = useState('');
@@ -190,23 +189,46 @@ export default function TestFlow({ lang }: Props) {
     }));
   }
 
+  function toggleGoalTopic(questionId: string, optionId: string) {
+    setAnswers((currentAnswers) => {
+      const currentValue = currentAnswers[questionId];
+      const currentTopics = Array.isArray(currentValue) ? currentValue : [];
+
+      const nextTopics = currentTopics.includes(optionId)
+        ? currentTopics.filter((id) => id !== optionId)
+        : [...currentTopics, optionId];
+
+      return {
+        ...currentAnswers,
+        [questionId]: nextTopics,
+      };
+    });
+  }
+
+  function updateGoalTopicOther(answerKey: string, values: string[]) {
+  setAnswers((currentAnswers) => ({
+    ...currentAnswers,
+    [answerKey]: values,
+  }));
+}
+
   async function sendPayloadToBackend(payload: TestResultPayload) {
     const response = await fetch('/api/test-results', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-     body: JSON.stringify({
-  id: payload.id,
-  createdAt: payload.createdAt,
-  lang: payload.lang,
-  collectiveName: payload.collectiveName,
-  websiteOrInstagram: payload.websiteOrInstagram,
-  location: payload.location,
-  consentPublic: payload.consentPublic,
-  answers: payload.answers,
-  result: payload.result,
-}),
+      body: JSON.stringify({
+        id: payload.id,
+        createdAt: payload.createdAt,
+        lang: payload.lang,
+        collectiveName: payload.collectiveName,
+        websiteOrInstagram: payload.websiteOrInstagram,
+        location: payload.location,
+        consentPublic: payload.consentPublic,
+        answers: payload.answers,
+        result: payload.result,
+      }),
     });
 
     const data = await response.json().catch(() => null);
@@ -235,7 +257,6 @@ export default function TestFlow({ lang }: Props) {
 
     setLastPayload(payload);
 
-    // Sicherheitsnetz: immer lokal sichern, bevor der Datenbank-Request passiert.
     saveLocalResult(payload);
     setLocalResultCount(getLocalResults().length);
 
@@ -258,7 +279,7 @@ export default function TestFlow({ lang }: Props) {
       setSubmittedId(data.result.id);
       setSaveStatus('database_saved');
       setSubmitError(null);
-    } catch (error) {
+    } catch {
       setSubmittedId(payload.id);
       setSaveStatus('database_failed');
       setSubmitError(getDatabaseErrorMessage(lang));
@@ -303,7 +324,7 @@ export default function TestFlow({ lang }: Props) {
       setSubmittedId(data.result.id);
       setSaveStatus('database_saved');
       setSubmitError(null);
-    } catch (error) {
+    } catch {
       setSaveStatus('database_failed');
       setSubmitError(getDatabaseErrorMessage(lang));
     } finally {
@@ -313,6 +334,7 @@ export default function TestFlow({ lang }: Props) {
 
   function startNewTest() {
     window.sessionStorage.removeItem(STORAGE_KEY);
+
     setStep(0);
     setAnswers({});
     setCollectiveName('');
@@ -327,9 +349,10 @@ export default function TestFlow({ lang }: Props) {
 
   function downloadLocalResults() {
     const localResults = getLocalResults();
+
     const exportData = {
       exportedAt: new Date().toISOString(),
-      source: 'stadt-kollektiv-github-pages-local-export',
+      source: 'stadt-kollektiv-local-export',
       count: localResults.length,
       results: localResults,
     };
@@ -427,7 +450,9 @@ export default function TestFlow({ lang }: Props) {
           </div>
 
           <div
-            className={`save-status-card ${databaseSaved ? 'save-status-card--success' : 'save-status-card--warning'}`}
+            className={`save-status-card ${
+              databaseSaved ? 'save-status-card--success' : 'save-status-card--warning'
+            }`}
           >
             <p className="paragraph">
               {databaseSaved
@@ -559,6 +584,34 @@ export default function TestFlow({ lang }: Props) {
     );
   }
 
+  if (currentQuestion.type === 'goal-options') {
+  const selectedGoalTopics = Array.isArray(answers[currentQuestion.id])
+    ? (answers[currentQuestion.id] as string[])
+    : [];
+
+  const ownAnswerKey = `${currentQuestion.id}Other`;
+  const ownAnswerValue = answers[ownAnswerKey];
+
+  const ownAnswers = Array.isArray(ownAnswerValue)
+    ? ownAnswerValue.filter((value): value is string => typeof value === 'string')
+    : typeof ownAnswerValue === 'string'
+      ? [ownAnswerValue]
+      : [];
+
+  return (
+    <GoalOptionsQuestion
+      lang={lang}
+      question={currentQuestion}
+      selectedValues={selectedGoalTopics}
+      ownAnswers={ownAnswers}
+      onToggleOption={(optionId) => toggleGoalTopic(currentQuestion.id, optionId)}
+      onOwnAnswersChange={(values) => updateGoalTopicOther(ownAnswerKey, values)}
+      onBack={goBack}
+      onNext={goNext}
+    />
+  );
+}
+
   return null;
 }
 
@@ -581,7 +634,7 @@ function buildTestResultPayload({
   websiteOrInstagram: string;
   location: string;
   consent: boolean;
-  answers: Answers;
+  answers: TestAnswers;
 }): TestResultPayload {
   const rankingOrder = getRankingAnswerForStorage(answers, 'goals', [
     'political',
@@ -599,7 +652,19 @@ function buildTestResultPayload({
 
   const actsVirtually = getBooleanAnswerForStorage(answers, 'actsVirtually', false);
 
-  return {
+  const selectedGoalTopics = getRankingAnswerForStorage(answers, 'goalTopics', []);
+
+const ownGoalTopics = getStringArrayAnswerForStorage(answers, 'goalTopicsOther')
+  .map((value) => value.trim())
+  .filter(Boolean);
+
+const cleanedAnswers: TestAnswers = {
+  ...answers,
+  goalTopics: selectedGoalTopics,
+  goalTopicsOther: ownGoalTopics,
+};
+
+return {
     id: createLocalId(),
     createdAt: new Date().toISOString(),
     lang,
@@ -607,7 +672,7 @@ function buildTestResultPayload({
     websiteOrInstagram: websiteOrInstagram.trim(),
     location: location.trim(),
     consentPublic: consent,
-    answers,
+    answers: cleanedAnswers,
     result: {
       archetypeId: getArchetypeId(answers),
       values,
@@ -620,6 +685,10 @@ function buildTestResultPayload({
         primaryGoal: rankingOrder[0] ?? 'political',
         goalRanking: rankingOrder,
       },
+     goalDetails: {
+  selectedGoalTopics,
+  ownGoalTopics,
+},
       networkShape: {
         ...values,
         actsVirtually,
@@ -637,7 +706,7 @@ function buildTestResultPayload({
 }
 
 function getNumericAnswerForStorage(
-  answers: Answers,
+  answers: TestAnswers,
   key: string,
   fallback: number
 ): number {
@@ -646,7 +715,7 @@ function getNumericAnswerForStorage(
 }
 
 function getRankingAnswerForStorage(
-  answers: Answers,
+  answers: TestAnswers,
   key: string,
   fallback: string[]
 ): string[] {
@@ -655,12 +724,38 @@ function getRankingAnswerForStorage(
 }
 
 function getBooleanAnswerForStorage(
-  answers: Answers,
+  answers: TestAnswers,
   key: string,
   fallback: boolean
 ): boolean {
   const value = answers[key];
   return typeof value === 'boolean' ? value : fallback;
+}
+
+function getTextAnswerForStorage(
+  answers: TestAnswers,
+  key: string,
+  fallback: string
+): string {
+  const value = answers[key];
+  return typeof value === 'string' ? value : fallback;
+}
+
+function getStringArrayAnswerForStorage(
+  answers: TestAnswers,
+  key: string
+): string[] {
+  const value = answers[key];
+
+  if (Array.isArray(value)) {
+    return value.filter((item): item is string => typeof item === 'string');
+  }
+
+  if (typeof value === 'string') {
+    return value.trim().length > 0 ? [value] : [];
+  }
+
+  return [];
 }
 
 function getSliderSegmentId(questionId: string, value: number): string {
@@ -683,7 +778,7 @@ function getSliderSegmentId(questionId: string, value: number): string {
   return `${questionId}_high`;
 }
 
-function getArchetypeId(answers: Answers): string {
+function getArchetypeId(answers: TestAnswers): string {
   const formalization = getNumericAnswerForStorage(answers, 'formalization', 50);
   const time = getNumericAnswerForStorage(answers, 'time', 50);
   const identity = getNumericAnswerForStorage(answers, 'identity', 50);
@@ -720,7 +815,7 @@ function getArchetypeId(answers: Answers): string {
   return 'hybrid_collective';
 }
 
-function getGraphicItems(answers: Answers): string[] {
+function getGraphicItems(answers: TestAnswers): string[] {
   const formalization = getNumericAnswerForStorage(answers, 'formalization', 50);
   const time = getNumericAnswerForStorage(answers, 'time', 50);
   const identity = getNumericAnswerForStorage(answers, 'identity', 50);
@@ -772,5 +867,6 @@ function getLocalResults(): TestResultPayload[] {
 function saveLocalResult(payload: TestResultPayload) {
   const currentResults = getLocalResults();
   const nextResults = [...currentResults, payload];
+
   window.localStorage.setItem(LOCAL_RESULTS_KEY, JSON.stringify(nextResults));
 }

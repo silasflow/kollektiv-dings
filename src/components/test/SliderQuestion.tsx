@@ -1,18 +1,21 @@
 // src/components/test/SliderQuestion.tsx
 
 import type { Lang } from '../../data/siteContent';
-import type { SliderQuestion as SliderQuestionType } from '../../data/testQuestions';
+import type {
+  SliderQuestion as SliderQuestionType,
+  TestAnswers,
+} from '../../data/testQuestions';
 import TestNavigation from './TestNavigation';
 import QuestionLineGraphic from './QuestionLineGraphic';
 import QuestionMainGraphic from './QuestionMainGraphic';
 
-type Answers = Record<string, number | string[] | boolean>;
+type LineGraphicAnswers = Record<string, number | string[]>;
 
 type Props = {
   lang: Lang;
   question: SliderQuestionType;
   value: number;
-  answers: Answers;
+  answers: TestAnswers;
   isVirtualOptionVisible?: boolean;
   actsVirtually?: boolean;
   onVirtualChange?: (value: boolean) => void;
@@ -20,6 +23,18 @@ type Props = {
   onBack: () => void;
   onNext: () => void;
 };
+
+function getLineGraphicAnswers(answers: TestAnswers): LineGraphicAnswers {
+  const graphicAnswers: LineGraphicAnswers = {};
+
+  Object.entries(answers).forEach(([key, value]) => {
+    if (typeof value === 'number' || Array.isArray(value)) {
+      graphicAnswers[key] = value;
+    }
+  });
+
+  return graphicAnswers;
+}
 
 function getAnswerText(question: SliderQuestionType, value: number, lang: Lang) {
   const match =
@@ -81,10 +96,10 @@ export default function SliderQuestion({
         </div>
 
         <QuestionLineGraphic
-          mode="slider"
-          currentQuestionId={question.id}
-          answers={answers as Record<string, number | string[]>}
-        />
+  mode="slider"
+  currentQuestionId={question.id}
+  answers={getLineGraphicAnswers(answers)}
+/>
       </div>
 
       <QuestionMainGraphic

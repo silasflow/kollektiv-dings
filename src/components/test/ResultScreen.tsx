@@ -3,18 +3,32 @@
 import type { Lang } from '../../data/siteContent';
 import Button from '../common/Button';
 import QuestionLineGraphic from './QuestionLineGraphic';
+import type { TestAnswers } from '../../data/testQuestions';
 
-type Answers = Record<string, number | string[] | boolean>;
 
 type Props = {
   lang: Lang;
-  answers: Answers;
+  answers: TestAnswers;
   collectiveName: string;
   isSubmitting: boolean;
   submitError: string | null;
   onBack: () => void;
   onNext: () => void;
 };
+
+type LineGraphicAnswers = Record<string, number | string[]>;
+
+function getLineGraphicAnswers(answers: TestAnswers): LineGraphicAnswers {
+  const graphicAnswers: LineGraphicAnswers = {};
+
+  Object.entries(answers).forEach(([key, value]) => {
+    if (typeof value === 'number' || Array.isArray(value)) {
+      graphicAnswers[key] = value;
+    }
+  });
+
+  return graphicAnswers;
+}
 
 const text = {
   de: {
@@ -91,10 +105,10 @@ export default function ResultScreen({
 
         <div className="result-graphic-card" aria-hidden="true">
           <QuestionLineGraphic
-            mode="ranking"
-            answers={answers as Record<string, number | string[]>}
-            orderedValues={orderedValues}
-          />
+  mode="ranking"
+  answers={getLineGraphicAnswers(answers)}
+  orderedValues={orderedValues}
+/>
         </div>
 
         <p className="result-text paragraph">{t.body}</p>
@@ -124,7 +138,7 @@ export default function ResultScreen({
 }
 
 function getNumericAnswer(
-  answers: Answers,
+  answers: TestAnswers,
   key: string,
   fallback: number
 ): number {
@@ -133,7 +147,7 @@ function getNumericAnswer(
 }
 
 function getRankingAnswer(
-  answers: Answers,
+  answers: TestAnswers,
   key: string,
   fallback: string[]
 ): string[] {
@@ -142,7 +156,7 @@ function getRankingAnswer(
 }
 
 function getBooleanAnswer(
-  answers: Answers,
+  answers: TestAnswers,
   key: string,
   fallback: boolean
 ): boolean {
@@ -150,7 +164,7 @@ function getBooleanAnswer(
   return typeof value === 'boolean' ? value : fallback;
 }
 
-function getArchetypeId(answers: Answers): keyof typeof archetypeLabels.de {
+function getArchetypeId(answers: TestAnswers): keyof typeof archetypeLabels.de {
   const formalization = getNumericAnswer(answers, 'formalization', 50);
   const time = getNumericAnswer(answers, 'time', 50);
   const identity = getNumericAnswer(answers, 'identity', 50);

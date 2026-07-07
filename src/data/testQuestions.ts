@@ -4,6 +4,10 @@ import type { Lang } from './siteContent';
 
 type LocalizedText = Record<Lang, string>;
 
+export type TestAnswerValue = number | string[] | boolean | string;
+
+export type TestAnswers = Record<string, TestAnswerValue>;
+
 export type SliderValueLabel = {
   min: number;
   max: number;
@@ -44,7 +48,18 @@ export type RankingQuestion = {
   allowOwnAnswer?: boolean;
 };
 
-export type TestQuestion = SliderQuestion | RankingQuestion;
+export type GoalOptionsQuestion = {
+  id: string;
+  type: 'goal-options';
+  category: LocalizedText;
+  title: LocalizedText;
+  description: LocalizedText;
+  options: RankingOption[];
+  ownAnswerLabel: LocalizedText;
+  ownAnswerPlaceholder: LocalizedText;
+};
+
+export type TestQuestion = SliderQuestion | RankingQuestion | GoalOptionsQuestion;
 
 
 /* Frage 1*/
@@ -325,7 +340,7 @@ export const testQuestions: TestQuestion[] = [
       de: 'global',
       en: 'global',
     },
-},
+  },
   
     ],
     minLabel: {
@@ -411,5 +426,73 @@ export const testQuestions: TestQuestion[] = [
       },
     ],
     allowOwnAnswer: true,
+  },
+    {
+    id: 'goalTopics',
+    type: 'goal-options',
+    category: {
+      de: 'Euere Ziele',
+      en: 'Your goals',
+    },
+    title: {
+      de: 'Welche Ziele möchtet ihr erreichen?',
+      en: 'Which goals do you want to achieve?',
+    },
+    description: {
+      de: 'Wählt aus, welche Themen oder Ziele für euer Kollektiv wichtig sind. Ihr könnt mehrere auswählen oder die Frage überspringen.',
+      en: 'Select the topics or goals that matter to your collective. You can choose multiple options or skip this question.',
+    },
+    options: [
+      {
+        id: 'climate',
+        label: {
+          de: 'Klima',
+          en: 'Climate',
+        },
+      },
+      {
+        id: 'encounter',
+        label: {
+          de: 'Begegnung',
+          en: 'Encounter',
+        },
+      },
+      {
+        id: 'sport',
+        label: {
+          de: 'Sport',
+          en: 'Sports',
+        },
+      },
+      {
+        id: 'political_topic',
+        label: {
+          de: 'Politisch',
+          en: 'Political',
+        },
+      },
+      {
+        id: 'equality',
+        label: {
+          de: 'Gleichberechtigung',
+          en: 'Equality',
+        },
+      },
+      {
+        id: 'health',
+        label: {
+          de: 'Gesundheit',
+          en: 'Health',
+        },
+      },
+    ],
+    ownAnswerLabel: {
+      de: 'Eigene Antwort',
+      en: 'Own answer',
+    },
+    ownAnswerPlaceholder: {
+      de: 'Eigenes Ziel ergänzen',
+      en: 'Add your own goal',
+    },
   },
 ];

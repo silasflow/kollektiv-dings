@@ -19,23 +19,38 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-
 import type { Lang } from '../../data/siteContent';
-import type { RankingQuestion as RankingQuestionType } from '../../data/testQuestions';
+import type {
+  RankingQuestion as RankingQuestionType,
+  TestAnswers,
+} from '../../data/testQuestions';
 import TestNavigation from './TestNavigation';
 import QuestionLineGraphic from './QuestionLineGraphic';
 
-type Answers = Record<string, number | string[] | boolean>;
 
 type Props = {
   lang: Lang;
   question: RankingQuestionType;
   orderedValues: string[];
-  answers: Answers;
+  answers: TestAnswers;
   onChange: (nextOrder: string[]) => void;
   onBack: () => void;
   onNext: () => void;
 };
+
+type LineGraphicAnswers = Record<string, number | string[]>;
+
+function getLineGraphicAnswers(answers: TestAnswers): LineGraphicAnswers {
+  const graphicAnswers: LineGraphicAnswers = {};
+
+  Object.entries(answers).forEach(([key, value]) => {
+    if (typeof value === 'number' || Array.isArray(value)) {
+      graphicAnswers[key] = value;
+    }
+  });
+
+  return graphicAnswers;
+}
 
 export default function RankingQuestion({
   lang,
@@ -93,10 +108,10 @@ export default function RankingQuestion({
         </div>
 
         <QuestionLineGraphic
-          mode="ranking"
-          answers={answers as Record<string, number | string[]>}
-          orderedValues={orderedValues}
-        />
+  mode="ranking"
+  answers={getLineGraphicAnswers(answers)}
+  orderedValues={orderedValues}
+/>
       </div>
 
 

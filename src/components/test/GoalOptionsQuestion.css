@@ -1,0 +1,231 @@
+/* src/components/test/GoalOptionsQuestion.css */
+
+.goal-options-screen {
+  grid-template-rows: minmax(0, 1fr) auto;
+  overflow: hidden;
+}
+
+.goal-options-content {
+  min-height: 0;
+
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: clamp(1rem, 3svh, 2rem);
+
+  width: 100%;
+  max-width: 46rem;
+
+  overflow: hidden;
+}
+
+.goal-options-copy {
+  max-width: 44rem;
+}
+
+.goal-options-description {
+  max-width: 42rem;
+  margin: clamp(1rem, 3svh, 1.6rem) 0 0;
+
+  color: var(--color-text);
+}
+
+.goal-options-scroll-area {
+  min-height: 0;
+  overflow: hidden;
+    padding-left: 2rem;
+}
+
+.goal-options-list {
+  display: grid;
+  gap: clamp(0.7rem, 1.7svh, 1rem);
+
+  width: 100%;
+  max-width: 100%;
+  max-height: 100%;
+
+  padding: 0 1rem 1rem 0.5rem;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+
+.goal-options-list::-webkit-scrollbar {
+  width: 0.45rem;
+}
+
+.goal-options-list::-webkit-scrollbar-track {
+  background: rgba(232, 255, 242, 0.08);
+  border-radius: 999rem;
+}
+
+.goal-options-list::-webkit-scrollbar-thumb {
+  background: rgba(232, 255, 242, 0.34);
+  border-radius: 999rem;
+}
+
+.goal-option-field {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 1rem;
+
+  color: var(--color-text);
+}
+
+.goal-option-field input[type='checkbox'] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.goal-option-box {
+  display: grid;
+  place-items: center;
+
+  width: clamp(2.35rem, 6svh, 3rem);
+  height: clamp(2.35rem, 6svh, 3rem);
+
+  border: 0.16rem solid var(--color-text);
+  border-radius: 0.45rem;
+
+  color: var(--color-text);
+  font-size: clamp(1.1rem, 3svh, 1.45rem);
+}
+
+.goal-option-label {
+  color: var(--color-text);
+}
+
+.goal-option-field:focus-within .goal-option-box {
+  outline: 0.16rem solid var(--color-accent);
+  outline-offset: 0.16rem;
+}
+
+.goal-own-answer-group {
+  display: grid;
+  gap: 0.75rem;
+
+  margin-top: clamp(0.6rem, 1.8svh, 1.1rem);
+}
+
+.goal-own-answer-title {
+  margin: 0 0 -0.15rem clamp(3.35rem, 7svh, 4rem);
+
+  color: rgba(232, 255, 242, 0.72);
+  text-transform: uppercase;
+}
+
+.goal-option-field--own {
+  align-items: start;
+}
+
+.goal-option-box--empty {
+  margin-top: 0.45rem;
+}
+
+.goal-own-answer {
+    display: grid;
+    gap: .35rem;
+
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+}
+
+.goal-own-answer input {
+   width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+
+  padding: 0.9rem 1rem;
+  border: 0.1rem solid rgba(232, 255, 242, 0.28);
+  border-radius: 0.8rem;
+
+  background: transparent;
+  color: var(--color-text);
+
+  font: inherit;
+}
+
+.goal-own-answer input::placeholder {
+  color: rgba(232, 255, 242, 0.42);
+}
+
+.goal-own-answer input:focus {
+  outline: 0.16rem solid var(--color-accent);
+  outline-offset: 0.16rem;
+}
+
+.goal-own-remove-button,
+.goal-own-add-button {
+  width: fit-content;
+
+  border: 0;
+  padding: 0;
+
+  background: transparent;
+  color: rgba(232, 255, 242, 0.72);
+
+  font: inherit;
+  text-transform: uppercase;
+
+  cursor: pointer;
+}
+
+.goal-own-remove-button:hover,
+.goal-own-add-button:hover {
+  color: var(--color-accent);
+}
+
+.goal-own-add-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+
+  margin-left: clamp(3.35rem, 7svh, 4rem);
+}
+
+.goal-options-screen .test-navigation {
+  position: relative;
+  z-index: 2;
+}
+
+@media (max-width: 700px) {
+  .goal-options-content {
+    gap: 1rem;
+  }
+
+  .goal-options-list {
+    max-width: none;
+  }
+
+  .goal-options-description {
+    margin-top: 0.8rem;
+  }
+}
+
+@media (max-height: 720px) {
+  .goal-options-content {
+    gap: 0.8rem;
+  }
+
+  .goal-options-list {
+    gap: 0.55rem;
+  }
+
+  .goal-options-description {
+    margin-top: 0.65rem;
+  }
+
+  .goal-option-box {
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+
+  .goal-own-answer input {
+    padding: 0.7rem 0.85rem;
+  }
+}
