@@ -190,27 +190,33 @@ function SpaceGraphic({
 }) {
   const activeLayer = getSpaceActiveLayer(value);
 
+  function getRingClass(layer: 'inner' | 'middle' | 'outer') {
+    const isActive = activeLayer === layer;
+
+    return [
+      'space-ring',
+      `space-ring--${layer}`,
+      isActive && !actsVirtually ? 'space-ring--active' : '',
+      isActive && actsVirtually ? 'space-ring--active-virtual-base' : '',
+    ]
+      .filter(Boolean)
+      .join(' ');
+  }
+
   return (
-    <div className="question-main-graphic question-main-graphic--space" aria-hidden="true">
+    <div
+      className={`question-main-graphic question-main-graphic--space ${
+        actsVirtually ? 'question-main-graphic--space-virtual' : ''
+      }`}
+      aria-hidden="true"
+    >
       <div className="space-ring-glow space-ring-glow--outer" />
-      <div
-        className={`space-ring space-ring--outer ${
-          activeLayer === 'outer' ? 'space-ring--active' : ''
-        }`}
-      />
+      <div className={getRingClass('outer')} />
 
       <div className="space-ring-glow space-ring-glow--middle" />
-      <div
-        className={`space-ring space-ring--middle ${
-          activeLayer === 'middle' ? 'space-ring--active' : ''
-        }`}
-      />
+      <div className={getRingClass('middle')} />
 
-      <div
-        className={`space-ring space-ring--inner ${
-          activeLayer === 'inner' ? 'space-ring--active' : ''
-        }`}
-      />
+      <div className={getRingClass('inner')} />
 
       {actsVirtually && <SpacePixelOutline layer={activeLayer} />}
     </div>
@@ -225,16 +231,16 @@ function SpacePixelOutline({
   layer: 'inner' | 'middle' | 'outer';
 }) {
   const stepsByLayer = {
-    inner: 10,
-    middle: 14,
-    outer: 18,
-  } as const;
+  inner: 11,
+  middle: 16,
+  outer: 21,
+} as const;
 
-  const pixelSizeByLayer = {
-    inner: 5.2,
-    middle: 4.8,
-    outer: 4.4,
-  } as const;
+const pixelSizeByLayer = {
+  inner: 5,
+  middle: 4,
+  outer: 3,
+} as const;
 
   const stepsPerEdge = stepsByLayer[layer];
   const pixelSize = pixelSizeByLayer[layer];
@@ -257,8 +263,8 @@ function SpacePixelOutline({
               y={y}
               width={pixelSize}
               height={pixelSize}
-              rx="0.45"
-              ry="0.45"
+              rx="0.90"
+              ry="0.90"
               className="space-pixel-rect"
             />
           );
@@ -269,28 +275,56 @@ function SpacePixelOutline({
 }
 
 function buildDiamondOutlinePoints(stepsPerEdge: number) {
-  const corners = [
-    { x: 50, y: 8 },   // top
-    { x: 92, y: 50 },  // right
-    { x: 50, y: 92 },  // bottom
-    { x: 8, y: 50 },   // left
-  ];
+  const min = 1;
+  const max = 99;
+  const radius = 12;
+  const cornerSteps = Math.max(4, Math.round(stepsPerEdge / 4));
+  const straightSteps = stepsPerEdge;
 
   const points: { x: number; y: number }[] = [];
 
-  for (let edge = 0; edge < corners.length; edge += 1) {
-    const start = corners[edge];
-    const end = corners[(edge + 1) % corners.length];
-
-    for (let step = 0; step < stepsPerEdge; step += 1) {
-      const t = step / stepsPerEdge;
-
+  function addLine(
+    from: { x: number; y: number },
+    to: { x: number; y: number },
+    steps: number
+  ) {
+    for (let i = 0; i < steps; i += 1) {
+      const t = i / steps;
       points.push({
-        x: start.x + (end.x - start.x) * t,
-        y: start.y + (end.y - start.y) * t,
+        x: from.x + (to.x - from.x) * t,
+        y: from.y + (to.y - from.y) * t,
       });
     }
   }
+
+  function addArc(
+    center: { x: number; y: number },
+    startAngle: number,
+    endAngle: number,
+    steps: number
+  ) {
+    for (let i = 0; i < steps; i += 1) {
+      const t = i / steps;
+      const angle = startAngle + (endAngle - startAngle) * t;
+
+      points.push({
+        x: center.x + Math.cos(angle) * radius,
+        y: center.y + Math.sin(angle) * radius,
+      });
+    }
+  }
+
+  addLine({ x: min + radius, y: min }, { x: max - radius, y: min }, straightSteps);
+  addArc({ x: max - radius, y: min + radius }, -Math.PI / 2, 0, cornerSteps);
+
+  addLine({ x: max, y: min + radius }, { x: max, y: max - radius }, straightSteps);
+  addArc({ x: max - radius, y: max - radius }, 0, Math.PI / 2, cornerSteps);
+
+  addLine({ x: max - radius, y: max }, { x: min + radius, y: max }, straightSteps);
+  addArc({ x: min + radius, y: max - radius }, Math.PI / 2, Math.PI, cornerSteps);
+
+  addLine({ x: min, y: max - radius }, { x: min, y: min + radius }, straightSteps);
+  addArc({ x: min + radius, y: min + radius }, Math.PI, Math.PI * 1.5, cornerSteps);
 
   return points;
 }

@@ -326,7 +326,7 @@
 .question-answer-text {
   margin: auto;
   max-width: 34rem;
-
+  text-align: center;
   color: var(--color-text);
 }
 
