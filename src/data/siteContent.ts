@@ -9,15 +9,14 @@ export const siteContent = {
       description: 'Ein Selbstcheck für urbane Kollektive und Stadtmacher:innen.',
     },
     nav: {
-      test: 'Test starten',
+      test: 'Check starten',
       caseStudies: 'Case Studies',
       about: 'Über das Tool',
       languageLabel: 'EN',
     },
     hero: {
-      titleLine1: 'Die Stadt',
-      titleLine2: 'der Zukunft',
-      highlight: 'Kollektiv',
+      titleLine1: 'Unsere Stadt',
+          highlight: 'Kollektiv',
       titleLine3: 'gestalten',
 
       intro: [
@@ -33,7 +32,7 @@ export const siteContent = {
         'Es geht nicht darum, euch in Schubladen zu stecken, sondern euren kollektiven Charakter greifbar und besprechbar zu machen.',
       ],
       testHint: 'Nehmt euch etwa 10 Minuten – allein oder gemeinsam.',
-      buttonLabel: 'Test starten',
+      buttonLabel: 'Check starten',
     },
   },
 
@@ -43,16 +42,15 @@ export const siteContent = {
       description: 'A self-check tool for urban collectives and city-makers.',
     },
     nav: {
-      test: 'Start test',
+      test: 'Start check',
       caseStudies: 'Case Studies',
       about: 'About the tool',
       languageLabel: 'DE',
     },
     hero: {
       titleLine1: 'Shaping',
-      titleLine2: 'the city',
+      titleLine2: 'our city',
       highlight: 'collectively',
-      titleLine3: 'of tomorrow',
 
       intro: [
         'Cities are not only planned – they are made: by city-makers who come together, take responsibility and experiment with new ways of living together.',
@@ -67,7 +65,7 @@ export const siteContent = {
         'It is not about putting you into fixed categories, but about making your collective character easier to understand and discuss.',
       ],
       testHint: 'Take around 10 minutes – alone or together.',
-      buttonLabel: 'Start test',
+      buttonLabel: 'Start check',
     },
   },
 } as const;
