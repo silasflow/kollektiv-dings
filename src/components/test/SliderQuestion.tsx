@@ -115,15 +115,27 @@ export default function SliderQuestion({
           <h2 className="heading3">{valueLabel}</h2>
 
           <div className="range-wrap">
-            <input
-              className="range-input"
-              type="range"
-              min="0"
-              max="100"
-              value={value}
-              onChange={(event) => onChange(Number(event.target.value))}
-              aria-label={question.title[lang]}
-            />
+           <input
+  className="range-input"
+  type="range"
+  min="0"
+  max="100"
+  step="1"
+  value={value}
+  onChange={(event) => onChange(Number(event.target.value))}
+  onKeyDown={(event) => {
+    if (event.key === 'ArrowLeft' || event.key === 'ArrowDown') {
+      event.preventDefault();
+      onChange(Math.max(0, value - 1));
+    }
+
+    if (event.key === 'ArrowRight' || event.key === 'ArrowUp') {
+      event.preventDefault();
+      onChange(Math.min(100, value + 1));
+    }
+  }}
+  aria-label={question.title[lang]}
+/>
 
             <div
               className="range-thumb-visual"
