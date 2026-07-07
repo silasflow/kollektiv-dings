@@ -78,7 +78,7 @@ const LOCAL_RESULTS_KEY = 'stadt-kollektiv-local-results';
   Dann wird nicht an /api/test-results gesendet, sondern lokal im Browser gespeichert.
   Wenn die Website später auf dem Server läuft, kannst du auf true stellen.
 */
-const ENABLE_BACKEND = false;
+const ENABLE_BACKEND = true;
 
 export default function TestFlow({ lang }: Props) {
   const [isReady, setIsReady] = useState(false);
@@ -196,14 +196,15 @@ export default function TestFlow({ lang }: Props) {
       answers,
     });
 
-    if (!ENABLE_BACKEND) {
-      saveLocalResult(payload);
-      setSubmittedId(payload.id);
-      setLocalResultCount(getLocalResults().length);
-      goNext();
-      setIsSubmitting(false);
-      return;
-    }
+    saveLocalResult(payload);
+setLocalResultCount(getLocalResults().length);
+
+if (!ENABLE_BACKEND) {
+  setSubmittedId(payload.id);
+  goNext();
+  setIsSubmitting(false);
+  return;
+}
 
     try {
       const response = await fetch('/api/test-results', {

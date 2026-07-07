@@ -1,7 +1,7 @@
 // src/pages/api/test-results.ts
 
 import type { APIRoute } from 'astro';
-import { pool } from '../../server-later/db';
+import { pool } from '../../lib/db';
 
 export const prerender = false;
 
@@ -27,7 +27,7 @@ export const POST: APIRoute = async ({ request }) => {
     }
 
     const query = `
-      insert into test_results (
+      insert into public.test_results (
         lang,
         collective_name,
         website_or_instagram,
