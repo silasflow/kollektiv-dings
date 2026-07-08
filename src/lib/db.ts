@@ -4,10 +4,10 @@ import { Pool } from 'pg';
 
 const connectionString = import.meta.env.DB_URL ?? process.env.DB_URL;
 
-if (!connectionString) {
-	throw new Error('DB_URL is missing');
-}
+export const hasDatabaseUrl = Boolean(connectionString);
 
-export const pool = new Pool({
-	connectionString,
-});
+export const pool = connectionString
+  ? new Pool({
+      connectionString,
+    })
+  : null;

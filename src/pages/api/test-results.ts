@@ -7,18 +7,56 @@ export const prerender = false;
 
 export const GET: APIRoute = async () => {
   console.log('[api/test-results GET] route reached');
+   if (!pool) {
+    return new Response(
+      JSON.stringify({ error: 'DB_URL is missing' }),
+      {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' },
+      }
+    );
+  }
 
   try {
     const { rows } = await pool.query(
-      'select count(*)::int as count from public.test_results'
+      `
+      select
+        id,
+        created_at,
+        lang,
+        collective_name,
+        website_or_instagram,
+        location,
+        consent_public,
+        answers,
+        result
+      from public.test_results
+      where consent_public = true
+      order by created_at desc
+      limit 200
+      `
     );
 
     console.log('[api/test-results GET] database connected', {
-      count: rows[0]?.count ?? 0,
+      count: rows.length,
     });
 
     return new Response(
-      JSON.stringify({ ok: true, count: rows[0]?.count ?? 0 }),
+      JSON.stringify({
+        ok: true,
+        count: rows.length,
+        results: rows.map((row) => ({
+          id: row.id,
+          createdAt: row.created_at,
+          lang: row.lang,
+          collectiveName: row.collective_name,
+          websiteOrInstagram: row.website_or_instagram,
+          location: row.location,
+          consentPublic: row.consent_public,
+          answers: row.answers,
+          result: row.result,
+        })),
+      }),
       {
         status: 200,
         headers: { 'Content-Type': 'application/json' },
@@ -28,7 +66,7 @@ export const GET: APIRoute = async () => {
     console.error('[api/test-results GET] database error', error);
 
     return new Response(
-      JSON.stringify({ error: 'Could not connect to database' }),
+      JSON.stringify({ error: 'Could not load test results' }),
       {
         status: 500,
         headers: { 'Content-Type': 'application/json' },
@@ -39,6 +77,16 @@ export const GET: APIRoute = async () => {
 
 export const POST: APIRoute = async ({ request }) => {
   console.log('[api/test-results POST] route reached');
+
+  if (!pool) {
+  return new Response(
+    JSON.stringify({ error: 'DB_URL is missing' }),
+    {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' },
+    }
+  );
+}
 
   try {
     const body = await request.json();

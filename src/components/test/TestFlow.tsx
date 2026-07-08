@@ -85,8 +85,8 @@ const STORAGE_KEY = 'stadt-kollektiv-test-state';
 const LOCAL_RESULTS_KEY = 'stadt-kollektiv-local-results';
 
 const RESULTS_PAGE_HREF: Record<Lang, string> = {
-  de: '/de/case-studies',
-  en: '/en/case-studies',
+  de: '/de/results',
+  en: '/en/results',
 };
 
 const ENABLE_BACKEND = true;

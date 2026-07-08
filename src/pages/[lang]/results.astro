@@ -1,0 +1,32 @@
+---
+import BaseHead from '../../components/common/BaseHead.astro';
+import Header from '../../components/common/Header.astro';
+import CollectiveUniverse from '../../components/results/CollectiveUniverse';
+import { siteContent, type Lang } from '../../data/siteContent';
+
+const lang = Astro.params.lang as Lang;
+
+const content = siteContent[lang];
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <BaseHead
+      title={content.meta.title}
+      description={content.meta.description}
+    />
+  </head>
+
+  <body>
+    <Header
+      lang={lang}
+      nav={{ ...content.nav, languageHref: (content.nav as any).languageHref ?? `/${lang === 'de' ? 'en' : 'de'}` }}
+    />
+
+    <CollectiveUniverse
+      lang={lang}
+      client:load
+    />
+  </body>
+</html>
