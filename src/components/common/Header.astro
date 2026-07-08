@@ -13,8 +13,20 @@ interface Props {
 const { lang, nav } = Astro.props;
 
 const otherLang = lang === "de" ? "en" : "de";
-
 const currentPath = Astro.url.pathname;
+
+const normalizePath = (path: string) => path.replace(/\/$/, "");
+
+const isActive = (href: string) => {
+	const normalizedPath = normalizePath(currentPath);
+	const normalizedHref = normalizePath(href);
+
+	return normalizedPath === normalizedHref || normalizedPath.startsWith(`${normalizedHref}/`);
+};
+
+const testHref = `/${lang}/test/`;
+const caseStudiesHref = `/${lang}/case-studies/`;
+const aboutHref = `/${lang}/about/`;
 const languageHref = currentPath.replace(`/${lang}`, `/${otherLang}`);
 ---
 
@@ -32,7 +44,6 @@ const languageHref = currentPath.replace(`/${lang}`, `/${otherLang}`);
 					menu.classList.toggle("open", menuOpen);
 					header.classList.toggle("open", menuOpen);
 					toggle.textContent = menuOpen ? "Schließen" : "Menü";
-					console.log("Menu open:", menuOpen);
 				});
 			}
 		});
@@ -43,15 +54,15 @@ const languageHref = currentPath.replace(`/${lang}`, `/${otherLang}`);
 	</a>
 
 	<nav class="site-nav-desktop" aria-label="Hauptnavigation">
-		<a href={`/${lang}/test/`}>
+		<a class:list={{ active: isActive(testHref) }} href={testHref}>
 			{nav.test}
 		</a>
 
-		<a href={`/${lang}/case-studies/`}>
+		<a class:list={{ active: isActive(caseStudiesHref) }} href={caseStudiesHref}>
 			{nav.caseStudies}
 		</a>
 
-		<a href={`/${lang}/about/`}>
+		<a class:list={{ active: isActive(aboutHref) }} href={aboutHref}>
 			{nav.about}
 		</a>
 
@@ -64,15 +75,15 @@ const languageHref = currentPath.replace(`/${lang}`, `/${otherLang}`);
 		<div class="menu-toggle" id="menuToggle">Menü</div>
 
 		<div class="mobile-nav-links" id="menu">
-			<a href={`/${lang}/test/`}>
+			<a class:list={{ active: isActive(testHref) }} href={testHref}>
 				{nav.test}
 			</a>
 
-			<a href={`/${lang}/case-studies/`}>
+			<a class:list={{ active: isActive(caseStudiesHref) }} href={caseStudiesHref}>
 				{nav.caseStudies}
 			</a>
 
-			<a href={`/${lang}/about/`}>
+			<a class:list={{ active: isActive(aboutHref) }} href={aboutHref}>
 				{nav.about}
 			</a>
 
@@ -99,86 +110,94 @@ const languageHref = currentPath.replace(`/${lang}`, `/${otherLang}`);
 
 			color: var(--color-text);
 			font-family: var(--font-body);
-
-			.menu-toggle {
-				cursor: pointer;
-				font-family: var(--font-hand);
-				font-size: 1.25rem;
-				font-weight: 400;
-				letter-spacing: 0;
-			}
 		}
 
 		.site-header.open {
 			background-color: var(--color-deep-forest);
 		}
 
+		.site-logo {
+			display: inline-flex;
+			align-items: center;
+			text-decoration: none;
+		}
+
+		.site-logo-icon {
+			display: block;
+		}
+
 		.site-nav-desktop {
 			display: none;
 			align-items: center;
 			gap: 0.5rem;
+
 			font-family: var(--font-body);
 			font-size: var(--size-paragraph);
 			letter-spacing: -0.03em;
+		}
 
-			a {
-				text-decoration: none;
-				padding: 1rem 0.75rem 1rem 0.75rem;
-				background-color: transparent;
-				color: var(--color-text);
-				transition: color 0.2s ease-in-out;
-				border-radius: 0.5rem;
+		.site-nav-desktop a,
+		.mobile-nav-links a {
+			text-decoration: none;
+			padding: 1rem 0.75rem;
 
-				&:hover {
-					background-color: var(--color-card-bg);
-				}
+			background-color: transparent;
+			color: var(--color-text);
+			border-radius: 0.5rem;
 
-				&:active {
-					color: var(--color-accent);
-					font-family: var(--font-hand);
-					font-size: var(--paragraph-highlight);
-				}
-			}
+			transition:
+				color 0.2s ease-in-out,
+				background-color 0.2s ease-in-out;
+		}
+
+		.site-nav-desktop a:hover {
+			background-color: var(--color-card-bg);
+		}
+
+		.mobile-nav-links a:hover {
+			background-color: var(--color-bg);
+		}
+
+		.site-nav-desktop a.active,
+		.mobile-nav-links a.active {
+			color: var(--color-accent);
+			font-family: var(--font-hand);
+			font-size: var(--paragraph-highlight);
+			text-decoration: underline;
+			text-decoration-thickness: 0.14em;
+			text-underline-offset: 0.18em;
+			text-decoration-color: var(--color-accent);
 		}
 
 		.site-nav-mobile {
 			position: relative;
+		}
 
-			.mobile-nav-links {
-				display: none;
-				background-color: var(--brand-deep-forest);
-				position: fixed;
-				top: 72px;
-				left: 0;
-				width: 100svw;
-				flex-direction: column;
+		.menu-toggle {
+			cursor: pointer;
+			font-family: var(--font-hand);
+			font-size: 1.25rem;
+			font-weight: 400;
+			letter-spacing: 0;
+			color: var(--color-text);
+		}
 
-				padding: 1rem 2rem;
-				gap: 0.25rem;
+		.mobile-nav-links {
+			display: none;
+			position: fixed;
+			top: 72px;
+			left: 0;
 
-				a {
-					text-decoration: none;
-					padding: 1rem 0.75rem 1rem 0.75rem;
-					background-color: transparent;
-					color: var(--color-text);
-					transition: color 0.2s ease-in-out;
-					border-radius: 0.5rem;
+			width: 100svw;
+			flex-direction: column;
+			gap: 0.25rem;
 
-					&:hover {
-						background-color: var(--color-bg);
-					}
+			padding: 1rem 2rem;
+			background-color: var(--brand-deep-forest);
+		}
 
-					&:active {
-						color: var(--color-accent);
-						font-family: var(--font-hand);
-						font-size: var(--paragraph-highlight);
-					}
-				}
-
-				.mobile-nav-links.open {
-					display: flex;
-				}
-			}
+		.mobile-nav-links.open {
+			display: flex;
 		}
 
 		.site-nav__hand {
