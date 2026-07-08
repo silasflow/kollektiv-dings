@@ -19,6 +19,7 @@
   font-family: "Archivo";
   src: url("/fonts/archivo/Archivo-SemiBold.woff2") format("woff2");
   font-weight: 600;
+  font-style: normal;
   font-display: swap;
 }
 
