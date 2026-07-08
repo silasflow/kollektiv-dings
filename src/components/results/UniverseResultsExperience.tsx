@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
 import type { Lang } from '../../data/siteContent';
 import './UniverseResultsExperience.css';
+import TagList from '../common/TagList';
+import '../common/TagList.css';
 
 type Props = {
   lang: Lang;
@@ -215,7 +217,7 @@ const panStartRef = useRef({ pointerX: 0, pointerY: 0, panX: 0, panY: 0 });
   results.forEach((result, index) => {
     const hash = hashString(result.id || `${index}`);
     let angle = (hash % 360) * (Math.PI / 180);
-    let ring = 16 + (hash % 38);
+    let ring = 14 + (hash % 34);
 
     const isOwn =
       Boolean(highlightId && result.id === highlightId) ||
@@ -229,7 +231,7 @@ const panStartRef = useRef({ pointerX: 0, pointerY: 0, panX: 0, panY: 0 });
         const dx = item.x - x;
         const dy = item.y - y;
 
-        return Math.hypot(dx, dy) < 8;
+        return Math.hypot(dx, dy) < 6;
       });
 
       if (!tooClose) break;
@@ -245,7 +247,7 @@ const panStartRef = useRef({ pointerX: 0, pointerY: 0, panX: 0, panY: 0 });
       ...result,
       x: clamp(x, 7, 93),
       y: clamp(y, 12, 88),
-      size: isOwn ? 8.8 : 5.2,
+      size: isOwn ? 9.5 : 6.4,
       rotation: 0,
       floatDelay: -((hash % 100) / 20),
       appearDelay: isOwn ? 0 : 1.6 + (index % 24) * 0.045,
@@ -445,8 +447,6 @@ function NetworkSvg({
         </linearGradient>
       </defs>
 
-      <line className="universe-network-axis" x1="50" y1="7" x2="50" y2="93" />
-      <line className="universe-network-axis" x1="7" y1="50" x2="93" y2="50" />
 
       <polygon
         className={`universe-network-shape ${
@@ -456,10 +456,6 @@ function NetworkSvg({
         fill={`url(#${gradientId})`}
       />
 
-      <NetworkCross x={top.x} y={top.y} />
-      <NetworkCross x={right.x} y={right.y} />
-      <NetworkCross x={bottom.x} y={bottom.y} />
-      <NetworkCross x={left.x} y={left.y} />
     </svg>
   );
 }
@@ -487,78 +483,44 @@ function ResultInspector({
   const ranking = getRankingOrder(result);
   const archetype = getArchetypeLabel(lang, result.result.archetypeId);
 
-  return (
-    <aside className="universe-inspector" role="dialog" aria-modal="true">
-      <button className="universe-inspector__close" type="button" onClick={onClose}>
-        <span className="sr-only">{t.close}</span>
-        <i className="ph-bold ph-x" aria-hidden="true" />
-      </button>
+ return (
+  <aside className="universe-inspector" role="dialog" aria-modal="true">
+    <button className="universe-inspector__close" type="button" onClick={onClose}>
+      <span className="sr-only">{t.close}</span>
+      <i className="ph-bold ph-x" aria-hidden="true" />
+    </button>
 
-      <div className="universe-inspector__graphic">
-        <NetworkSvg result={result} variant="own" />
-      </div>
+    <div className="universe-inspector__content">
+      <h2>{result.collectiveName?.trim() || t.noName}</h2>
 
-      <div className="universe-inspector__content">
-        <p className="script-heading4">{t.collective}</p>
+      {fields.length > 0 && (
+        <div className="universe-inspector__tags">
+          <TagList items={fields} />
+        </div>
+      )}
 
-        <h2>{result.collectiveName?.trim() || t.noName}</h2>
+      <dl>
+        <div>
+          <dt>{t.contact}</dt>
+          <dd>
+            {result.websiteOrInstagram?.trim() ? (
+              <a href={normalizeUrl(result.websiteOrInstagram)} target="_blank" rel="noreferrer">
+                {result.websiteOrInstagram}
+              </a>
+            ) : (
+              t.noData
+            )}
+          </dd>
+        </div>
 
-        <dl>
-          <div>
-            <dt>{t.type}</dt>
-            <dd>{archetype || t.noData}</dd>
-          </div>
-
-          <div>
-            <dt>{t.location}</dt>
-            <dd>{result.location?.trim() || t.noData}</dd>
-          </div>
-
-          <div>
-            <dt>{t.contact}</dt>
-            <dd>
-              {result.websiteOrInstagram?.trim() ? (
-                <a href={normalizeUrl(result.websiteOrInstagram)} target="_blank" rel="noreferrer">
-                  {result.websiteOrInstagram}
-                </a>
-              ) : (
-                t.noData
-              )}
-            </dd>
-          </div>
-        </dl>
-
-        <div className="universe-inspector__section">
-  <h3>{t.fields}</h3>
-  {fields.length > 0 ? (
-    <ul>
-      {fields.map((field) => (
-        <li key={field}>{field}</li>
-      ))}
-    </ul>
-  ) : (
-    <p>{t.noData}</p>
-  )}
-</div>
-
-<div className="universe-inspector__section universe-inspector__section--methods">
-  <h3>{t.ranking}</h3>
-  {ranking.length > 0 ? (
-    <ol className="universe-method-list">
-      {ranking.map((method, index) => (
-        <li key={method}>
-          <span>{index + 1}</span>
-          <strong>{getGoalLabel(lang, method)}</strong>
-        </li>
-      ))}
-    </ol>
-  ) : (
-    <p>{t.noData}</p>
-  )}
-</div>
-      </div>
-    </aside>
-  );
+        <div>
+          <dt>{t.location}</dt>
+          <dd>{result.location?.trim() || t.noData}</dd>
+        </div>
+      </dl>
+    </div>
+  </aside>
+);
 }
 
 function useUniverseCanvas(
