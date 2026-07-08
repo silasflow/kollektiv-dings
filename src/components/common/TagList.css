@@ -1,0 +1,20 @@
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.tag-list__item {
+  padding: 0.45rem 0.65rem;
+  border-radius: 0.35rem;
+
+  background: rgba(202, 251, 228, 0.18);
+  color: var(--color-text);
+
+  font-size: clamp(0.9rem, 2vw, 1rem);
+  line-height: 1.05;
+}
