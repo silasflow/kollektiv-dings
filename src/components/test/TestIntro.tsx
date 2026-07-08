@@ -8,65 +8,176 @@ type Props = {
 
 const text = {
   de: {
-    introTitle: 'Wie geht das?',
-    introText: 'Bewege den Regler von links nach rechts, um eine Antwort auszuwählen.',
-    sliderStart: 'Von A',
-    sliderEnd: 'Bis B',
-    back: 'Zurück',
-    next: 'Weiter',
+    introTitle: 'Wie funktioniert\'s?',
+    introText:
+      'Der Kollektiv-Check macht sichtbar, wie euer Kollektiv arbeitet, Entscheidungen trifft und welche Themen euch prägen.',
+    introSubText:
+      'Aus euren Antworten entsteht eine gemeinsame Visualisierung und ein Kollektiv-Typ als Grundlage für Reflexion, Diskussion und Vergleich.',
+    cards: [
+      {
+        title: 'Antworten',
+        text: 'Beantwortet die Fragen mit den Schiebereglern. Jede Position verändert die Form eurer gemeinsamen Visualisierung.',
+        type: 'slider',
+      },
+      {
+        title: 'Visualisierung',
+        text: 'Die Positionen der Regler verschieben die vier Achsen des Netzes. So entsteht Schritt für Schritt euer Profil.',
+        type: 'axis',
+      },
+      {
+        title: 'Prioritäten',
+        text: 'Ordnet die Arbeitsweisen danach, wie wichtig sie für euer Kollektiv sind. Das Ranking beeinflusst die Farbgebung.',
+        type: 'diamond',
+      },
+      {
+        title: 'Themen & Ziele',
+        text: 'Wählt beliebig viele Themen aus oder ergänzt eigene Schwerpunkte. Diese Angaben beschreiben euer Kollektiv genauer.',
+        type: 'check',
+      },
+    ],
+    resultTitle: 'Euer Ergebnis',
+    resultText:
+      'Am Ende erhaltet ihr einen Kollektiv-Typ mit individueller Visualisierung. Die Archetypen sind keine Bewertung und geben keine Handlungsempfehlungen.',
+    resultNote: 'Es gibt keine richtigen oder falschen Ergebnisse.',
   },
   en: {
     introTitle: 'How does it work?',
-    introText: 'Move the slider from left to right to select an answer.',
-    sliderStart: 'From A',
-    sliderEnd: 'To B',
-    back: 'Back',
-    next: 'Next',
+    introText:
+      'The collective check shows how your collective works, makes decisions and which topics shape your practice.',
+    introSubText:
+      'Your answers create a shared visualization and a collective type as a basis for reflection, discussion and comparison.',
+    cards: [
+      {
+        title: 'Answers',
+        text: 'Answer the questions with the sliders. Each position changes the shape of your shared visualization.',
+        type: 'slider',
+      },
+      {
+        title: 'Visualization',
+        text: 'The slider positions move the four axes of the grid. Step by step, your collective profile takes shape.',
+        type: 'axis',
+      },
+      {
+        title: 'Priorities',
+        text: 'Rank the working methods by how important they are for your collective. The ranking influences the colors.',
+        type: 'diamond',
+      },
+      {
+        title: 'Topics & goals',
+        text: 'Select as many topics as you like or add your own focus areas. These details describe your collective more precisely.',
+        type: 'check',
+      },
+    ],
+    resultTitle: 'Your result',
+    resultText:
+      'At the end, you receive a collective type with an individual visualization. The archetypes are not an evaluation and do not give recommendations.',
+    resultNote: 'There are no right or wrong results.',
   },
 } as const;
+
+function IntroVisual({ type }: { type: string }) {
+  if (type === 'slider') {
+    return (
+      <div className="intro-demo-slider" aria-hidden="true">
+        <div className="intro-demo-slider__line" />
+        <div className="intro-demo-slider__thumb">
+          <i className="ph-bold ph-dots-six" />
+        </div>
+        <div className="intro-demo-slider__hand">
+          <img src="/icons/HandPointing.svg" alt="" />
+        </div>
+      </div>
+    );
+  }
+
+  if (type === 'axis') {
+    return (
+      <div className="intro-demo-axis" aria-hidden="true">
+        <div className="intro-demo-axis__x" />
+        <div className="intro-demo-axis__y" />
+        <span className="intro-demo-axis__cross intro-demo-axis__cross--top">×</span>
+        <span className="intro-demo-axis__cross intro-demo-axis__cross--right">×</span>
+        <span className="intro-demo-axis__cross intro-demo-axis__cross--bottom">×</span>
+        <span className="intro-demo-axis__cross intro-demo-axis__cross--left">×</span>
+      </div>
+    );
+  }
+
+  if (type === 'diamond') {
+    return (
+      <div className="intro-demo-net" aria-hidden="true">
+        <div className="intro-demo-net__x" />
+        <div className="intro-demo-net__y" />
+        <div className="intro-demo-net__shape" />
+        <span className="intro-demo-net__cross intro-demo-net__cross--top">×</span>
+        <span className="intro-demo-net__cross intro-demo-net__cross--right">×</span>
+        <span className="intro-demo-net__cross intro-demo-net__cross--bottom">×</span>
+        <span className="intro-demo-net__cross intro-demo-net__cross--left">×</span>
+      </div>
+    );
+  }
+
+  return (
+    <div className="intro-mini-check" aria-hidden="true">
+      <span />
+      <span className="is-active">
+        <i className="ph-bold ph-check" />
+      </span>
+      <span />
+    </div>
+  );
+}
 
 export default function TestIntro({ lang, onNext }: Props) {
   const t = text[lang];
 
   return (
-    <section className="test-screen" aria-labelledby="intro-title">
-
-      <div className="intro-content">
-        <div>
+    <section className="test-screen test-intro-screen" aria-labelledby="intro-title">
+      <div className="intro-content intro-content--full">
+        <div className="intro-hero-copy">
           <h1 id="intro-title" className="intro-title heading2">
             {t.introTitle}
           </h1>
 
-          <p className="intro-text paragraph-emphasized">
-            {t.introText}
-          </p>
+          <p className="intro-text paragraph-emphasized">{t.introText}</p>
+          <p className="intro-subtext paragraph">{t.introSubText}</p>
         </div>
 
-        <div className="slider-demo" aria-hidden="true">
-          <div className="slider-line" />
+        <div className="intro-steps" aria-label={lang === 'de' ? 'Ablauf des Checks' : 'How the check works'}>
+          {t.cards.map((card, index) => (
+            <article className="intro-step-card" key={card.title}>
+              <div className="intro-step-number label">{index + 1}</div>
 
-          <div className="slider-card">
-            <div className="slider-labels label">
-              <span>{t.sliderStart}</span>
-              <span>{t.sliderEnd}</span>
+              <div className="intro-step-visual">
+                <IntroVisual type={card.type} />
+              </div>
+
+              <div className="intro-step-copy">
+                <h2 className="intro-step-title">{card.title}</h2>
+                <p className="intro-step-text">{card.text}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        <div className="intro-result-card">
+          <div className="intro-result-polaroid" aria-hidden="true">
+            <div className="intro-result-polaroid__image">
+              <div className="intro-result-character intro-result-character--left" />
+              <div className="intro-result-character intro-result-character--right" />
             </div>
+            <div className="intro-result-polaroid__caption">KOLLEKTIV TYP</div>
           </div>
 
-          <div className="slider-thumb">
-            <i className="ph-bold ph-dots-six" />
-          </div>
-
-          <div className="hand">
-            <img src="/icons/HandPointing.svg" alt="" />
+          <div className="intro-result-copy">
+            <h2 className="intro-result-title">{t.resultTitle}</h2>
+            <p>{t.resultText}</p>
+            <p className="intro-result-note">{t.resultNote}</p>
           </div>
         </div>
       </div>
 
-      <TestNavigation
-  lang={lang}
-  backHref={`/${lang}/`}
-  onNext={onNext}
-/>
+      <TestNavigation lang={lang} backHref={`/${lang}/`} onNext={onNext} />
     </section>
   );
 }
