@@ -29,7 +29,7 @@ const otherLang = lang === 'en' ? 'de' : 'en';
     <Header lang={lang} nav={{ ...t.nav, languageHref: `/${otherLang}/` }} />
 
     <main>
-      <Hero lang={lang} content={t.hero} />
+      <Hero lang={lang} content={t.hero as any} />
     </main>
   </body>
 </html>

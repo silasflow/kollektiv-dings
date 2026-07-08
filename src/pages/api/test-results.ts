@@ -7,11 +7,16 @@ export const prerender = false;
 
 export const GET: APIRoute = async () => {
   console.log('[api/test-results GET] route reached');
-   if (!pool) {
+
+  if (!pool) {
     return new Response(
-      JSON.stringify({ error: 'DB_URL is missing' }),
+      JSON.stringify({
+        ok: false,
+        error: 'DB_URL is missing',
+        results: [],
+      }),
       {
-        status: 500,
+        status: 503,
         headers: { 'Content-Type': 'application/json' },
       }
     );
@@ -33,13 +38,9 @@ export const GET: APIRoute = async () => {
       from public.test_results
       where consent_public = true
       order by created_at desc
-      limit 200
+      limit 500
       `
     );
-
-    console.log('[api/test-results GET] database connected', {
-      count: rows.length,
-    });
 
     return new Response(
       JSON.stringify({
@@ -66,7 +67,11 @@ export const GET: APIRoute = async () => {
     console.error('[api/test-results GET] database error', error);
 
     return new Response(
-      JSON.stringify({ error: 'Could not load test results' }),
+      JSON.stringify({
+        ok: false,
+        error: 'Could not load test results',
+        results: [],
+      }),
       {
         status: 500,
         headers: { 'Content-Type': 'application/json' },
@@ -79,27 +84,17 @@ export const POST: APIRoute = async ({ request }) => {
   console.log('[api/test-results POST] route reached');
 
   if (!pool) {
-  return new Response(
-    JSON.stringify({ error: 'DB_URL is missing' }),
-    {
-      status: 500,
-      headers: { 'Content-Type': 'application/json' },
-    }
-  );
-}
+    return new Response(
+      JSON.stringify({ error: 'DB_URL is missing' }),
+      {
+        status: 503,
+        headers: { 'Content-Type': 'application/json' },
+      }
+    );
+  }
 
   try {
     const body = await request.json();
-
-    console.log('[api/test-results POST] body received', {
-      hasLang: Boolean(body.lang),
-      hasAnswers: Boolean(body.answers),
-      hasResult: Boolean(body.result),
-      collectiveName: body.collectiveName,
-      websiteOrInstagram: body.websiteOrInstagram,
-      location: body.location,
-      consentPublic: body.consentPublic,
-    });
 
     const {
       lang,
@@ -112,8 +107,6 @@ export const POST: APIRoute = async ({ request }) => {
     } = body;
 
     if (!lang || !answers || !result) {
-      console.error('[api/test-results POST] missing required fields');
-
       return new Response(
         JSON.stringify({ error: 'Missing required fields' }),
         {
@@ -147,14 +140,7 @@ export const POST: APIRoute = async ({ request }) => {
       JSON.stringify(result),
     ];
 
-    console.log('[api/test-results POST] inserting into database');
-
     const { rows } = await pool.query(query, values);
-
-    console.log('[api/test-results POST] saved successfully', {
-      id: rows[0]?.id,
-      createdAt: rows[0]?.created_at,
-    });
 
     return new Response(
       JSON.stringify({ ok: true, result: rows[0] }),

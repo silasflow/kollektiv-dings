@@ -1,0 +1,44 @@
+---
+import BaseHead from '../../components/common/BaseHead.astro';
+import Header from '../../components/common/Header.astro';
+import UniverseResultsExperience from '../../components/results/UniverseResultsExperience';
+import { siteContent, type Lang } from '../../data/siteContent';
+
+const lang = Astro.params.lang as Lang;
+
+if (lang !== 'de' && lang !== 'en') {
+  return Astro.redirect('/de/universe-results/');
+}
+
+const content = siteContent[lang];
+const otherLang = lang === 'de' ? 'en' : 'de';
+
+const title =
+  lang === 'de'
+    ? `Ergebnis-Kosmos | ${content.meta.title}`
+    : `Result universe | ${content.meta.title}`;
+
+const description =
+  lang === 'de'
+    ? 'Eine interaktive Ergebnislandschaft urbaner Kollektive.'
+    : 'An interactive result landscape of urban collectives.';
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <BaseHead title={title} description={description} />
+  </head>
+
+  <body>
+    <Header
+      lang={lang}
+      nav={{
+        ...content.nav,
+        languageHref: `/${otherLang}/universe-results/`,
+      }}
+    />
+
+    <UniverseResultsExperience lang={lang} client:load />
+  </body>
+</html>
