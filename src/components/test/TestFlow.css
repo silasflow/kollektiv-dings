@@ -964,7 +964,7 @@
 
   padding: 1rem;
 
-  background: rgba(19, 54, 47, 0.55);
+  background: var(--brand-deep-forest);
   color: var(--color-text);
 
   font: inherit;
