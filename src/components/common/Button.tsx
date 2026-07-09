@@ -2,7 +2,7 @@ import React from 'react';
 
 
 interface ButtonProps {
-    variant: 'primary' | 'secondary';
+    variant: 'primary' | 'secondary' | 'tertiary';
     label?: string; // kept for backward compatibility
     icon?: string;
     href?: string;
@@ -61,12 +61,25 @@ export default function Button({
         color: 'var(--color-text)',
     };
 
+
     const iconContainerSecondary: React.CSSProperties = {
         ...iconContainer,
         backgroundColor: 'var(--color-text)',
         color: 'var(--color-text-inverted)',
     };
 
+    const tertiaryStyles: React.CSSProperties = {
+        ...baseStyles,
+        backgroundColor: 'transparent',
+        color: 'var(--color-text)',
+        width: 'fit-content',
+    };
+
+    const iconContainerTertiary: React.CSSProperties = {
+        ...iconContainer,
+        backgroundColor: 'transparent',
+        color: 'var(--color-text)',
+    };
 
     const hoverStylesPrimary: React.CSSProperties = {
         outline: "2px solid var(--color-action)",
@@ -76,7 +89,11 @@ export default function Button({
         outline: "2px solid var(--color-text)",
     };
 
-    const hoverStyles = variant === 'primary' ? hoverStylesPrimary : hoverStylesSecondary;
+    const hoverStylesTertiary: React.CSSProperties = {
+        backgroundColor: "var(--color-card-bg)",
+    };
+
+    const hoverStyles = variant === 'primary' ? hoverStylesPrimary : variant === 'secondary' ? hoverStylesSecondary : hoverStylesTertiary;
 
     const iconStyles: React.CSSProperties = {
         fontSize: '24px',
@@ -89,8 +106,7 @@ export default function Button({
     };
 
     const [isHovered, setIsHovered] = React.useState(false);
-    const [isPressed, setIsPressed] = React.useState(false);
-    const buttonStyles = variant === 'primary' ? primaryStyles : secondaryStyles;
+    const buttonStyles = variant === 'primary' ? primaryStyles : variant === 'secondary' ? secondaryStyles : tertiaryStyles;
 
     // Debug: log children to check what is passed in
     // Remove these logs after debugging
@@ -115,7 +131,7 @@ export default function Button({
             >
                 {(children) && <span style={{ paddingLeft: '8px', paddingRight: icon ? undefined : '8px' }} className="text-button">{children}</span>}
                 {icon && children &&
-                    <div style={variant === 'primary' ? iconContainerPrimary : iconContainerSecondary}>
+                    <div style={variant === 'primary' ? iconContainerPrimary : variant === 'secondary' ? iconContainerSecondary : iconContainerTertiary}>
                         <i className={`ph-bold ph-${icon}`} style={iconStyles} aria-hidden="true" />
                     </div>
                 }
@@ -140,7 +156,7 @@ export default function Button({
         >
             {(children) && <span style={{ paddingLeft: '8px', paddingRight: icon ? undefined : '8px' }} className="text-button">{children}</span>}
             {icon && children &&
-                <div style={variant === 'primary' ? iconContainerPrimary : iconContainerSecondary}>
+                <div style={variant === 'primary' ? iconContainerPrimary : variant === 'secondary' ? iconContainerSecondary : iconContainerTertiary}>
                     <i className={`ph-bold ph-${icon}`} style={iconStyles} aria-hidden="true" />
                 </div>
             }
