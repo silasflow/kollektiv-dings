@@ -15,12 +15,12 @@ const text = {
     //   'Aus euren Antworten entsteht eine gemeinsame Visualisierung und ein Kollektiv-Typ als Grundlage für Reflexion, Diskussion und Vergleich.',
     cards: [
       {
-        // title: 'Antworten',
+        title: 'Antworten',
         text: 'Die Positionen der Regler verschieben die vier Achsen des Netzes. ',
         type: 'slider',
       },
       {
-        // title: 'Visualisierung',
+        title: 'Visualisierung',
         text: 'Jede Position verändert die Form eurer gemeinsamen Visualisierung.',
         type: 'axis',
       },
@@ -48,12 +48,12 @@ const text = {
     //   'Your answers create a shared visualization and a collective type as a basis for reflection, discussion and comparison.',
     cards: [
       {
-        // title: 'Answers',
+        title: 'Answers',
         text: 'The slider positions move the four axes of the grid.',
         type: 'slider',
       },
       {
-        // title: 'Visualization',
+        title: 'Visualization',
         text: 'Each position changes the shape of your shared visualization.',
         type: 'axis',
       },

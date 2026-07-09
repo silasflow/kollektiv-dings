@@ -32,7 +32,7 @@
 .goal-options-scroll-area {
   min-height: 0;
   overflow: hidden;
-    padding-left: 2rem;
+  padding-left: 2rem;
 }
 
 .goal-options-list {
@@ -67,8 +67,8 @@
 }
 
 .goal-option-field {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
+  display: flex;
+  flex-direction: row;
   align-items: center;
   gap: 1rem;
 
@@ -81,18 +81,9 @@
   pointer-events: none;
 }
 
-.goal-option-box {
-  display: grid;
-  place-items: center;
-
-  width: clamp(2.35rem, 6svh, 3rem);
-  height: clamp(2.35rem, 6svh, 3rem);
-
-  border: 0.16rem solid var(--color-text);
-  border-radius: 0.45rem;
-
-  color: var(--color-text);
-  font-size: clamp(1.1rem, 3svh, 1.45rem);
+.goal-option-field input:checked+.consent-box {
+  background: var(--color-action);
+  border: 2px solid var(--color-text);
 }
 
 .goal-option-label {
@@ -112,10 +103,7 @@
 }
 
 .goal-own-answer-title {
-  margin: 0 0 -0.15rem clamp(3.35rem, 7svh, 4rem);
-
-  color: rgba(232, 255, 242, 0.72);
-  text-transform: uppercase;
+  opacity: 0.7;
 }
 
 .goal-option-field--own {
@@ -127,24 +115,25 @@
 }
 
 .goal-own-answer {
-    display: grid;
-    gap: .35rem;
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
 
-    width: 100%;
-    min-width: 0;
-    max-width: 100%;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .goal-own-answer input {
-   width: 100%;
-    max-width: 100%;
-    box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 
   padding: 0.9rem 1rem;
   border: 0.1rem solid rgba(232, 255, 242, 0.28);
   border-radius: 0.8rem;
 
-  background: transparent;
+  background: var(--brand-deep-forest);
   color: var(--color-text);
 
   font: inherit;
@@ -184,8 +173,6 @@
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-
-  margin-left: clamp(3.35rem, 7svh, 4rem);
 }
 
 .goal-options-screen .test-navigation {

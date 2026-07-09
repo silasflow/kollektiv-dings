@@ -1014,7 +1014,7 @@
   color: var(--color-text);
   background-color: var(--brand-deep-forest);
 
-  /* font-size: 1.2rem; */
+  cursor: pointer;
 }
 
 .consent-field input:checked+.consent-box {

@@ -2,6 +2,7 @@
 
 import type { Lang } from '../../data/siteContent';
 import type { GoalOptionsQuestion as GoalOptionsQuestionType } from '../../data/testQuestions';
+import Button from '../common/Button';
 import TestNavigation from './TestNavigation';
 
 type Props = {
@@ -84,7 +85,7 @@ export default function GoalOptionsQuestion({
                     onChange={() => onToggleOption(option.id)}
                   />
 
-                  <span className="goal-option-box" aria-hidden="true">
+                  <span className="consent-box" aria-hidden="true">
                     {isChecked && <i className="ph-bold ph-check" />}
                   </span>
 
@@ -105,10 +106,10 @@ export default function GoalOptionsQuestion({
                   key={index}
                   className="goal-option-field goal-option-field--own"
                 >
-                  <span
-                    className="goal-option-box goal-option-box--empty"
+                  {/* <span
+                    className="consent-box goal-option-box--empty"
                     aria-hidden="true"
-                  />
+                  /> */}
 
                   <span className="goal-own-answer">
                     <input
@@ -124,13 +125,22 @@ export default function GoalOptionsQuestion({
                         className="goal-own-remove-button label"
                         onClick={() => removeOwnAnswer(index)}
                       >
-                        {text[lang].removeOwnAnswer}
+                        {/* {text[lang].removeOwnAnswer} */}
+                        <i className="ph-bold ph-trash" aria-hidden="true" />
                       </button>
                     )}
                   </span>
                 </label>
               ))}
 
+              <Button
+                variant="tertiary"
+                icon="plus"
+                onClick={addOwnAnswer}
+              >
+                {text[lang].addOwnAnswer}
+              </Button>
+              {/*               
               <button
                 type="button"
                 className="goal-own-add-button label"
@@ -138,7 +148,7 @@ export default function GoalOptionsQuestion({
               >
                 <i className="ph-bold ph-plus" aria-hidden="true" />
                 <span>{text[lang].addOwnAnswer}</span>
-              </button>
+              </button> */}
             </div>
           </div>
         </div>
