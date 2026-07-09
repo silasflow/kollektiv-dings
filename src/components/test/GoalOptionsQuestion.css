@@ -117,7 +117,7 @@
 .goal-own-answer {
   display: flex;
   flex-direction: row;
-  gap: 1rem;
+  gap: .5rem;
 
   width: 100%;
   min-width: 0;
