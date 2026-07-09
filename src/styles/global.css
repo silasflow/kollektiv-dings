@@ -17,8 +17,8 @@
 
 @font-face {
   font-family: "Archivo";
-  src: url("/fonts/archivo/Archivo-SemiBold.woff2") format("woff2");
-  font-weight: 600;
+  src: url("/fonts/archivo/Archivo-Medium.woff2") format("woff2");
+  font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
@@ -262,7 +262,7 @@ p {
 .text-button {
   font-family: var(--font-body);
   font-size: var(--size-button);
-  font-weight: 600;
+  font-weight: 500;
   line-height: auto;
 }
 
