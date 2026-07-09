@@ -8,32 +8,32 @@ type Props = {
 
 const text = {
   de: {
-    introTitle: 'Wie funktioniert\'s?',
+    introTitle: 'Wie funktioniert\’s?',
     introText:
-      'Der Kollektiv-Check macht sichtbar, wie euer Kollektiv arbeitet, Entscheidungen trifft und welche Themen euch prägen.',
-    introSubText:
-      'Aus euren Antworten entsteht eine gemeinsame Visualisierung und ein Kollektiv-Typ als Grundlage für Reflexion, Diskussion und Vergleich.',
+      'Diesem Kollektiv-Check visualisiert eure Arbeitsweise, Entscheidungsprozesse und prägenden Themen und hilt euch bei der Reflexion und Diskussion',
+    // introSubText:
+    //   'Aus euren Antworten entsteht eine gemeinsame Visualisierung und ein Kollektiv-Typ als Grundlage für Reflexion, Diskussion und Vergleich.',
     cards: [
       {
-        title: 'Antworten',
-        text: 'Beantwortet die Fragen mit den Schiebereglern. Jede Position verändert die Form eurer gemeinsamen Visualisierung.',
+        // title: 'Antworten',
+        text: 'Die Positionen der Regler verschieben die vier Achsen des Netzes. ',
         type: 'slider',
       },
       {
-        title: 'Visualisierung',
-        text: 'Die Positionen der Regler verschieben die vier Achsen des Netzes. So entsteht Schritt für Schritt euer Profil.',
+        // title: 'Visualisierung',
+        text: 'Jede Position verändert die Form eurer gemeinsamen Visualisierung.',
         type: 'axis',
       },
-      {
-        title: 'Prioritäten',
-        text: 'Ordnet die Arbeitsweisen danach, wie wichtig sie für euer Kollektiv sind. Das Ranking beeinflusst die Farbgebung.',
-        type: 'diamond',
-      },
-      {
-        title: 'Themen & Ziele',
-        text: 'Wählt beliebig viele Themen aus oder ergänzt eigene Schwerpunkte. Diese Angaben beschreiben euer Kollektiv genauer.',
-        type: 'check',
-      },
+      // {
+      //   title: 'Prioritäten',
+      //   text: 'Ordnet die Arbeitsweisen danach, wie wichtig sie für euer Kollektiv sind. Das Ranking beeinflusst die Farbgebung.',
+      //   type: 'diamond',
+      // },
+      // {
+      //   title: 'Themen & Ziele',
+      //   text: 'Wählt beliebig viele Themen aus oder ergänzt eigene Schwerpunkte. Diese Angaben beschreiben euer Kollektiv genauer.',
+      //   type: 'check',
+      // },
     ],
     resultTitle: 'Euer Ergebnis',
     resultText:
@@ -44,29 +44,29 @@ const text = {
     introTitle: 'How does it work?',
     introText:
       'The collective check shows how your collective works, makes decisions and which topics shape your practice.',
-    introSubText:
-      'Your answers create a shared visualization and a collective type as a basis for reflection, discussion and comparison.',
+    // introSubText:
+    //   'Your answers create a shared visualization and a collective type as a basis for reflection, discussion and comparison.',
     cards: [
       {
-        title: 'Answers',
-        text: 'Answer the questions with the sliders. Each position changes the shape of your shared visualization.',
+        // title: 'Answers',
+        text: 'The slider positions move the four axes of the grid.',
         type: 'slider',
       },
       {
-        title: 'Visualization',
-        text: 'The slider positions move the four axes of the grid. Step by step, your collective profile takes shape.',
+        // title: 'Visualization',
+        text: 'Each position changes the shape of your shared visualization.',
         type: 'axis',
       },
-      {
-        title: 'Priorities',
-        text: 'Rank the working methods by how important they are for your collective. The ranking influences the colors.',
-        type: 'diamond',
-      },
-      {
-        title: 'Topics & goals',
-        text: 'Select as many topics as you like or add your own focus areas. These details describe your collective more precisely.',
-        type: 'check',
-      },
+      // {
+      //   title: 'Priorities',
+      //   text: 'Rank the working methods by how important they are for your collective. The ranking influences the colors.',
+      //   type: 'diamond',
+      // },
+      // {
+      //   title: 'Topics & goals',
+      //   text: 'Select as many topics as you like or add your own focus areas. These details describe your collective more precisely.',
+      //   type: 'check',
+      // },
     ],
     resultTitle: 'Your result',
     resultText:
@@ -140,27 +140,23 @@ export default function TestIntro({ lang, onNext }: Props) {
           </h1>
 
           <p className="intro-text paragraph-emphasized">{t.introText}</p>
-          <p className="intro-subtext paragraph">{t.introSubText}</p>
         </div>
 
         <div className="intro-steps" aria-label={lang === 'de' ? 'Ablauf des Checks' : 'How the check works'}>
           {t.cards.map((card, index) => (
             <article className="intro-step-card" key={card.title}>
-              <div className="intro-step-number label">{index + 1}</div>
+              <div className="intro-step-number paragraph">{index + 1}</div>
 
               <div className="intro-step-visual">
                 <IntroVisual type={card.type} />
               </div>
 
-              <div className="intro-step-copy">
-                <h2 className="intro-step-title">{card.title}</h2>
-                <p className="intro-step-text">{card.text}</p>
-              </div>
+              <p className="intro-step-text paragraph">{card.text}</p>
             </article>
           ))}
         </div>
 
-        <div className="intro-result-card">
+        {/* <div className="intro-result-card">
           <div className="intro-result-polaroid" aria-hidden="true">
             <div className="intro-result-polaroid__image">
               <div className="intro-result-character intro-result-character--left" />
@@ -174,7 +170,7 @@ export default function TestIntro({ lang, onNext }: Props) {
             <p>{t.resultText}</p>
             <p className="intro-result-note">{t.resultNote}</p>
           </div>
-        </div>
+        </div> */}
       </div>
 
       <TestNavigation lang={lang} backHref={`/${lang}/`} onNext={onNext} />
