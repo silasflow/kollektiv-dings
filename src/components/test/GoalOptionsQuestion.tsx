@@ -120,14 +120,11 @@ export default function GoalOptionsQuestion({
                     />
 
                     {(visibleOwnAnswers.length > 1 || answer.trim().length > 0) && (
-                      <button
-                        type="button"
-                        className="goal-own-remove-button label"
+                      <Button
+                        variant="tertiary"
+                        icon="x"
                         onClick={() => removeOwnAnswer(index)}
-                      >
-                        {/* {text[lang].removeOwnAnswer} */}
-                        <i className="ph-bold ph-trash" aria-hidden="true" />
-                      </button>
+                      />
                     )}
                   </span>
                 </label>
