@@ -196,9 +196,6 @@
     min-height: clamp(3rem, 6.2vh, 3.45rem);
   }
 
-  .ranking-label {
-    font-size: clamp(0.95rem, 1.8vw, 1.08rem);
-  }
 }
 
 @media (max-height: 720px) {
@@ -246,17 +243,9 @@
     height: 2rem;
     font-size: 1.05rem;
   }
-
-  .ranking-label {
-    font-size: 0.88rem;
-  }
 }
 
 @media (max-width: 390px) {
-  .ranking-label {
-    font-size: 0.84rem;
-  }
-
   .ranking-card {
     padding-left: 0.7rem;
   }
