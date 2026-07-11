@@ -70,6 +70,8 @@
   --brand-light-forest: #00665A;
   --brand-fresh-white: #CAFBE4;
   --brand-violet: #8166EA;
+  --brand-dark-violet: #26113C;
+  --brand-dark-violet-shade: #381E5B;
 
   --color-bg: var(--brand-forest);
   --color-card-bg: var(--brand-light-forest);
