@@ -35,6 +35,7 @@ export type SliderQuestion = {
 export type RankingOption = {
   id: string;
   label: LocalizedText;
+  description?: LocalizedText;
 };
 
 export type RankingQuestion = {
@@ -70,8 +71,8 @@ export const testQuestions: TestQuestion[] = [
     type: 'slider',
     graphic: 'diamond',
     category: {
-      de: '1/5 Formalisierung',
-      en: '1/5 Formalization',
+      de: '1/6 Formalisierung',
+      en: '1/6 Formalization',
     },
     title: {
       de: 'Wie trefft ihr Entscheidungen und wie sind eure Regeln?',
@@ -116,27 +117,27 @@ export const testQuestions: TestQuestion[] = [
         min: 0,
         max: 33,
         text: {
-          de: '„Wir machen einfach, was gerade nötig ist – ohne feste Regeln oder Rollen. Alles wird einfach besprochen.“ ',
-          en: '"We just do what is needed at the moment – without fixed rules or roles. Everything is simply discussed."',
+          de: 'Wir machen einfach, was gerade nötig ist – ohne feste Regeln oder Rollen. Alles wird einfach besprochen.',
+          en: 'We just do what is needed at the moment – without fixed rules or roles. Everything is simply discussed.',
         },
       },
       {
         min: 34,
         max: 66,
         text: {
-          de: '„Wir haben ein paar feste Abläufe und Rollen, aber keine offizielle Satzung. Entscheidungen treffen wir gemeinsam.“',
-          en: '"We have some fixed processes and roles, but no official constitution. We make decisions together."',
+          de: 'Wir haben ein paar feste Abläufe und Rollen, aber keine offizielle Satzung. Entscheidungen treffen wir gemeinsam.',
+          en: 'We have some fixed processes and roles, but no official constitution. We make decisions together.',
         },
       },
       {
         min: 67,
         max: 100,
         text: {
-          de: '„Wir haben klare Regeln, eine Art Satzung, Mitgliedschaftsbedingungen oder offizielle Rollen. Alles ist fest strukturiert.“',
-          en: '"We have clear rules, a kind of constitution, membership conditions or official roles. Everything is firmly structured."',
+          de: 'Wir haben klare Regeln, eine Art Satzung, Mitgliedschaftsbedingungen oder offizielle Rollen. Alles ist fest strukturiert.',
+          en: 'We have clear rules, a kind of constitution, membership conditions or official roles. Everything is firmly structured.',
         },
       },
-     
+
     ],
   },
   /* Frage 2*/
@@ -145,8 +146,8 @@ export const testQuestions: TestQuestion[] = [
     type: 'slider',
     graphic: 'timeline',
     category: {
-      de: '2/5 Zeit',
-      en: '2/5 Time',
+      de: '2/6 Zeit',
+      en: '2/6 Time',
     },
     title: {
       de: 'Wie lange existiert euer Kollektiv und wie oft kommt ihr zusammen?',
@@ -176,7 +177,7 @@ export const testQuestions: TestQuestion[] = [
           de: 'verstetigt',
           en: 'permanent',
         }
-    }
+      }
     ],
     minLabel: {
       de: 'spontan',
@@ -191,24 +192,24 @@ export const testQuestions: TestQuestion[] = [
         min: 0,
         max: 33,
         text: {
-          de: '„Wir kommen spontan zusammen und lösen uns schnell wieder auf.“',
-          en: '"We come together spontaneously and quickly dissolve again."',
+          de: 'Wir kommen spontan zusammen und lösen uns schnell wieder auf.',
+          en: 'We come together spontaneously and quickly dissolve again.',
         },
       },
       {
         min: 34,
         max: 66,
         text: {
-         de: '„Wir haben einen festen Zeitrahmen oder treffen uns regelmäßig – z. B. für Projekte oder Events.“ ',
-         en: '"We have a fixed time frame or meet regularly – e.g. for projects or events."',
-   },
+          de: 'Wir haben einen festen Zeitrahmen oder treffen uns regelmäßig – z. B. für Projekte oder Events.',
+          en: 'We have a fixed time frame or meet regularly – e.g. for projects or events.',
+        },
       },
       {
         min: 67,
         max: 100,
         text: {
-          de: '„Uns gibt es schon länger und wir arbeiten dauerhaft zusammen.“',
-          en: '"We have existed for a while and work together permanently."',
+          de: 'Uns gibt es schon länger und wir arbeiten dauerhaft zusammen.',
+          en: 'We have existed for a while and work together permanently.',
         },
       },
     ],
@@ -219,8 +220,8 @@ export const testQuestions: TestQuestion[] = [
     type: 'slider',
     graphic: 'timeline',
     category: {
-      de: '3/5 Identität',
-      en: '3/5 Identity',
+      de: '3/6 Identität',
+      en: '3/6 Identity',
     },
     title: {
       de: 'Wie sehr fühlt ihr euch als Kollektiv verbunden und wie ausgeprägt ist eure gemeinsame Identität?',
@@ -273,32 +274,32 @@ export const testQuestions: TestQuestion[] = [
         min: 0,
         max: 25,
         text: {
-          de: '„Wir sind durch unseren sozialen Kontakt verbunden. Was uns verbindet ist ein gemeinsames Erlebnis.“',
-          en: '"We are connected through our social contact. What connects us is a shared experience."',
+          de: 'Wir sind durch unseren sozialen Kontakt verbunden. Was uns verbindet ist ein gemeinsames Erlebnis.',
+          en: 'We are connected through our social contact. What connects us is a shared experience.',
         },
       },
       {
         min: 26,
         max: 50,
         text: {
-         de: '„Wir kennen uns gut, haben ein gemeinsames Ziel, und handeln danach.“ ',
-         en: '"We know each other well, have a common goal, and act accordingly."',
-   },
+          de: 'Wir kennen uns gut, haben ein gemeinsames Ziel, und handeln danach.',
+          en: 'We know each other well, have a common goal, and act accordingly.',
+        },
       },
       {
         min: 51,
         max: 75,
         text: {
-          de: '„Wir haben ein starkes Wir-Gefühl, feste Strukturen und klare Positionen.“ ',
-          en: '"We have a strong sense of togetherness, established structures and clear positions."',
+          de: 'Wir haben ein starkes Wir-Gefühl, feste Strukturen und klare Positionen.',
+          en: 'We have a strong sense of togetherness, established structures and clear positions.',
         },
       },
-       {
+      {
         min: 76,
         max: 100,
         text: {
-          de: '„Wir haben eine gemeinsame Geschichte, werden als Gruppe anerkannt und haben eine klare Identität.“',
-          en: '"We have a shared history, are recognized as a group and have a clear identity."',
+          de: 'Wir haben eine gemeinsame Geschichte, werden als Gruppe anerkannt und haben eine klare Identität.',
+          en: 'We have a shared history, are recognized as a group and have a clear identity.',
         },
       },
     ],
@@ -309,8 +310,8 @@ export const testQuestions: TestQuestion[] = [
     type: 'slider',
     graphic: 'timeline',
     category: {
-      de: '4/5 Räumliche Verortung',
-      en: '4/5 Spatial Placement',
+      de: '4/6 Räumliche Verortung',
+      en: '4/6 Spatial Placement',
     },
     title: {
       de: 'Wo findet eure primär Arbeit statt?',
@@ -333,15 +334,15 @@ export const testQuestions: TestQuestion[] = [
           en: 'translocal',
         },
       },
-    {
+      {
         min: 67,
         max: 100,
         label: {
-      de: 'global',
-      en: 'global',
-    },
-  },
-  
+          de: 'global',
+          en: 'global',
+        },
+      },
+
     ],
     minLabel: {
       de: 'lokal',
@@ -350,31 +351,31 @@ export const testQuestions: TestQuestion[] = [
     maxLabel: {
       de: 'global',
       en: 'global',
-    },  
+    },
 
     answerTexts: [
       {
         min: 0,
         max: 33,
         text: {
-          de: '„Wir sind an einem konkreten Ort in einer bestimmten Gegend aktiv.“ ',
-          en: '"We are active in a specific place in a certain area."',
+          de: 'Wir sind an einem konkreten Ort in einer bestimmten Gegend aktiv',
+          en: 'We are active in a specific place in a certain area.',
         },
       },
       {
         min: 34,
         max: 66,
         text: {
-         de: '„Wir arbeiten in mehreren Orten oder Regionen zusammen.“',
-         en: '"We work together in several places or regions."',
-   },
+          de: 'Wir arbeiten in mehreren Orten oder Regionen zusammen.',
+          en: 'We work together in several places or regions.',
+        },
       },
       {
         min: 67,
         max: 100,
         text: {
-          de: '„Wir sind in mehreren Ländern oder weltweit aktiv.“',
-          en: '"We are active in several countries or globally."',
+          de: 'Wir sind in mehreren Ländern oder weltweit aktiv.',
+          en: 'We are active in several countries or globally.',
         },
       },
     ],
@@ -384,12 +385,12 @@ export const testQuestions: TestQuestion[] = [
     type: 'ranking',
     graphic: 'goals',
     category: {
-      de: '5/5 Ziele',
-      en: '5/5 Goals',
+      de: '5/6 Handlungslogik',
+      en: '5/6 Actions',
     },
     title: {
-      de: 'Welche der Methoden passt am besten zu eurem Kollektiv?',
-      en: 'Which method best fits your collective?',
+      de: 'Sortiert die Methoden nach ihrer Wichtigkeit für euer Kollektiv.',
+      en: 'Sort the methods by their importance to your collective.',
     },
     description: {
       de: 'Wählt die Methoden aus, die für euer Kollektiv besonders wichtig sind.',
@@ -402,12 +403,20 @@ export const testQuestions: TestQuestion[] = [
           de: 'Konfliktorientiert',
           en: 'Conflict-oriented',
         },
+        description: {
+          de: 'Wir wollen auf Probleme aufmerksam und Konflikte sichtbar machen.',
+          en: 'We want to raise awareness of problems and make conflicts visible.',
+        },
       },
       {
         id: 'economic',
         label: {
           de: 'Ökonomisch',
           en: 'Economic',
+        },
+        description: {
+          de: 'Unser Fokus liegt auf wirtschaftlichen Zielen – z. B. gemeinsame Projekte oder Geschäfte.',
+          en: 'Our focus is on economic goals – for example, joint projects or businesses.',
         },
       },
       {
@@ -416,12 +425,20 @@ export const testQuestions: TestQuestion[] = [
           de: 'Kreativ',
           en: 'Creative',
         },
+        description: {
+          de: 'Wir wollen kreativ sein und künstlerisch oder experimentell arbeiten.',
+          en: 'We want to be creative and work artistically or experimentally.',
+        },
       },
       {
         id: 'social',
         label: {
           de: 'Sozial',
           en: 'Social',
+        },
+        description: {
+          de: 'Uns geht es um gegenseitige Unterstützung und das Pflegen einer Gemeinschaft.',
+          en: 'We are focused on mutual support and nurturing a community.',
         },
       },
       {
@@ -430,20 +447,24 @@ export const testQuestions: TestQuestion[] = [
           de: 'Ökologisch',
           en: 'Ecological',
         },
+        description: {
+          de: 'Wir setze uns für unsere Natur und Umwelt ein. ',
+          en: 'We are committed to our nature and environment.',
+        },
       },
     ],
     allowOwnAnswer: true,
   },
-    {
+  {
     id: 'goalTopics',
     type: 'goal-options',
     category: {
-      de: 'Euere Ziele',
-      en: 'Your goals',
+      de: 'Eure Themen 6/6',
+      en: 'Your Topics 6/6',
     },
     title: {
-      de: 'Welche Ziele möchtet ihr erreichen?',
-      en: 'Which goals do you want to achieve?',
+      de: 'Welche der Themen passen zu eurem Kollektiv?',
+      en: 'Which topics match your collective?',
     },
     description: {
       de: 'Wählt aus, welche Themen oder Ziele für euer Kollektiv wichtig sind. Ihr könnt mehrere auswählen oder die Frage überspringen.',
