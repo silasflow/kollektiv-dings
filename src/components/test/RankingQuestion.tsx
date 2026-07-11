@@ -131,7 +131,7 @@ export default function RankingQuestion({
       >
         <SortableContext items={itemIds} strategy={verticalListSortingStrategy}>
           <ol className="ranking-list" aria-label={question.title[lang]}>
-            <p className="paragraph-emphasised">
+            <p className="paragraph-emphasized">
               {selectedOption?.description?.[lang]}
             </p>
             {sortedOptions.map((option, index) => (

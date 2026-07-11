@@ -139,7 +139,7 @@ export default function TestIntro({ lang, onNext }: Props) {
             {t.introTitle}
           </h1>
 
-          <p className="intro-text paragraph-emphasized">{t.introText}</p>
+          <p className="paragraph-emphasized">{t.introText}</p>
         </div>
 
         <div className="intro-steps" aria-label={lang === 'de' ? 'Ablauf des Checks' : 'How the check works'}>
@@ -154,22 +154,6 @@ export default function TestIntro({ lang, onNext }: Props) {
             </article>
           ))}
         </div>
-
-        {/* <div className="intro-result-card">
-          <div className="intro-result-polaroid" aria-hidden="true">
-            <div className="intro-result-polaroid__image">
-              <div className="intro-result-character intro-result-character--left" />
-              <div className="intro-result-character intro-result-character--right" />
-            </div>
-            <div className="intro-result-polaroid__caption">KOLLEKTIV TYP</div>
-          </div>
-
-          <div className="intro-result-copy">
-            <h2 className="intro-result-title">{t.resultTitle}</h2>
-            <p>{t.resultText}</p>
-            <p className="intro-result-note">{t.resultNote}</p>
-          </div>
-        </div> */}
       </div>
 
       <TestNavigation lang={lang} backHref={`/${lang}/`} onNext={onNext} />

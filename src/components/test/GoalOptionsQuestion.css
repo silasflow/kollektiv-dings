@@ -16,6 +16,7 @@
   max-width: 46rem;
 
   overflow: hidden;
+  flex-grow: 1;
 }
 
 .goal-options-copy {

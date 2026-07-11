@@ -67,9 +67,9 @@ export default function GoalOptionsQuestion({
 
           <h1 className="question-title heading3">{question.title[lang]}</h1>
 
-          <p className="paragraph-emphasised goal-options-description">
+          {/* <p className="paragraph-emphasized goal-options-description">
             {question.description[lang]}
-          </p>
+          </p> */}
         </div>
 
         <div className="goal-options-scroll-area">

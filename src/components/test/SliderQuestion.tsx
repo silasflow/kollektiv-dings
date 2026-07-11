@@ -96,10 +96,10 @@ export default function SliderQuestion({
         </div>
 
         <QuestionLineGraphic
-  mode="slider"
-  currentQuestionId={question.id}
-  answers={getLineGraphicAnswers(answers)}
-/>
+          mode="slider"
+          currentQuestionId={question.id}
+          answers={getLineGraphicAnswers(answers)}
+        />
       </div>
 
       <QuestionMainGraphic
@@ -109,33 +109,33 @@ export default function SliderQuestion({
       />
 
       <div className="question-container">
-        <p className="question-answer-text paragraph-emphasised">{answerText}</p>
+        <p className="question-answer-text paragraph-emphasized">{answerText}</p>
 
         <div className="slider-answer-card">
           <h2 className="heading3">{valueLabel}</h2>
 
           <div className="range-wrap">
-           <input
-  className="range-input"
-  type="range"
-  min="0"
-  max="100"
-  step="1"
-  value={value}
-  onChange={(event) => onChange(Number(event.target.value))}
-  onKeyDown={(event) => {
-    if (event.key === 'ArrowLeft' || event.key === 'ArrowDown') {
-      event.preventDefault();
-      onChange(Math.max(0, value - 1));
-    }
+            <input
+              className="range-input"
+              type="range"
+              min="0"
+              max="100"
+              step="1"
+              value={value}
+              onChange={(event) => onChange(Number(event.target.value))}
+              onKeyDown={(event) => {
+                if (event.key === 'ArrowLeft' || event.key === 'ArrowDown') {
+                  event.preventDefault();
+                  onChange(Math.max(0, value - 1));
+                }
 
-    if (event.key === 'ArrowRight' || event.key === 'ArrowUp') {
-      event.preventDefault();
-      onChange(Math.min(100, value + 1));
-    }
-  }}
-  aria-label={question.title[lang]}
-/>
+                if (event.key === 'ArrowRight' || event.key === 'ArrowUp') {
+                  event.preventDefault();
+                  onChange(Math.min(100, value + 1));
+                }
+              }}
+              aria-label={question.title[lang]}
+            />
 
             <div
               className="range-thumb-visual"
