@@ -283,18 +283,18 @@ function ResultPopup({
       <div className="result-popup__content">
         <p className="result-popup__kicker script-heading4">{t.collective}</p>
 
-        <h2 className="result-popup__title">
+        <h2 className="heading4">
           {result.collectiveName?.trim() || t.noName}
         </h2>
 
         <dl className="result-popup__meta">
           <div>
-            <dt>{t.location}</dt>
+            <dt className="label">{t.location}</dt>
             <dd>{result.location?.trim() || t.noData}</dd>
           </div>
 
           <div>
-            <dt>{t.contact}</dt>
+            <dt className="label">{t.contact}</dt>
             <dd>
               {result.websiteOrInstagram?.trim() ? (
                 <a href={normalizeUrl(result.websiteOrInstagram)} target="_blank" rel="noreferrer">

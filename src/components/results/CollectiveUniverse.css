@@ -62,7 +62,7 @@
 
 .universe-intro .paragraph {
   margin-top: 0.75rem;
-  color: rgba(202, 251, 228, 0.82);
+  color: var(--color-text-highlight);
 }
 
 .universe-field {
@@ -98,8 +98,7 @@
 .universe-network:hover .network-svg {
   transform: scale(1.18);
   filter:
-    drop-shadow(0 0 0.55rem rgba(203, 255, 104, 0.7))
-    drop-shadow(0 0 1.2rem rgba(130, 94, 226, 0.55));
+    drop-shadow(0 0 0.55rem rgba(203, 255, 104, 0.7)) drop-shadow(0 0 1.2rem rgba(130, 94, 226, 0.55));
 }
 
 .universe-network.is-highlighted {
@@ -108,9 +107,7 @@
 
 .universe-network.is-highlighted .network-svg {
   filter:
-    drop-shadow(0 0 0.8rem rgba(203, 255, 104, 0.95))
-    drop-shadow(0 0 1.8rem rgba(203, 255, 104, 0.55))
-    drop-shadow(0 0 2.8rem rgba(130, 94, 226, 0.65));
+    drop-shadow(0 0 0.8rem rgba(203, 255, 104, 0.95)) drop-shadow(0 0 1.8rem rgba(203, 255, 104, 0.55)) drop-shadow(0 0 2.8rem rgba(130, 94, 226, 0.65));
 }
 
 @keyframes network-fly-in {
@@ -130,6 +127,7 @@
 }
 
 @keyframes network-float {
+
   0%,
   100% {
     translate: 0 0;
@@ -150,8 +148,7 @@
     filter 0.25s ease;
 
   filter:
-    drop-shadow(0 0 0.35rem rgba(202, 251, 228, 0.18))
-    drop-shadow(0 0 1rem rgba(130, 94, 226, 0.28));
+    drop-shadow(0 0 0.35rem rgba(202, 251, 228, 0.18)) drop-shadow(0 0 1rem rgba(130, 94, 226, 0.28));
 }
 
 .network-axis {
@@ -267,15 +264,12 @@
 
 .result-popup__meta dt,
 .result-popup__fields h3 {
-  font-size: 0.78rem;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: rgba(202, 251, 228, 0.58);
+  color: var(--color-text);
+  opacity: 0.7;
 }
 
 .result-popup__meta dd {
-  margin: 0;
-  color: rgba(202, 251, 228, 0.9);
+  color: var(--color-text);
 }
 
 .result-popup__meta a {
@@ -342,6 +336,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+
   .universe-stars,
   .universe-network {
     animation: none;

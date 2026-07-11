@@ -3,6 +3,7 @@ import type { Lang } from '../../data/siteContent';
 import './UniverseResultsExperience.css';
 import TagList from '../common/TagList';
 import '../common/TagList.css';
+import Button from '../common/Button';
 
 type Props = {
   lang: Lang;
@@ -123,35 +124,35 @@ const archetypeLabels = {
 
 const goalLabels = {
   de: {
-  political_topic: 'Politisch',
-  encounter: 'Begegnung',
-  climate: 'Klima',
-  sport: 'Sport',
-  equality: 'Gleichberechtigung',
-  health: 'Gesundheit',
+    political_topic: 'Politisch',
+    encounter: 'Begegnung',
+    climate: 'Klima',
+    sport: 'Sport',
+    equality: 'Gleichberechtigung',
+    health: 'Gesundheit',
 
-  political: 'Politisch',
-  economic: 'Ökonomisch',
-  creative: 'Kreativ',
-  social: 'Sozial',
-  ecological: 'Ökologisch',
-  conflict: 'Konfliktorientiert',
-},
-en: {
-  political_topic: 'Political',
-  encounter: 'Encounter',
-  climate: 'Climate',
-  sport: 'Sport',
-  equality: 'Equality',
-  health: 'Health',
+    political: 'Politisch',
+    economic: 'Ökonomisch',
+    creative: 'Kreativ',
+    social: 'Sozial',
+    ecological: 'Ökologisch',
+    conflict: 'Konfliktorientiert',
+  },
+  en: {
+    political_topic: 'Political',
+    encounter: 'Encounter',
+    climate: 'Climate',
+    sport: 'Sport',
+    equality: 'Equality',
+    health: 'Health',
 
-  political: 'Political',
-  economic: 'Economic',
-  creative: 'Creative',
-  social: 'Social',
-  ecological: 'Ecological',
-  conflict: 'Conflict-oriented',
-},
+    political: 'Political',
+    economic: 'Economic',
+    creative: 'Creative',
+    social: 'Social',
+    ecological: 'Ecological',
+    conflict: 'Conflict-oriented',
+  },
 } as const;
 
 const rankingStyleConfig: Record<
@@ -189,9 +190,9 @@ export default function UniverseResultsExperience({ lang }: Props) {
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [zoom, setZoom] = useState(1);
-const [pan, setPan] = useState({ x: 0, y: 0 });
-const [isPanning, setIsPanning] = useState(false);
-const panStartRef = useRef({ pointerX: 0, pointerY: 0, panX: 0, panY: 0 });
+  const [pan, setPan] = useState({ x: 0, y: 0 });
+  const [isPanning, setIsPanning] = useState(false);
+  const panStartRef = useRef({ pointerX: 0, pointerY: 0, panX: 0, panY: 0 });
   const [results, setResults] = useState<TestResult[]>([]);
   const [selectedResult, setSelectedResult] = useState<TestResult | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -228,51 +229,51 @@ const panStartRef = useRef({ pointerX: 0, pointerY: 0, panX: 0, panY: 0 });
   }, []);
 
   const positionedResults = useMemo<PositionedResult[]>(() => {
-  const positioned: PositionedResult[] = [];
+    const positioned: PositionedResult[] = [];
 
-  results.forEach((result, index) => {
-    const hash = hashString(result.id || `${index}`);
-    let angle = (hash % 360) * (Math.PI / 180);
-    let ring = 14 + (hash % 34);
+    results.forEach((result, index) => {
+      const hash = hashString(result.id || `${index}`);
+      let angle = (hash % 360) * (Math.PI / 180);
+      let ring = 14 + (hash % 34);
 
-    const isOwn =
-      Boolean(highlightId && result.id === highlightId) ||
-      (!highlightId && index === 0);
+      const isOwn =
+        Boolean(highlightId && result.id === highlightId) ||
+        (!highlightId && index === 0);
 
-    let x = 50 + Math.cos(angle) * ring;
-    let y = 51 + Math.sin(angle) * ring;
+      let x = 50 + Math.cos(angle) * ring;
+      let y = 51 + Math.sin(angle) * ring;
 
-    for (let attempt = 0; attempt < 24; attempt += 1) {
-      const tooClose = positioned.some((item) => {
-        const dx = item.x - x;
-        const dy = item.y - y;
+      for (let attempt = 0; attempt < 24; attempt += 1) {
+        const tooClose = positioned.some((item) => {
+          const dx = item.x - x;
+          const dy = item.y - y;
 
-        return Math.hypot(dx, dy) < 6;
+          return Math.hypot(dx, dy) < 6;
+        });
+
+        if (!tooClose) break;
+
+        angle += 0.7;
+        ring += 2.2;
+
+        x = 50 + Math.cos(angle) * ring;
+        y = 51 + Math.sin(angle) * ring;
+      }
+
+      positioned.push({
+        ...result,
+        x: clamp(x, 7, 93),
+        y: clamp(y, 12, 88),
+        size: isOwn ? 9.5 : 6.4,
+        rotation: 0,
+        floatDelay: -((hash % 100) / 20),
+        appearDelay: isOwn ? 0 : 1.6 + (index % 24) * 0.045,
+        isOwn,
       });
-
-      if (!tooClose) break;
-
-      angle += 0.7;
-      ring += 2.2;
-
-      x = 50 + Math.cos(angle) * ring;
-      y = 51 + Math.sin(angle) * ring;
-    }
-
-    positioned.push({
-      ...result,
-      x: clamp(x, 7, 93),
-      y: clamp(y, 12, 88),
-      size: isOwn ? 9.5 : 6.4,
-      rotation: 0,
-      floatDelay: -((hash % 100) / 20),
-      appearDelay: isOwn ? 0 : 1.6 + (index % 24) * 0.045,
-      isOwn,
     });
-  });
 
-  return positioned;
-}, [results, highlightId]);
+    return positioned;
+  }, [results, highlightId]);
 
   useUniverseCanvas(canvasRef, positionedResults);
 
@@ -306,117 +307,124 @@ const panStartRef = useRef({ pointerX: 0, pointerY: 0, panX: 0, panY: 0 });
       </section>
 
       <section
-  className={`universe-stage ${isPanning ? 'is-panning' : ''}`}
-  aria-label={t.headline}
-  onWheel={(event) => {
-    event.preventDefault();
+        className={`universe-stage ${isPanning ? 'is-panning' : ''}`}
+        aria-label={t.headline}
+        onWheel={(event) => {
+          event.preventDefault();
 
-    const zoomDirection = event.deltaY > 0 ? -0.12 : 0.12;
-    setZoom((value) => clamp(value + zoomDirection, 0.7, 3.5));
-  }}
-  onPointerDown={(event) => {
-    if ((event.target as HTMLElement).closest('.universe-node')) return;
+          const zoomDirection = event.deltaY > 0 ? -0.12 : 0.12;
+          setZoom((value) => clamp(value + zoomDirection, 0.7, 3.5));
+        }}
+        onPointerDown={(event) => {
+          if ((event.target as HTMLElement).closest('.universe-node')) return;
 
-    setIsPanning(true);
-    panStartRef.current = {
-      pointerX: event.clientX,
-      pointerY: event.clientY,
-      panX: pan.x,
-      panY: pan.y,
-    };
+          setIsPanning(true);
+          panStartRef.current = {
+            pointerX: event.clientX,
+            pointerY: event.clientY,
+            panX: pan.x,
+            panY: pan.y,
+          };
 
-    event.currentTarget.setPointerCapture(event.pointerId);
-  }}
-  onPointerMove={(event) => {
-    if (!isPanning) return;
+          event.currentTarget.setPointerCapture(event.pointerId);
+        }}
+        onPointerMove={(event) => {
+          if (!isPanning) return;
 
-    const deltaX = event.clientX - panStartRef.current.pointerX;
-    const deltaY = event.clientY - panStartRef.current.pointerY;
+          const deltaX = event.clientX - panStartRef.current.pointerX;
+          const deltaY = event.clientY - panStartRef.current.pointerY;
 
-    setPan({
-      x: panStartRef.current.panX + deltaX,
-      y: panStartRef.current.panY + deltaY,
-    });
-  }}
-  onPointerUp={(event) => {
-    setIsPanning(false);
-    event.currentTarget.releasePointerCapture(event.pointerId);
-  }}
-  onPointerCancel={() => {
-    setIsPanning(false);
-  }}
->
-  <div
-    className="universe-camera"
-    style={
-      {
-        '--universe-zoom': zoom,
-        '--universe-pan-x': `${pan.x}px`,
-        '--universe-pan-y': `${pan.y}px`,
-      } as CSSProperties
-    }
-  >
-    {positionedResults.map((result) => (
-      <button
-        key={result.id}
-        className={`universe-node ${result.isOwn ? 'is-own' : ''} ${
-  selectedResult?.id === result.id ? 'is-selected' : ''
-}`}
-        type="button"
-        style={
-          {
-            '--x': `${result.x}%`,
-            '--y': `${result.y}%`,
-            '--size': `${result.size}vmin`,
-            '--rotation': `${result.rotation}deg`,
-            '--float-delay': `${result.floatDelay}s`,
-            '--appear-delay': `${result.appearDelay}s`,
-          } as CSSProperties
-        }
-        onClick={() => setSelectedResult(result)}
-        aria-label={result.collectiveName?.trim() || t.noName}
+          setPan({
+            x: panStartRef.current.panX + deltaX,
+            y: panStartRef.current.panY + deltaY,
+          });
+        }}
+        onPointerUp={(event) => {
+          setIsPanning(false);
+          event.currentTarget.releasePointerCapture(event.pointerId);
+        }}
+        onPointerCancel={() => {
+          setIsPanning(false);
+        }}
       >
-        <NetworkSvg result={result} variant={result.isOwn ? 'own' : 'normal'} />
-      </button>
-    ))}
-  </div>
-</section>
+        <div
+          className="universe-camera"
+          style={
+            {
+              '--universe-zoom': zoom,
+              '--universe-pan-x': `${pan.x}px`,
+              '--universe-pan-y': `${pan.y}px`,
+            } as CSSProperties
+          }
+        >
+          {positionedResults.map((result) => (
+            <button
+              key={result.id}
+              className={`universe-node ${result.isOwn ? 'is-own' : ''} ${selectedResult?.id === result.id ? 'is-selected' : ''
+                }`}
+              type="button"
+              style={
+                {
+                  '--x': `${result.x}%`,
+                  '--y': `${result.y}%`,
+                  '--size': `${result.size}vmin`,
+                  '--rotation': `${result.rotation}deg`,
+                  '--float-delay': `${result.floatDelay}s`,
+                  '--appear-delay': `${result.appearDelay}s`,
+                } as CSSProperties
+              }
+              onClick={() => setSelectedResult(result)}
+              aria-label={result.collectiveName?.trim() || t.noName}
+            >
+              <NetworkSvg result={result} variant={result.isOwn ? 'own' : 'normal'} />
+            </button>
+          ))}
+        </div>
+      </section>
 
-<div className="universe-zoom-control" aria-label="Zoom">
-  <button
-    type="button"
-    onClick={() => setZoom((value) => clamp(value - 0.2, 0.7, 3.5))}
-  >
-    −
-  </button>
+      <div className="universe-zoom-control" aria-label="Zoom">
+        <Button
+          variant="primary"
+          icon="minus"
+          onClick={() => setZoom((value) => clamp(value - 0.2, 0.7, 3.5))}
+        />
 
-  <input
-    type="range"
-    min="0.7"
-    max="3.5"
-    step="0.1"
-    value={zoom}
-    onChange={(event) => setZoom(Number(event.target.value))}
-    aria-label="Zoom"
-  />
+        <div className="range-wrap universe-zoom-range">
+          <input
+            className="range-input"
+            type="range"
+            min="0.7"
+            max="3.5"
+            step="0.1"
+            value={zoom}
+            onChange={(event) => setZoom(Number(event.target.value))}
+            aria-label="Zoom"
+          />
 
-  <button
-    type="button"
-    onClick={() => setZoom((value) => clamp(value + 0.2, 0.7, 3.5))}
-  >
-    +
-  </button>
+          <div
+            className="range-thumb-visual universe-zoom-thumb"
+            style={{ left: `${((zoom - 0.7) / 2.8) * 100}%` }}
+            aria-hidden="true"
+          >
+            <i className="ph-bold ph-dots-six" />
+          </div>
+        </div>
 
-  <button
-    type="button"
-    onClick={() => {
-      setZoom(1);
-      setPan({ x: 0, y: 0 });
-    }}
-  >
-    Reset
-  </button>
-</div>
+        <Button
+          variant="primary"
+          icon="plus"
+          onClick={() => setZoom((value) => clamp(value + 0.2, 0.7, 3.5))}
+        />
+        <Button
+          variant="primary"
+          icon="arrow-counter-clockwise
+"
+          onClick={() => {
+            setZoom(1);
+            setPan({ x: 0, y: 0 });
+          }}
+        />
+      </div>
 
       {selectedResult && (
         <ResultInspector
@@ -468,9 +476,8 @@ function NetworkSvg({
 
 
       <polygon
-        className={`universe-network-shape ${
-          variant === 'own' ? 'universe-network-shape--own' : ''
-        }`}
+        className={`universe-network-shape ${variant === 'own' ? 'universe-network-shape--own' : ''
+          }`}
         points={points}
         fill={`url(#${gradientId})`}
       />
@@ -502,44 +509,44 @@ function ResultInspector({
   const ranking = getRankingOrder(result);
   const archetype = getArchetypeLabel(lang, result.result.archetypeId);
 
- return (
-  <aside className="universe-inspector" role="dialog" aria-modal="true">
-    <button className="universe-inspector__close" type="button" onClick={onClose}>
-      <span className="sr-only">{t.close}</span>
-      <i className="ph-bold ph-x" aria-hidden="true" />
-    </button>
+  return (
+    <aside className="universe-inspector" role="dialog" aria-modal="true">
+      <button className="universe-inspector__close" type="button" onClick={onClose}>
+        <span className="sr-only">{t.close}</span>
+        <i className="ph-bold ph-x" aria-hidden="true" />
+      </button>
 
-    <div className="universe-inspector__content">
-      <h2>{result.collectiveName?.trim() || t.noName}</h2>
+      <div className="universe-inspector__content">
+        <h2 className="heading4">{result.collectiveName?.trim() || t.noName}</h2>
 
-      {fields.length > 0 && (
-        <div className="universe-inspector__tags">
-          <TagList items={fields} />
-        </div>
-      )}
+        {fields.length > 0 && (
+          <div className="universe-inspector__tags">
+            <TagList items={fields} />
+          </div>
+        )}
 
-      <dl>
-        <div>
-          <dt>{t.contact}</dt>
-          <dd>
-            {result.websiteOrInstagram?.trim() ? (
-              <a href={normalizeUrl(result.websiteOrInstagram)} target="_blank" rel="noreferrer">
-                {result.websiteOrInstagram}
-              </a>
-            ) : (
-              t.noData
-            )}
-          </dd>
-        </div>
+        <dl>
+          <div>
+            <dt className="label">{t.contact}</dt>
+            <dd className="paragraph">
+              {result.websiteOrInstagram?.trim() ? (
+                <a href={normalizeUrl(result.websiteOrInstagram)} target="_blank" rel="noreferrer">
+                  {result.websiteOrInstagram}
+                </a>
+              ) : (
+                t.noData
+              )}
+            </dd>
+          </div>
 
-        <div>
-          <dt>{t.location}</dt>
-          <dd>{result.location?.trim() || t.noData}</dd>
-        </div>
-      </dl>
-    </div>
-  </aside>
-);
+          <div>
+            <dt className="label">{t.location}</dt>
+            <dd className="paragraph">{result.location?.trim() || t.noData}</dd>
+          </div>
+        </dl>
+      </div>
+    </aside>
+  );
 }
 
 function useUniverseCanvas(
@@ -548,13 +555,13 @@ function useUniverseCanvas(
 ) {
   useEffect(() => {
     const canvasElement = canvasRef.current;
-if (canvasElement === null) return;
+    if (canvasElement === null) return;
 
-const renderingContext = canvasElement.getContext('2d');
-if (renderingContext === null) return;
+    const renderingContext = canvasElement.getContext('2d');
+    if (renderingContext === null) return;
 
-const canvas = canvasElement;
-const context = renderingContext;
+    const canvas = canvasElement;
+    const context = renderingContext;
 
     let animationFrame = 0;
     let width = 0;
