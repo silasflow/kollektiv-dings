@@ -9,7 +9,7 @@ export default function TagList({ items, className = '' }: TagListProps) {
   return (
     <ul className={`tag-list ${className}`}>
       {items.map((item) => (
-        <li className="tag-list__item" key={item}>
+        <li className="tag-list__item paragraph" key={item}>
           {item}
         </li>
       ))}

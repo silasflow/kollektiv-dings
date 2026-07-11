@@ -14,7 +14,4 @@
 
   background: rgba(202, 251, 228, 0.18);
   color: var(--color-text);
-
-  font-size: clamp(0.9rem, 2vw, 1rem);
-  line-height: 1.05;
 }
