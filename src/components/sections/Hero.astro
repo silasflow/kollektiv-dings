@@ -2,6 +2,7 @@
 // Removed Button import to avoid missing module error; using a local link styled as button
 // import Button from '../common/Button.astro';
 import Button from "../common/Button.tsx";
+import BackgroundCity from "../common/BackgroundCity.tsx";
 
 interface Props {
 	lang: "de" | "en";
@@ -24,7 +25,8 @@ const { lang, content } = Astro.props;
 ---
 
 <section class="hero" id="start">
-	<div class="hero-map" aria-hidden="true"></div>
+	<BackgroundCity client:load />
+	<!-- <div class="hero-map" aria-hidden="true"></div> -->
 
 	<div class="hero-inner">
 		<div class="hero-content">
@@ -96,7 +98,7 @@ const { lang, content } = Astro.props;
 		background-position: center top;
 		background-size: 100% auto;
 
-		opacity: 0.70;
+		opacity: 0.7;
 		mix-blend-mode: multiply;
 		mix-blend-mode: color-burn;
 		pointer-events: none;

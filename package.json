@@ -31,9 +31,11 @@
 		"react": "^19.2.7",
 		"react-dom": "^19.2.7",
 		"sharp": "^0.34.5",
+		"three": "^0.185.1",
 		"vite": "7.2.0"
 	},
 	"devDependencies": {
-		"@types/pg": "^8.20.0"
+		"@types/pg": "^8.20.0",
+		"@types/three": "^0.185.1"
 	}
 }
