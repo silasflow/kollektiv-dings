@@ -40,15 +40,24 @@ const languageHref = currentPath.replace(`/${lang}`, `/${otherLang}`);
 			const header = document.querySelector(".site-header");
 			const toggle = document.getElementById("menuToggle");
 			const menu = document.getElementById("menu");
+			const body = document.body;
+
+			function setScrollLock(locked: boolean) {
+				body.style.overflow = locked ? "hidden" : "";
+				body.style.touchAction = locked ? "none" : "";
+			}
 
 			if (toggle && menu && header) {
 				toggle.addEventListener("click", () => {
 					menuOpen = !menuOpen;
 					menu.classList.toggle("open", menuOpen);
 					header.classList.toggle("open", menuOpen);
+					setScrollLock(menuOpen);
 					toggle.textContent = menuOpen ? "Schließen" : "Menü";
 				});
 			}
+
+			window.addEventListener("beforeunload", () => setScrollLock(false));
 		});
 	</script>
 
@@ -122,7 +131,7 @@ const languageHref = currentPath.replace(`/${lang}`, `/${otherLang}`);
 		}
 
 		.site-header.open {
-			background-color: var(--color-deep-forest);
+			background-color: var(--brand-deep-forest);
 		}
 
 		.site-logo {
