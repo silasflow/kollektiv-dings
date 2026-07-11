@@ -97,7 +97,7 @@
   color: var(--color-text);
 }
 
-.range-input:focus-visible + .range-thumb-visual {
+.range-input:focus-visible+.range-thumb-visual {
   outline: 0.18rem solid var(--color-text);
   outline-offset: 0.2rem;
 }
@@ -109,9 +109,6 @@
     padding: clamp(1rem, 2.2vh, 1.25rem);
   }
 
-  .slider-answer-card h2 {
-    font-size: clamp(1rem, 2vw, 1.25rem);
-  }
 }
 
 @media (max-height: 720px) {
@@ -123,7 +120,6 @@
 
   .slider-answer-card h2 {
     margin-bottom: 0.55rem;
-    font-size: 0.9rem;
   }
 
   .range-wrap {

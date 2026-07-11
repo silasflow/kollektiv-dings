@@ -543,7 +543,7 @@
 
 .question-main-graphic--identity {
   position: relative;
-  
+
   width: clamp(5rem, 15svh, 7.2rem);
   height: clamp(5rem, 15svh, 7.2rem);
 
@@ -1539,7 +1539,6 @@
 
   .slider-answer-card h2 {
     margin-bottom: 0.55rem;
-    font-size: 0.9rem;
   }
 
   .range-wrap {
@@ -1732,6 +1731,7 @@
     height: 2rem;
   }
 }
+
 /* --------------------------------------------------
    RESPONSIVE FIX: question main graphics
    -------------------------------------------------- */
@@ -1741,10 +1741,7 @@
   --q-graphic-size: clamp(6.5rem, 16svh, 9rem);
 
   grid-template-rows:
-    auto
-    var(--q-graphic-zone)
-    auto
-    auto;
+    auto var(--q-graphic-zone) auto auto;
 
   gap: clamp(0.55rem, 1.25svh, 0.9rem);
 }

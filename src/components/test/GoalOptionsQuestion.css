@@ -126,7 +126,7 @@
 
 .goal-own-answer input {
   width: 100%;
-  max-width: 100%;
+  max-width: 32rem;
   box-sizing: border-box;
 
   padding: 0.9rem 1rem;
