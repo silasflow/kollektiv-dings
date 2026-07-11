@@ -347,31 +347,7 @@ export default function TestFlow({ lang }: Props) {
     setLastPayload(null);
   }
 
-  function downloadLocalResults() {
-    const localResults = getLocalResults();
-
-    const exportData = {
-      exportedAt: new Date().toISOString(),
-      source: 'stadt-kollektiv-local-export',
-      count: localResults.length,
-      results: localResults,
-    };
-
-    const blob = new Blob([JSON.stringify(exportData, null, 2)], {
-      type: 'application/json',
-    });
-
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    const date = new Date().toISOString().slice(0, 10);
-
-    link.href = url;
-    link.download = `stadt-kollektiv-results-${date}.json`;
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-    URL.revokeObjectURL(url);
-  }
+  
 
   if (!isReady) {
     return <TestIntro lang={lang} onNext={goNext} />;
@@ -495,13 +471,6 @@ export default function TestFlow({ lang }: Props) {
               </Button>
             )}
 
-            <Button
-              variant="secondary"
-              icon="download-simple"
-              onClick={downloadLocalResults}
-            >
-              {lang === 'de' ? 'Lokale Ergebnisse herunterladen' : 'Download local results'}
-            </Button>
 
             <Button variant="secondary" onClick={startNewTest}>
               {lang === 'de' ? 'Test neu starten' : 'Start new test'}

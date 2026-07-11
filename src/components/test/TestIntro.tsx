@@ -145,7 +145,6 @@ export default function TestIntro({ lang, onNext }: Props) {
         <div className="intro-steps" aria-label={lang === 'de' ? 'Ablauf des Checks' : 'How the check works'}>
           {t.cards.map((card, index) => (
             <article className="intro-step-card" key={card.title}>
-              <div className="intro-step-number paragraph">{index + 1}</div>
 
               <div className="intro-step-visual">
                 <IntroVisual type={card.type} />

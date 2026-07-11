@@ -154,17 +154,33 @@ en: {
 },
 } as const;
 
-const rankingColors: Record<string, string> = {
-  political: '#7F63E6',
-  economic: '#CAFBE4',
-  creative: '#CBFF68',
-  social: '#FFB6D5',
-  ecological: '#75D49B',
-  climate: '#CBFF68',
-  meeting: '#CAFBE4',
-  sport: '#9AE7FF',
-  equality: '#FFB6D5',
-  health: '#A7F0BA',
+const rankingStyleConfig: Record<
+  string,
+  {
+    color: string;
+    angle: number;
+  }
+> = {
+  political: {
+    color: '#DC3877',
+    angle: 0,
+  },
+  social: {
+    color: '#D8FBE5',
+    angle: 45,
+  },
+  creative: {
+    color: '#CEFE6B',
+    angle: -60,
+  },
+  economic: {
+    color: '#8568E8',
+    angle: 180,
+  },
+  ecological: {
+    color: '#00665A',
+    angle: -30,
+  },
 };
 
 
@@ -277,8 +293,7 @@ const panStartRef = useRef({ pointerX: 0, pointerY: 0, panX: 0, panY: 0 });
       <div className="universe-nebula universe-nebula--two" aria-hidden="true" />
 
       <section className="universe-copy">
-        <p className="script-heading4">{t.title}</p>
-        <h1 className="heading2">{t.headline}</h1>
+        <h1 className="script-heading4">{t.headline}</h1>
         <p className="paragraph">{t.subtitle}</p>
 
         {usesLocalFallback && (
@@ -292,7 +307,7 @@ const panStartRef = useRef({ pointerX: 0, pointerY: 0, panX: 0, panY: 0 });
 
       <section
   className={`universe-stage ${isPanning ? 'is-panning' : ''}`}
-  aria-label={t.title}
+  aria-label={t.headline}
   onWheel={(event) => {
     event.preventDefault();
 
@@ -425,25 +440,29 @@ function NetworkSvg({
   const ranking = getRankingOrder(result);
   const gradientId = `network-gradient-${safeId(result.id)}`;
 
-  const top = valueToPoint(values.time ?? 50, 'top');
-  const right = valueToPoint(values.space ?? 50, 'right');
+  // Gleiche Achsenzuordnung wie in questionLineGraphicUtils:
+  // formalization = oben, time = rechts, identity = unten, space = links
+  const top = valueToPoint(values.formalization ?? 50, 'top');
+  const right = valueToPoint(values.time ?? 50, 'right');
   const bottom = valueToPoint(values.identity ?? 50, 'bottom');
-  const left = valueToPoint(values.formalization ?? 50, 'left');
+  const left = valueToPoint(values.space ?? 50, 'left');
 
   const points = `${top.x},${top.y} ${right.x},${right.y} ${bottom.x},${bottom.y} ${left.x},${left.y}`;
-  const colors = getGradientColors(ranking);
+  const gradient = getRankingGradient(ranking);
 
   return (
     <svg className="universe-network-svg" viewBox="0 0 100 100" aria-hidden="true">
       <defs>
-        <linearGradient id={gradientId} x1="12%" y1="8%" x2="88%" y2="92%">
-          {colors.map((color, index) => (
-            <stop
-              key={`${color}-${index}`}
-              offset={`${(index / Math.max(colors.length - 1, 1)) * 100}%`}
-              stopColor={color}
-            />
-          ))}
+        <linearGradient
+          id={gradientId}
+          gradientUnits="userSpaceOnUse"
+          x1={gradient.direction.x1}
+          y1={gradient.direction.y1}
+          x2={gradient.direction.x2}
+          y2={gradient.direction.y2}
+        >
+          <stop offset="0%" stopColor={gradient.topColor} />
+          <stop offset="100%" stopColor={gradient.bottomColor} />
         </linearGradient>
       </defs>
 
@@ -663,36 +682,67 @@ function getRankingOrder(result: TestResult): string[] {
     result.result.selectedAnswerIds?.goalRanking ??
     getStringArray(result.answers.goals);
 
-  return ranking.length > 0 ? ranking : ['political', 'economic', 'creative', 'social'];
+  return ranking.length > 0
+    ? ranking
+    : ['political', 'economic', 'creative', 'social', 'ecological'];
 }
 
-function getGradientColors(ranking: string[]) {
-  const colors = ranking.map((goal) => rankingColors[goal]).filter(Boolean);
+function getRankingGradient(ranking: string[]) {
+  const firstId = ranking[0] ?? 'political';
+  const secondId = ranking[1] ?? 'economic';
+  const thirdId = ranking[2] ?? 'creative';
 
-  if (colors.length === 0) {
-    return ['#7F63E6', '#CBFF68'];
-  }
+  const topColor =
+    rankingStyleConfig[firstId]?.color ??
+    rankingStyleConfig.political.color;
 
-  if (colors.length === 1) {
-    return [colors[0], colors[0]];
-  }
+  const bottomColor =
+    rankingStyleConfig[secondId]?.color ??
+    rankingStyleConfig.economic.color;
 
-  return colors;
+  const angle =
+    rankingStyleConfig[thirdId]?.angle ??
+    rankingStyleConfig.creative.angle;
+
+  return {
+    topColor,
+    bottomColor,
+    direction: getGradientDirectionFromAngle(angle),
+  };
+}
+
+function getGradientDirectionFromAngle(angle: number) {
+  // 0°: erste Farbe oben, zweite Farbe unten.
+  // Positive Winkel drehen im Uhrzeigersinn.
+  const radians = (angle * Math.PI) / 180;
+  const radius = 50;
+
+  const dx = Math.sin(radians) * radius;
+  const dy = Math.cos(radians) * radius;
+
+  return {
+    x1: 50 - dx,
+    y1: 50 - dy,
+    x2: 50 + dx,
+    y2: 50 + dy,
+  };
 }
 
 function valueToPoint(
   value: number,
   direction: 'top' | 'right' | 'bottom' | 'left'
 ) {
+  // Exakt dieselbe Projektion wie in questionLineGraphicUtils.
+  // 0 liegt im Mittelpunkt, 100 liegt bei Koordinate 18 bzw. 82.
+  const center = 50;
+  const edge = 18;
   const normalized = clamp(value, 0, 100) / 100;
-  const minDistance = 13;
-  const maxDistance = 42;
-  const distance = minDistance + normalized * (maxDistance - minDistance);
+  const distance = (center - edge) * normalized;
 
-  if (direction === 'top') return { x: 50, y: 50 - distance };
-  if (direction === 'right') return { x: 50 + distance, y: 50 };
-  if (direction === 'bottom') return { x: 50, y: 50 + distance };
-  return { x: 50 - distance, y: 50 };
+  if (direction === 'top') return { x: center, y: center - distance };
+  if (direction === 'right') return { x: center + distance, y: center };
+  if (direction === 'bottom') return { x: center, y: center + distance };
+  return { x: center - distance, y: center };
 }
 
 function getGoalFields(lang: Lang, result: TestResult): string[] {
