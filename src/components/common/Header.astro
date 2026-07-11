@@ -21,7 +21,10 @@ const isActive = (href: string) => {
 	const normalizedPath = normalizePath(currentPath);
 	const normalizedHref = normalizePath(href);
 
-	return normalizedPath === normalizedHref || normalizedPath.startsWith(`${normalizedHref}/`);
+	return (
+		normalizedPath === normalizedHref ||
+		normalizedPath.startsWith(`${normalizedHref}/`)
+	);
 };
 
 const testHref = `/${lang}/test/`;
@@ -58,7 +61,10 @@ const languageHref = currentPath.replace(`/${lang}`, `/${otherLang}`);
 			{nav.test}
 		</a>
 
-		<a class:list={{ active: isActive(caseStudiesHref) }} href={caseStudiesHref}>
+		<a
+			class:list={{ active: isActive(caseStudiesHref) }}
+			href={caseStudiesHref}
+		>
 			{nav.caseStudies}
 		</a>
 
@@ -79,7 +85,10 @@ const languageHref = currentPath.replace(`/${lang}`, `/${otherLang}`);
 				{nav.test}
 			</a>
 
-			<a class:list={{ active: isActive(caseStudiesHref) }} href={caseStudiesHref}>
+			<a
+				class:list={{ active: isActive(caseStudiesHref) }}
+				href={caseStudiesHref}
+			>
 				{nav.caseStudies}
 			</a>
 
@@ -132,7 +141,7 @@ const languageHref = currentPath.replace(`/${lang}`, `/${otherLang}`);
 			gap: 0.5rem;
 
 			font-family: var(--font-body);
-			font-size: var(--size-paragraph);
+			font-size: var(--size-p);
 			letter-spacing: -0.03em;
 		}
 
@@ -162,7 +171,7 @@ const languageHref = currentPath.replace(`/${lang}`, `/${otherLang}`);
 		.mobile-nav-links a.active {
 			color: var(--color-accent);
 			font-family: var(--font-hand);
-			font-size: var(--paragraph-highlight);
+			font-size: var(--size-p-highlight);
 			text-decoration: underline;
 			text-decoration-thickness: 0.14em;
 			text-underline-offset: 0.18em;
