@@ -108,7 +108,7 @@
   --size-h3: 2.375rem;
   --size-h4: 1.75rem;
   --size-p: 1.125rem;
-  --size-p-emphasised: 1.25rem;
+  --size-p-emphasized: 1.25rem;
   --size-p-highlight: 1.51875rem;
   --size-label: 0.9375rem;
 
@@ -125,7 +125,7 @@
     --size-h3: 1.5rem;
     --size-h4: 1.25rem;
     --size-p: 1rem;
-    --size-p-emphasised: 1.125rem;
+    --size-p-emphasized: 1.125rem;
     --size-p-highlight: 1.35rem;
     --size-label: 0.875rem;
   }
@@ -153,6 +153,19 @@ body {
   font-family: var(--font-body);
   color: var(--color-text);
   background: var(--color-bg);
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 img,
@@ -237,7 +250,7 @@ p {
 }
 
 .paragraph,
-.paragraph-emphasised {
+.paragraph-emphasized {
   font-family: var(--font-body);
   font-weight: 400;
   line-height: 130%;
@@ -248,8 +261,8 @@ p {
   font-size: var(--size-p);
 }
 
-.paragraph-emphasised {
-  font-size: var(--size-p-emphasised);
+.paragraph-emphasized {
+  font-size: var(--size-p-emphasized);
 }
 
 .paragraph-highlight {
