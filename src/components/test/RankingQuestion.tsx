@@ -10,6 +10,7 @@ import {
   useSensors,
   type DragEndEvent,
 } from '@dnd-kit/core';
+import { useState } from 'react';
 
 import {
   SortableContext,
@@ -65,6 +66,7 @@ export default function RankingQuestion({
     orderedValues.length > 0
       ? orderedValues
       : question.options.map((option) => option.id);
+  const [selectedItemId, setSelectedItemId] = useState(itemIds[0]);
 
   const sensors = useSensors(
     useSensor(MouseSensor, {
@@ -86,6 +88,8 @@ export default function RankingQuestion({
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event;
 
+    setSelectedItemId(String(active.id));
+
     if (!over || active.id === over.id) return;
 
     const oldIndex = itemIds.indexOf(String(active.id));
@@ -97,6 +101,11 @@ export default function RankingQuestion({
   const sortedOptions = itemIds
     .map((id) => question.options.find((option) => option.id === id))
     .filter(Boolean) as RankingQuestionType['options'];
+  const selectedOption = sortedOptions.find((option) => option.id === selectedItemId) ?? sortedOptions[0];
+
+  function handleRankingItemClick(id: string) {
+    setSelectedItemId(id);
+  }
 
   return (
     <section className="test-screen question-screen ranking-screen">
@@ -104,15 +113,15 @@ export default function RankingQuestion({
         <div className="question-copy">
           <p className="question-category script-heading4">{question.category[lang]}</p>
           <h1 className="question-title heading3">{question.title[lang]}</h1>
-          <p className="paragraph-emphasised">{question.description[lang]}</p>
         </div>
 
         <QuestionLineGraphic
-  mode="ranking"
-  answers={getLineGraphicAnswers(answers)}
-  orderedValues={orderedValues}
-/>
+          mode="ranking"
+          answers={getLineGraphicAnswers(answers)}
+          orderedValues={orderedValues}
+        />
       </div>
+
 
 
       <DndContext
@@ -122,17 +131,22 @@ export default function RankingQuestion({
       >
         <SortableContext items={itemIds} strategy={verticalListSortingStrategy}>
           <ol className="ranking-list" aria-label={question.title[lang]}>
+            <p className="paragraph-emphasised">
+              {selectedOption?.description?.[lang]}
+            </p>
             {sortedOptions.map((option, index) => (
               <SortableRankingItem
                 key={option.id}
                 id={option.id}
                 index={index}
                 label={option.label[lang]}
+                onClick={() => handleRankingItemClick(option.id)}
               />
             ))}
           </ol>
         </SortableContext>
       </DndContext>
+
 
       <TestNavigation lang={lang} onBack={onBack} onNext={onNext} />
     </section>
@@ -143,10 +157,12 @@ function SortableRankingItem({
   id,
   index,
   label,
+  onClick,
 }: {
   id: string;
   index: number;
   label: string;
+  onClick: () => void;
 }) {
   const {
     attributes,
@@ -174,6 +190,7 @@ function SortableRankingItem({
         className="ranking-card"
         {...attributes}
         {...listeners}
+        onClick={onClick}
       >
         <span className="ranking-label text-button">{label}</span>
 
