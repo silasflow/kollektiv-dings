@@ -139,6 +139,21 @@ export default function ResultScreen({
             <p className="result-kicker script-heading4">{t.kicker}</p>
           </div>
 
+          <div className="result-page__hero">
+            <h1 className="result-collective-name heading3">
+              {collectiveName.trim() || t.fallbackName}
+            </h1>
+
+            <div className="result-graphic-card" aria-hidden="true">
+              <QuestionLineGraphic
+                mode="ranking"
+                answers={getLineGraphicAnswers(answers)}
+                orderedValues={orderedValues}
+              />
+            </div>
+          </div>
+
+
           <section className="result-page__details">
             <p className="result-intro paragraph">{t.intro}</p>
             <div className="result-answer-list">
