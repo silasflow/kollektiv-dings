@@ -3,7 +3,7 @@ interface Props {
 	lang: "de" | "en";
 	nav: {
 		test: string;
-		caseStudies: string;
+		case: string;
 		about: string;
 		languageLabel: string;
 		languageHref: string;
@@ -28,7 +28,7 @@ const isActive = (href: string) => {
 };
 
 const testHref = `/${lang}/test/`;
-const caseStudiesHref = `/${lang}/case-studies/`;
+const caseHref = `/${lang}/case/`;
 const aboutHref = `/${lang}/about/`;
 const languageHref = currentPath.replace(`/${lang}`, `/${otherLang}`);
 ---
@@ -71,10 +71,10 @@ const languageHref = currentPath.replace(`/${lang}`, `/${otherLang}`);
 		</a>
 
 		<a
-			class:list={{ active: isActive(caseStudiesHref) }}
-			href={caseStudiesHref}
+			class:list={{ active: isActive(caseHref) }}
+			href={caseHref}
 		>
-			{nav.caseStudies}
+			{nav.case}
 		</a>
 
 		<a class:list={{ active: isActive(aboutHref) }} href={aboutHref}>
@@ -95,10 +95,10 @@ const languageHref = currentPath.replace(`/${lang}`, `/${otherLang}`);
 			</a>
 
 			<a
-				class:list={{ active: isActive(caseStudiesHref) }}
-				href={caseStudiesHref}
+				class:list={{ active: isActive(caseHref) }}
+				href={caseHref}
 			>
-				{nav.caseStudies}
+				{nav.case}
 			</a>
 
 			<a class:list={{ active: isActive(aboutHref) }} href={aboutHref}>

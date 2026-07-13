@@ -10,7 +10,7 @@ export const siteContent = {
     },
     nav: {
       test: 'Check starten',
-      caseStudies: 'Case Studies',
+      case: 'Case Studies',
       about: 'Über das Tool',
       languageLabel: 'EN',
     },
@@ -42,7 +42,7 @@ export const siteContent = {
     },
     nav: {
       test: 'Start check',
-      caseStudies: 'Case Studies',
+      case: 'Case Studies',
       about: 'About the tool',
       languageLabel: 'DE',
     },
