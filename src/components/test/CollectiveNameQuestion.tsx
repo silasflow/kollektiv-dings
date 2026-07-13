@@ -9,6 +9,7 @@ type Props = {
   websiteOrInstagram: string;
   location: string;
   consent: boolean;
+  isSubmitting?: boolean;
   onNameChange: (value: string) => void;
   onWebsiteOrInstagramChange: (value: string) => void;
   onLocationChange: (value: string) => void;
@@ -50,6 +51,7 @@ export default function CollectiveNameQuestion({
   websiteOrInstagram,
   location,
   consent,
+  isSubmitting = false,
   onNameChange,
   onWebsiteOrInstagramChange,
   onLocationChange,
@@ -115,7 +117,26 @@ export default function CollectiveNameQuestion({
         </label>
       </div>
 
-      <TestNavigation lang={lang} onBack={onBack} onNext={onNext} />
+      <TestNavigation
+  lang={lang}
+  onBack={onBack}
+  onNext={onNext}
+  nextDisabled={isSubmitting}
+  nextIcon="check"
+  nextLabel={
+    isSubmitting
+      ? lang === 'de'
+        ? 'Wird gespeichert …'
+        : 'Saving …'
+      : lang === 'de'
+        ? 'Test abschließen'
+        : 'Complete test'
+  }
+/>
+    
     </section>
+
+    
+
   );
 }

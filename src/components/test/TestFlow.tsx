@@ -158,11 +158,13 @@ export default function TestFlow({ lang }: Props) {
 
   const isProfileStep = step === testQuestions.length + 1;
   const isResultStep = step === testQuestions.length + 2;
-  const isDoneStep = step === testQuestions.length + 3;
+  
 
   function goNext() {
-    setStep((currentStep) => Math.min(currentStep + 1, testQuestions.length + 3));
-  }
+  setStep((currentStep) =>
+    Math.min(currentStep + 1, testQuestions.length + 2)
+  );
+}
 
   function goBack() {
     setStep((currentStep) => Math.max(currentStep - 1, 0));
@@ -241,53 +243,56 @@ export default function TestFlow({ lang }: Props) {
   }
 
   async function submitResult() {
-    if (isSubmitting) return;
+  if (isSubmitting) return;
 
-    setIsSubmitting(true);
-    setSubmitError(null);
+  setIsSubmitting(true);
+  setSubmitError(null);
+  setSaveStatus('idle');
 
-    const payload = buildTestResultPayload({
-      lang,
-      collectiveName,
-      websiteOrInstagram,
-      location,
-      consent,
-      answers,
-    });
+  const payload = buildTestResultPayload({
+    lang,
+    collectiveName,
+    websiteOrInstagram,
+    location,
+    consent,
+    answers,
+  });
 
-    setLastPayload(payload);
+  setLastPayload(payload);
 
-    saveLocalResult(payload);
-    setLocalResultCount(getLocalResults().length);
+  // Sicherheitskopie immer sofort lokal speichern
+  saveLocalResult(payload);
+  setLocalResultCount(getLocalResults().length);
 
-    if (!ENABLE_BACKEND) {
-      setSubmittedId(payload.id);
-      setSaveStatus('local_only');
-      setSubmitError(
-        lang === 'de'
-          ? 'Backend ist aktuell deaktiviert. Das Ergebnis wurde nur lokal gesichert.'
-          : 'Backend is currently disabled. The result was saved locally only.'
-      );
-      goNext();
-      setIsSubmitting(false);
-      return;
-    }
+  if (!ENABLE_BACKEND) {
+    setSubmittedId(payload.id);
+    setSaveStatus('local_only');
+    setSubmitError(
+      lang === 'de'
+        ? 'Die Datenbank ist derzeit nicht verfügbar. Das Ergebnis wurde sicher im Browser gespeichert.'
+        : 'The database is currently unavailable. The result was safely stored in the browser.'
+    );
 
-    try {
-      const data = await sendPayloadToBackend(payload);
-
-      setSubmittedId(data.result.id);
-      setSaveStatus('database_saved');
-      setSubmitError(null);
-    } catch {
-      setSubmittedId(payload.id);
-      setSaveStatus('database_failed');
-      setSubmitError(getDatabaseErrorMessage(lang));
-    } finally {
-      goNext();
-      setIsSubmitting(false);
-    }
+    setStep(testQuestions.length + 2);
+    setIsSubmitting(false);
+    return;
   }
+
+  try {
+    const data = await sendPayloadToBackend(payload);
+
+    setSubmittedId(data.result.id);
+    setSaveStatus('database_saved');
+    setSubmitError(null);
+  } catch {
+    setSubmittedId(payload.id);
+    setSaveStatus('database_failed');
+    setSubmitError(getDatabaseErrorMessage(lang));
+  } finally {
+    setStep(testQuestions.length + 2);
+    setIsSubmitting(false);
+  }
+}
 
   async function retryBackendSave() {
     if (isSubmitting) return;
@@ -358,136 +363,46 @@ export default function TestFlow({ lang }: Props) {
   }
 
   if (isProfileStep) {
-    return (
-      <CollectiveNameQuestion
-        lang={lang}
-        collectiveName={collectiveName}
-        websiteOrInstagram={websiteOrInstagram}
-        location={location}
-        consent={consent}
-        onNameChange={setCollectiveName}
-        onWebsiteOrInstagramChange={setWebsiteOrInstagram}
-        onLocationChange={setLocation}
-        onConsentChange={setConsent}
-        onBack={goBack}
-        onNext={goNext}
-      />
-    );
-  }
+  return (
+    <CollectiveNameQuestion
+      lang={lang}
+      collectiveName={collectiveName}
+      websiteOrInstagram={websiteOrInstagram}
+      location={location}
+      consent={consent}
+      isSubmitting={isSubmitting}
+      onNameChange={setCollectiveName}
+      onWebsiteOrInstagramChange={setWebsiteOrInstagram}
+      onLocationChange={setLocation}
+      onConsentChange={setConsent}
+      onBack={goBack}
+      onNext={submitResult}
+    />
+  );
+}
 
   if (isResultStep) {
-    return (
-      <ResultScreen
-        lang={lang}
-        answers={answers}
-        collectiveName={collectiveName}
-        isSubmitting={isSubmitting}
-        submitError={submitError}
-        onBack={goBack}
-        onNext={submitResult}
-      />
-    );
-  }
+  return (
+    <ResultScreen
+      lang={lang}
+      answers={answers}
+      collectiveName={collectiveName}
+      isSubmitting={isSubmitting}
+      saveStatus={saveStatus}
+      submitError={submitError}
+      resultsPageHref={
+        submittedId
+          ? `${RESULTS_PAGE_HREF[lang]}?highlight=${encodeURIComponent(submittedId)}`
+          : RESULTS_PAGE_HREF[lang]
+      }
+      onRetry={retryBackendSave}
+      onRestart={startNewTest}
+      onBack={goBack}
+    />
+  );
+}
 
-  if (isDoneStep) {
-    const databaseSaved = saveStatus === 'database_saved';
-
-    return (
-      <section className="test-screen result-screen save-result-screen">
-        <div className="result-content">
-          <div className="result-copy">
-            <p className="result-kicker script-heading4">
-              {databaseSaved
-                ? lang === 'de'
-                  ? 'Gespeichert'
-                  : 'Saved'
-                : saveStatus === 'local_only'
-                  ? lang === 'de'
-                    ? 'Nur lokal zwischengespeichert'
-                    : 'Kept locally only'
-                  : lang === 'de'
-                    ? 'Datenbank nicht erreicht'
-                    : 'Database not reached'}
-            </p>
-
-            <h1 className="result-title heading2">
-              {databaseSaved
-                ? lang === 'de'
-                  ? 'Das Ergebnis wurde in der Datenbank gespeichert.'
-                  : 'The result was saved to the database.'
-                : saveStatus === 'local_only'
-                  ? lang === 'de'
-                    ? 'Das Backend ist gerade deaktiviert.'
-                    : 'The backend is currently disabled.'
-                  : lang === 'de'
-                    ? 'Die Datenbank-Speicherung hat noch nicht geklappt.'
-                    : 'Saving to the database did not work yet.'}
-            </h1>
-          </div>
-
-          <div
-            className={`save-status-card ${
-              databaseSaved ? 'save-status-card--success' : 'save-status-card--warning'
-            }`}
-          >
-            <p className="paragraph">
-              {databaseSaved
-                ? lang === 'de'
-                  ? 'Alles gut: Die Datenbank hat das Ergebnis gespeichert. Eine lokale Sicherheitskopie bleibt zusätzlich in diesem Browser.'
-                  : 'All good: the database saved the result. A local browser backup remains as well.'
-                : saveStatus === 'local_only'
-                  ? lang === 'de'
-                    ? 'Das Ergebnis wurde als Sicherheitskopie im Browser behalten. Du kannst die lokale JSON-Datei herunterladen und später importieren oder übertragen.'
-                    : 'The result was kept as a browser backup. You can download the local JSON file and import or transfer it later.'
-                  : lang === 'de'
-                    ? 'Der Datenbank-Upload konnte gerade nicht abgeschlossen werden. Das Ergebnis wurde vorsorglich als Sicherheitskopie im Browser behalten.'
-                    : 'The database upload could not be completed right now. The result was kept as a browser backup.'}
-            </p>
-
-            {submitError && <p className="save-status-detail paragraph">{submitError}</p>}
-
-            <p className="save-status-detail paragraph">
-              {lang === 'de'
-                ? `Lokal gespeicherte Ergebnisse in diesem Browser: ${localResultCount}`
-                : `Locally saved results in this browser: ${localResultCount}`}
-            </p>
-          </div>
-
-          <div className="test-local-actions test-done-actions">
-            {!databaseSaved && ENABLE_BACKEND && (
-              <Button
-                variant="primary"
-                icon="upload-simple"
-                onClick={retryBackendSave}
-                disabled={isSubmitting}
-              >
-                {isSubmitting
-                  ? lang === 'de'
-                    ? 'Sendet …'
-                    : 'Sending …'
-                  : lang === 'de'
-                    ? 'Erneut an Datenbank senden'
-                    : 'Send to database again'}
-              </Button>
-            )}
-
-
-            <Button variant="secondary" onClick={startNewTest}>
-              {lang === 'de' ? 'Test neu starten' : 'Start new test'}
-            </Button>
-
-            <Button
-              variant="primary"
-              icon="arrow-right"
-              href={RESULTS_PAGE_HREF[lang]}
-            >
-              {lang === 'de' ? 'Zur Ergebnisseite' : 'Go to results'}
-            </Button>
-          </div>
-        </div>
-      </section>
-    );
-  }
+  
 
   if (!currentQuestion) {
     return (

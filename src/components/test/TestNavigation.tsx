@@ -9,6 +9,8 @@ type Props = {
   onBack?: () => void;
   backHref?: string;
   nextDisabled?: boolean;
+  nextLabel?: string;
+  nextIcon?: string;
 };
 
 const text = {
@@ -28,6 +30,8 @@ export default function TestNavigation({
   onBack,
   backHref,
   nextDisabled = false,
+  nextLabel,
+  nextIcon = 'arrow-right',
 }: Props) {
   const t = text[lang];
 
@@ -73,11 +77,11 @@ export default function TestNavigation({
       </button> */}
       <Button
         variant="primary"
-        icon="arrow-right"
+        icon={nextIcon}
         onClick={onNext}
         disabled={nextDisabled}
       >
-        {t.next}
+        {nextLabel ?? t.next}
       </Button>
     </nav>
   );

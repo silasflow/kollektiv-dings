@@ -990,65 +990,6 @@
   border: 2px solid var(--color-text);
 }
 
-/* -----------------------------------------
-   RESULT SCREEN
------------------------------------------ */
-
-.result-screen {
-  grid-template-rows: minmax(0, 1fr) auto;
-}
-
-.result-content {
-  min-height: 0;
-
-  display: flex;
-  flex-direction: column;
-  align-content: center;
-  gap: 2rem;
-
-  width: 100%;
-  max-width: 34rem;
-  margin-inline: auto;
-}
-
-.result-copy {
-  display: grid;
-  gap: 0.45rem;
-}
-
-.result-kicker {
-  margin: 0;
-
-  color: var(--color-accent);
-}
-
-.result-title {
-  margin: 0;
-  display: grid;
-  gap: 0.2rem;
-
-  color: var(--color-text);
-}
-
-.result-type-name {
-  text-transform: uppercase;
-  color: var(--color-accent);
-}
-
-.result-text {
-  margin: 0;
-
-  color: var(--color-text);
-}
-
-.result-content {
-  justify-items: center;
-}
-
-.result-copy,
-.result-text {
-  justify-self: stretch;
-}
 
 .test-nav-button {
   display: flex;

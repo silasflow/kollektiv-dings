@@ -1,0 +1,343 @@
+/* src/components/test/ResultScreen.css */
+
+.result-screen--scrollable {
+  width: min(100%, 64rem);
+  height: calc(
+    100svh
+    - var(--test-header-space)
+    - var(--test-bottom-space)
+  );
+
+  padding:
+    clamp(1rem, 3svh, 2rem)
+    clamp(1rem, 5vw, 3rem)
+    0;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  scrollbar-width: thin;
+  scrollbar-color:
+    rgba(202, 251, 228, 0.35)
+    transparent;
+}
+
+.result-screen--scrollable::-webkit-scrollbar {
+  width: 0.45rem;
+}
+
+.result-screen--scrollable::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.result-screen--scrollable::-webkit-scrollbar-thumb {
+  border-radius: 999rem;
+  background: rgba(202, 251, 228, 0.32);
+}
+
+.result-page {
+  width: 100%;
+  max-width: 44rem;
+  margin-inline: auto;
+
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2rem, 5svh, 3.5rem);
+
+  padding-bottom:
+    calc(2rem + env(safe-area-inset-bottom));
+}
+
+.result-page__header {
+  text-align: center;
+}
+
+.result-kicker {
+  margin: 0;
+  color: var(--color-accent);
+}
+
+.result-page__hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(15rem, 18rem);
+  align-items: center;
+  gap: clamp(1.5rem, 5vw, 3.5rem);
+}
+
+.result-collective-name {
+  margin: 0;
+  color: var(--color-text);
+  overflow-wrap: anywhere;
+}
+
+.result-graphic-card {
+  width: 100%;
+  aspect-ratio: 1;
+
+  display: grid;
+  place-items: center;
+
+  padding: clamp(0.5rem, 2vw, 1rem);
+  border-radius: 1.75rem;
+
+  background: var(--color-card-bg);
+}
+
+.result-graphic-card svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.result-page__details {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.result-intro {
+  margin: 0;
+  max-width: 34rem;
+  color: var(--color-text);
+}
+
+.result-goal-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+}
+
+.result-goal-tag {
+  margin: 0;
+  padding: 0.5rem 0.8rem;
+
+  border-radius: 0.3rem;
+
+  background: rgba(202, 251, 228, 0.16);
+  color: var(--color-text);
+}
+
+.result-answer-list {
+  display: grid;
+  gap: 1.8rem;
+}
+
+.result-answer {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.result-answer__label {
+  margin: 0;
+  text-transform: uppercase;
+  color: rgba(202, 251, 228, 0.65);
+}
+
+.result-answer__text {
+  margin: 0;
+  color: var(--color-text);
+}
+
+.result-save-note {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  width: fit-content;
+  margin: 0;
+
+  color: rgba(202, 251, 228, 0.7);
+}
+
+.result-submit-actions {
+  width: 100%;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+
+  padding-top: 1rem;
+  padding-bottom:
+    calc(1rem + env(safe-area-inset-bottom));
+}
+
+/* Datenbankfehler */
+
+.save-error-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+
+  display: grid;
+  place-items: center;
+
+  padding: 1rem;
+}
+
+.save-error-modal__backdrop {
+  position: absolute;
+  inset: 0;
+
+  background: rgba(10, 27, 24, 0.72);
+  backdrop-filter: blur(0.35rem);
+}
+
+.save-error-modal__content {
+  position: relative;
+  z-index: 1;
+
+  width: min(100%, 31rem);
+
+  display: grid;
+  gap: 1rem;
+
+  padding: clamp(1.3rem, 4vw, 2rem);
+  border-radius: 1.25rem;
+
+  background: var(--color-card-bg);
+  color: var(--color-text);
+
+  box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.32);
+}
+
+.save-error-modal__content h2,
+.save-error-modal__content p {
+  margin: 0;
+}
+
+.save-error-modal__kicker {
+  color: var(--color-accent);
+}
+
+.save-error-modal__actions {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 0.5rem;
+}
+
+.save-error-modal__content {
+  position: relative;
+}
+
+.save-error-modal__close {
+  position: absolute;
+  top: 0.85rem;
+  right: 0.85rem;
+
+  display: grid;
+  place-items: center;
+
+  width: 2.5rem;
+  height: 2.5rem;
+
+  padding: 0;
+  border: 0;
+  border-radius: 0.6rem;
+
+  background: transparent;
+  color: var(--color-text);
+
+  cursor: pointer;
+  font-size: 1.35rem;
+}
+
+.save-error-modal__close:hover {
+  background: rgba(202, 251, 228, 0.12);
+}
+
+.save-error-modal__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+
+  padding-top: 0.5rem;
+}
+
+@media (max-width: 700px) {
+  .result-screen--scrollable {
+    padding-inline: clamp(1rem, 5vw, 1.5rem);
+  }
+
+  .result-page {
+    gap: 2.25rem;
+  }
+
+  .result-page__hero {
+    grid-template-columns: minmax(0, 1fr) minmax(11rem, 15rem);
+    gap: 1rem;
+  }
+
+  .result-collective-name {
+    font-size: clamp(1.65rem, 7vw, 2.4rem);
+  }
+
+  .result-graphic-card {
+    border-radius: 1.4rem;
+  }
+
+  .result-submit-actions {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: stretch;
+  }
+
+  .result-submit-actions > :last-child {
+    grid-column: 1 / -1;
+    justify-self: stretch;
+  }
+}
+
+@media (max-width: 480px) {
+  .result-page__hero {
+    grid-template-columns: minmax(0, 1fr) 11rem;
+  }
+
+  .result-goal-tags {
+    gap: 0.5rem;
+  }
+
+  .result-goal-tag {
+    padding: 0.4rem 0.65rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .result-page__hero {
+    grid-template-columns: 1fr;
+  }
+
+  .result-graphic-card {
+    width: min(100%, 15rem);
+    justify-self: center;
+  }
+}
+/* Resultscreen muss die allgemeinen .test-screen-Regeln überschreiben */
+
+.test-screen.result-screen--scrollable {
+  height: calc(
+    100svh
+    - var(--test-header-space)
+    - var(--test-bottom-space)
+  );
+
+  min-height: 0;
+  max-height: calc(
+    100svh
+    - var(--test-header-space)
+    - var(--test-bottom-space)
+  );
+
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+
+  overscroll-behavior-y: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.test-screen.result-screen--scrollable .result-page {
+  flex: 0 0 auto;
+  min-height: max-content;
+}
