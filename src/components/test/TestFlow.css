@@ -15,7 +15,6 @@
   padding:
     clamp(0.75rem, 2svh, 1.15rem) clamp(1rem, 4vw, 1.35rem) clamp(0.75rem, 1.8svh, 1rem);
 
-  overflow: hidden;
   background: var(--color-bg);
 }
 
@@ -906,7 +905,6 @@
   gap: clamp(1.5rem, 4svh, 2rem);
 
   width: 100%;
-  max-width: 600px;
 }
 
 .name-title {
@@ -918,6 +916,9 @@
 .name-field {
   display: grid;
   gap: 0.65rem;
+  max-width: 600px;
+  width: 100%;
+  margin: 0 auto;
 }
 
 .name-field span {

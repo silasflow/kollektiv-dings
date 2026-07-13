@@ -42,7 +42,7 @@ const text = {
     intro: 'Euer Kollektiv zeichnet sich durch Folgendes aus:',
     saved: 'Ergebnis gespeichert',
     locallySaved: 'Ergebnis lokal gesichert',
-    restart: 'Test neu starten',
+    restart: 'Check neu starten',
     universe: 'Zum Ergebnis-Kosmos',
     errorKicker: 'Speichern nicht möglich',
     errorTitle: 'Die Datenbank konnte nicht erreicht werden',
@@ -57,7 +57,7 @@ const text = {
     intro: 'Your collective is characterised by the following:',
     saved: 'Result saved',
     locallySaved: 'Result saved locally',
-    restart: 'Start new test',
+    restart: 'Start new check',
     universe: 'View result universe',
     errorKicker: 'Saving failed',
     errorTitle: 'The database could not be reached',
@@ -124,72 +124,74 @@ export default function ResultScreen({
   const resultAnswers = getResultAnswers(lang, answers);
   const goalTopics = getGoalTopics(lang, answers);
 
-  
+
   return (
-    <section className="test-screen result-screen result-screen--scrollable">
-      <div className="result-page">
-        <header className="result-page__header">
-          <p className="result-kicker script-heading4">{t.kicker}</p>
-        </header>
-
-        <div className="result-page__hero">
-          <h1 className="result-collective-name heading3">
-            {collectiveName.trim() || t.fallbackName}
-          </h1>
-
-          <div className="result-graphic-card" aria-hidden="true">
-            <QuestionLineGraphic
-              mode="ranking"
-              answers={getLineGraphicAnswers(answers)}
-              orderedValues={orderedValues}
-            />
+    <section className="test-screen result-screen ">
+      <div className="result-screen__layout">
+        <div className="result-page result-screen--scrollable">
+          <div className="result-page__header">
+            <p className="result-kicker script-heading4">{t.kicker}</p>
           </div>
-        </div>
 
-        <section className="result-page__details">
-          <p className="result-intro paragraph">{t.intro}</p>
+          <div className="result-page__hero">
+            <h1 className="result-collective-name heading3">
+              {collectiveName.trim() || t.fallbackName}
+            </h1>
 
-          {goalTopics.length > 0 && (
-            <div
-              className="result-goal-tags"
-              aria-label={
-                lang === 'de'
-                  ? 'Handlungsfelder und Ziele'
-                  : 'Fields of action and goals'
-              }
-            >
-              {goalTopics.map((goal) => (
-                <span className="result-goal-tag paragraph" key={goal}>
-                  {goal}
-                </span>
+            <div className="result-graphic-card" aria-hidden="true">
+              <QuestionLineGraphic
+                mode="ranking"
+                answers={getLineGraphicAnswers(answers)}
+                orderedValues={orderedValues}
+              />
+            </div>
+          </div>
+
+          <section className="result-page__details">
+            <p className="result-intro paragraph">{t.intro}</p>
+
+            {goalTopics.length > 0 && (
+              <div
+                className="result-goal-tags"
+                aria-label={
+                  lang === 'de'
+                    ? 'Handlungsfelder und Ziele'
+                    : 'Fields of action and goals'
+                }
+              >
+                {goalTopics.map((goal) => (
+                  <span className="result-goal-tag paragraph" key={goal}>
+                    {goal}
+                  </span>
+                ))}
+              </div>
+            )}
+
+            <div className="result-answer-list">
+              {resultAnswers.map((answer, index) => (
+                <article className="result-answer" key={`${answer.label}-${index}`}>
+                  <p className="result-answer__label label">{answer.label}</p>
+                  <p className="result-answer__text paragraph">{answer.text}</p>
+                </article>
               ))}
             </div>
+          </section>
+
+          {saveStatus === 'database_saved' && (
+            <p className="result-save-note paragraph" role="status">
+              <i className="ph-bold ph-check" aria-hidden="true" />
+              {t.saved}
+            </p>
           )}
 
-          <div className="result-answer-list">
-            {resultAnswers.map((answer, index) => (
-              <article className="result-answer" key={`${answer.label}-${index}`}>
-                <p className="result-answer__label label">{answer.label}</p>
-                <p className="result-answer__text paragraph">{answer.text}</p>
-              </article>
-            ))}
-          </div>
-        </section>
+          {saveStatus === 'local_only' && (
+            <p className="result-save-note paragraph" role="status">
+              <i className="ph-bold ph-warning" aria-hidden="true" />
+              {t.locallySaved}
+            </p>
+          )}
 
-        {saveStatus === 'database_saved' && (
-          <p className="result-save-note paragraph" role="status">
-            <i className="ph-bold ph-check" aria-hidden="true" />
-            {t.saved}
-          </p>
-        )}
-
-        {saveStatus === 'local_only' && (
-          <p className="result-save-note paragraph" role="status">
-            <i className="ph-bold ph-warning" aria-hidden="true" />
-            {t.locallySaved}
-          </p>
-        )}
-
+        </div>
         <footer className="result-submit-actions">
           <Button
             variant="secondary"
@@ -198,22 +200,24 @@ export default function ResultScreen({
             disabled={isSubmitting}
           />
 
-          <Button
-            variant="secondary"
-            icon="arrow-counter-clockwise"
-            onClick={onRestart}
-            disabled={isSubmitting}
-          >
-            {t.restart}
-          </Button>
+          <div className="result-submit-actions__buttons">
+            <Button
+              variant="secondary"
+              icon="arrow-counter-clockwise"
+              onClick={onRestart}
+              disabled={isSubmitting}
+            >
+              {t.restart}
+            </Button>
 
-          <Button
-            variant="primary"
-            icon="arrow-up-right"
-            href={resultsPageHref}
-          >
-            {t.universe}
-          </Button>
+            <Button
+              variant="primary"
+              icon="arrow-up-right"
+              href={resultsPageHref}
+            >
+              {t.universe}
+            </Button>
+          </div>
         </footer>
       </div>
 
@@ -228,17 +232,17 @@ export default function ResultScreen({
 
           <div className="save-error-modal__content">
             <button
-  type="button"
-  className="save-error-modal__close"
-  onClick={() => setIsErrorModalOpen(false)}
-  aria-label={
-    lang === 'de'
-      ? 'Hinweis schließen'
-      : 'Close notice'
-  }
->
-  <i className="ph-bold ph-x" aria-hidden="true" />
-</button>
+              type="button"
+              className="save-error-modal__close"
+              onClick={() => setIsErrorModalOpen(false)}
+              aria-label={
+                lang === 'de'
+                  ? 'Hinweis schließen'
+                  : 'Close notice'
+              }
+            >
+              <i className="ph-bold ph-x" aria-hidden="true" />
+            </button>
             <p className="save-error-modal__kicker script-heading4">
               {t.errorKicker}
             </p>
@@ -252,24 +256,24 @@ export default function ResultScreen({
             </p>
 
             <div className="save-error-modal__actions">
-  <Button
-    variant="secondary"
-    onClick={() => setIsErrorModalOpen(false)}
-  >
-    {lang === 'de'
-      ? 'Trotzdem Ergebnis ansehen'
-      : 'View result anyway'}
-  </Button>
+              <Button
+                variant="secondary"
+                onClick={() => setIsErrorModalOpen(false)}
+              >
+                {lang === 'de'
+                  ? 'Trotzdem Ergebnis ansehen'
+                  : 'View result anyway'}
+              </Button>
 
-  <Button
-    variant="primary"
-    icon="upload-simple"
-    onClick={onRetry}
-    disabled={isSubmitting}
-  >
-    {isSubmitting ? t.retrying : t.retry}
-  </Button>
-</div>
+              <Button
+                variant="primary"
+                icon="upload-simple"
+                onClick={onRetry}
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? t.retrying : t.retry}
+              </Button>
+            </div>
           </div>
         </div>
       )}

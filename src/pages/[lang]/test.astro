@@ -39,7 +39,7 @@ const page = {
 	</head>
 
 	<body>
-		<Header lang={lang} nav={nav} />
+		<Header lang={lang} nav={nav} reducedContent={true} />
 
 		<main class="test-page">
 			<TestFlow client:load lang={lang} />
@@ -53,7 +53,7 @@ const page = {
 		--test-bottom-space: clamp(1rem, 3svh, 2rem);
 
 		height: 100svh;
-		padding-top: var(--test-header-space);
+		padding-top: 4rem;
 		padding-bottom: var(--test-bottom-space);
 
 		background: var(--color-bg);

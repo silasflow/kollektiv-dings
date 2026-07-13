@@ -1,25 +1,25 @@
 /* src/components/test/ResultScreen.css */
 
 .result-screen--scrollable {
-  width: min(100%, 64rem);
-  height: calc(
-    100svh
-    - var(--test-header-space)
-    - var(--test-bottom-space)
-  );
-
-  padding:
-    clamp(1rem, 3svh, 2rem)
-    clamp(1rem, 5vw, 3rem)
-    0;
+  width: 100%;
+  flex: 1 1 auto;
+  min-height: 0;
 
   overflow-y: auto;
   overflow-x: hidden;
 
   scrollbar-width: thin;
   scrollbar-color:
-    rgba(202, 251, 228, 0.35)
-    transparent;
+    rgba(202, 251, 228, 0.35) transparent;
+}
+
+.result-screen__layout {
+  width: min(100%, 64rem);
+  height: calc(100svh - var(--test-header-space) - var(--test-bottom-space));
+
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
 }
 
 .result-screen--scrollable::-webkit-scrollbar {
@@ -150,17 +150,22 @@
 }
 
 .result-submit-actions {
+  flex: 0 0 auto;
   width: 100%;
 
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 1rem;
-  flex-wrap: wrap;
 
   padding-top: 1rem;
-  padding-bottom:
-    calc(1rem + env(safe-area-inset-bottom));
+}
+
+.result-submit-actions__buttons {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap-reverse;
+  gap: 0.75rem;
 }
 
 /* Datenbankfehler */
@@ -284,7 +289,7 @@
     align-items: stretch;
   }
 
-  .result-submit-actions > :last-child {
+  .result-submit-actions> :last-child {
     grid-column: 1 / -1;
     justify-self: stretch;
   }
@@ -314,30 +319,11 @@
     justify-self: center;
   }
 }
-/* Resultscreen muss die allgemeinen .test-screen-Regeln überschreiben */
 
-.test-screen.result-screen--scrollable {
-  height: calc(
-    100svh
-    - var(--test-header-space)
-    - var(--test-bottom-space)
-  );
-
-  min-height: 0;
-  max-height: calc(
-    100svh
-    - var(--test-header-space)
-    - var(--test-bottom-space)
-  );
-
-  overflow-y: auto !important;
-  overflow-x: hidden !important;
+.test-screen.result-screen .result-screen--scrollable {
+  overflow-y: auto;
+  overflow-x: hidden;
 
   overscroll-behavior-y: contain;
   -webkit-overflow-scrolling: touch;
-}
-
-.test-screen.result-screen--scrollable .result-page {
-  flex: 0 0 auto;
-  min-height: max-content;
 }

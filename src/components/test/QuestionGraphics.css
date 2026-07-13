@@ -513,8 +513,7 @@
 
   .question-answer-text .question-main-graphic,
   .slider-answer-card,
-  .ranking-list,
-  .name-content {
+  .ranking-list {
     width: 100%;
     max-width: 600px;
     margin-inline: auto;
