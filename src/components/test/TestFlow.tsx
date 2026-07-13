@@ -113,15 +113,25 @@ export default function TestFlow({ lang }: Props) {
       const savedState = window.sessionStorage.getItem(STORAGE_KEY);
 
       if (savedState) {
-        const parsedState = JSON.parse(savedState) as Partial<SavedTestState>;
+      const parsedState = JSON.parse(savedState) as Partial<SavedTestState>;
 
-        setStep(parsedState.step ?? 0);
-        setAnswers(parsedState.answers ?? {});
-        setCollectiveName(parsedState.collectiveName ?? '');
-        setWebsiteOrInstagram(parsedState.websiteOrInstagram ?? '');
-        setLocation(parsedState.location ?? '');
-        setConsent(parsedState.consent ?? false);
-      }
+      const currentResultStep = testQuestions.length + 2;
+      const oldDoneStep = testQuestions.length + 3;
+      const savedStep = parsedState.step ?? 0;
+
+      const migratedStep =
+        savedStep === oldDoneStep
+          ? currentResultStep
+          : Math.min(Math.max(savedStep, 0), currentResultStep);
+
+      setStep(migratedStep);
+
+      setAnswers(parsedState.answers ?? {});
+      setCollectiveName(parsedState.collectiveName ?? '');
+      setWebsiteOrInstagram(parsedState.websiteOrInstagram ?? '');
+      setLocation(parsedState.location ?? '');
+      setConsent(parsedState.consent ?? false);
+    }
 
       setLocalResultCount(getLocalResults().length);
     } catch {
@@ -405,16 +415,35 @@ export default function TestFlow({ lang }: Props) {
   
 
   if (!currentQuestion) {
-    return (
-      <section className="test-screen">
-        <p>
+  return (
+    <section className="test-screen">
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'flex-start',
+          gap: '1rem',
+        }}
+      >
+        <p className="paragraph">
           {lang === 'de'
-            ? 'Der Test ist abgeschlossen.'
-            : 'The test is complete.'}
+            ? 'Der gespeicherte Teststand konnte nicht eindeutig zugeordnet werden.'
+            : 'The saved test state could not be matched.'}
         </p>
-      </section>
-    );
-  }
+
+        <Button
+          variant="primary"
+          icon="arrow-counter-clockwise"
+          onClick={startNewTest}
+        >
+          {lang === 'de'
+            ? 'Test neu starten'
+            : 'Start test again'}
+        </Button>
+      </div>
+    </section>
+  );
+}
 
   if (currentQuestion.type === 'slider') {
     const currentValue =
