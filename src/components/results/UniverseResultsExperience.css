@@ -142,7 +142,7 @@
 
   padding: 1rem;
   border: 1px solid var(--color-action);
-  border-radius: .5rem;
+  border-radius: 1rem;
 
   background: var(--brand-dark-violet-shade);
   backdrop-filter: blur(14px);
@@ -413,7 +413,7 @@
 
   padding: clamp(1.1rem, 2.4vw, 1.4rem);
   border: 1px solid var(--color-accent);
-  border-radius: .5rem;
+  border-radius: 1rem;
 
   background: var(--brand-dark-violet-shade);
   color: var(--color-text);
