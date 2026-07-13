@@ -108,12 +108,6 @@ export default function Button({
     const [isHovered, setIsHovered] = React.useState(false);
     const buttonStyles = variant === 'primary' ? primaryStyles : variant === 'secondary' ? secondaryStyles : tertiaryStyles;
 
-    // Debug: log children to check what is passed in
-    // Remove these logs after debugging
-    if (typeof window !== 'undefined') {
-        // eslint-disable-next-line no-console
-        console.log('Button children:', children, 'label fallback:', label);
-    }
 
     if (href) {
         return (
@@ -144,6 +138,7 @@ export default function Button({
 
     return (
         <button
+            type="button"
             className="button"
             style={{
                 ...buttonStyles,
