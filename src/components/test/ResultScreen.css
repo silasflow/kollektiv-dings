@@ -327,3 +327,8 @@
   overscroll-behavior-y: contain;
   -webkit-overflow-scrolling: touch;
 }
+
+.test-screen.result-screen--scrollable .result-page {
+  flex: 0 0 auto;
+  min-height: max-content;
+}

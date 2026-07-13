@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import type { Lang } from '../../data/siteContent';
-import type { TestAnswers } from '../../data/testQuestions';
+import { testQuestions, type TestAnswers } from '../../data/testQuestions';
 import Button from '../common/Button';
 import QuestionLineGraphic from './QuestionLineGraphic';
 import './ResultScreen.css';
@@ -50,6 +50,8 @@ const text = {
       'Euer Ergebnis wurde sicherheitshalber in diesem Browser gespeichert. Ihr könnt den Versand erneut versuchen.',
     retry: 'Erneut senden',
     retrying: 'Wird gesendet …',
+    rankingTitle: 'Eure wichtigsten Ziele',
+    topicsTitle: 'Eure Themenfelder',
   },
   en: {
     kicker: 'Your collective',
@@ -65,6 +67,8 @@ const text = {
       'Your result was safely stored in this browser. You can try sending it again.',
     retry: 'Send again',
     retrying: 'Sending …',
+    rankingTitle: 'Your main goals',
+    topicsTitle: 'Your fields of action',
   },
 } as const;
 
@@ -86,6 +90,8 @@ const goalLabels = {
     health: 'Health',
   },
 } as const;
+
+
 
 export default function ResultScreen({
   lang,
@@ -123,7 +129,7 @@ export default function ResultScreen({
 
   const resultAnswers = getResultAnswers(lang, answers);
   const goalTopics = getGoalTopics(lang, answers);
-
+  const topRankingGoals = getTopRankingGoals(lang, orderedValues);
 
   return (
     <section className="test-screen result-screen ">
@@ -133,40 +139,8 @@ export default function ResultScreen({
             <p className="result-kicker script-heading4">{t.kicker}</p>
           </div>
 
-          <div className="result-page__hero">
-            <h1 className="result-collective-name heading3">
-              {collectiveName.trim() || t.fallbackName}
-            </h1>
-
-            <div className="result-graphic-card" aria-hidden="true">
-              <QuestionLineGraphic
-                mode="ranking"
-                answers={getLineGraphicAnswers(answers)}
-                orderedValues={orderedValues}
-              />
-            </div>
-          </div>
-
           <section className="result-page__details">
             <p className="result-intro paragraph">{t.intro}</p>
-
-            {goalTopics.length > 0 && (
-              <div
-                className="result-goal-tags"
-                aria-label={
-                  lang === 'de'
-                    ? 'Handlungsfelder und Ziele'
-                    : 'Fields of action and goals'
-                }
-              >
-                {goalTopics.map((goal) => (
-                  <span className="result-goal-tag paragraph" key={goal}>
-                    {goal}
-                  </span>
-                ))}
-              </div>
-            )}
-
             <div className="result-answer-list">
               {resultAnswers.map((answer, index) => (
                 <article className="result-answer" key={`${answer.label}-${index}`}>
@@ -175,6 +149,50 @@ export default function ResultScreen({
                 </article>
               ))}
             </div>
+
+            {topRankingGoals.length > 0 && (
+              <section className="result-goal-section">
+                <p className="result-answer__label label">{t.rankingTitle}</p>
+
+                <div className="result-ranking-summary">
+                  {topRankingGoals.map((goal, index) => (
+                    <div className="result-ranking-summary__item" key={goal}>
+                      <span className="result-ranking-summary__number">
+                        {index + 1}
+                      </span>
+
+                      <span className="result-goal-tag">
+                        {goal}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {goalTopics.length > 0 && (
+              <section className="result-goal-section">
+                <p className="result-answer__label label">{t.topicsTitle}</p>
+
+                <div
+                  className="result-goal-tags"
+                  aria-label={
+                    lang === 'de'
+                      ? 'Themenfelder und eigene Ergänzungen'
+                      : 'Fields of action and custom additions'
+                  }
+                >
+                  {goalTopics.map((goal, index) => (
+                    <span
+                      className="result-goal-tag paragraph"
+                      key={`${goal}-${index}`}
+                    >
+                      {goal}
+                    </span>
+                  ))}
+                </div>
+              </section>
+            )}
           </section>
 
           {saveStatus === 'database_saved' && (
@@ -574,6 +592,28 @@ function getSpaceAnswerEn(
     text:
       'You are spatially distributed and are not tied to one permanent shared location.',
   };
+}
+
+
+function getTopRankingGoals(
+  lang: Lang,
+  orderedValues: string[]
+): string[] {
+  const rankingQuestion = testQuestions.find(
+    (question) => question.id === 'goals' && question.type === 'ranking'
+  );
+
+  if (!rankingQuestion || rankingQuestion.type !== 'ranking') {
+    return orderedValues.slice(0, 2);
+  }
+
+  return orderedValues.slice(0, 2).map((id) => {
+    const option = rankingQuestion.options.find(
+      (rankingOption) => rankingOption.id === id
+    );
+
+    return option?.label[lang] ?? id;
+  });
 }
 
 function getGoalTopics(
