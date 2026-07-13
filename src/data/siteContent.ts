@@ -24,9 +24,8 @@ export const siteContent = {
         'Urbane Kollektive schaffen Räume, stärken Gemeinschaften und geben Impulse für eine Stadtentwicklung von unten. Dieses Tool macht sichtbar, wie sie organisiert sind, wofür sie stehen und wie sie Stadt mitgestalten.',
       ],
 
-      testEyebrow: 'Du bist Teil eines Kollektivs?',
-      testTitle: 'Startet den',
-      testHighlight: 'Kollektiv-Check',
+      testTitle: 'Mache jetzt den',
+      testHighlight: ' Kollektiv-Check',
       testDescription: [
         'Der Check ist an die Idee von Personality-Tests angelehnt und überträgt sie auf urbane Kollektive. Über verschiedene Dimensionen macht er sichtbar, welche Werte, Arbeitsweisen und Wirkungslogiken euch prägen.',
         'Es geht nicht darum, euch in Schubladen zu stecken, sondern euren kollektiven Charakter greifbar und besprechbar zu machen.',
@@ -57,7 +56,6 @@ export const siteContent = {
         'Urban collectives create spaces, strengthen communities and give impulses for city-making from below. This tool makes visible how they are organised, what they stand for and how they help shape the city.',
       ],
 
-      testEyebrow: 'Are you part of a collective?',
       testTitle: 'Start the',
       testHighlight: 'Collective Check',
       testDescription: [
