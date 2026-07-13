@@ -12,7 +12,7 @@ interface Props {
 		titleLine3: string;
 		intro: string;
 		testKicker: string;
-		testTitleLine: string;
+		testTitle: string;
 		testHighlight: string;
 		testDescription: string;
 		testMeta: string;
@@ -42,7 +42,8 @@ const { lang, content } = Astro.props;
 			<p class="test-kicker paragraph-emphasized">{content.testKicker}</p>
 
 			<h2 class="test-title" id="hero-test-title">
-				<span class="heading2">{content.testTitleLine}</span>
+				<span class="heading2">{content.testTitle}</span>
+				<p/>
 				<span class="script-heading2">{content.testHighlight}</span>
 			</h2>
 
@@ -85,20 +86,16 @@ const { lang, content } = Astro.props;
 		position: absolute;
 		z-index: 0;
 
-		top: -2svh;
-		left: -3vw;
+	
 
-		width: 104vw;
-		height: 88svh;
-
-		background-image: url("/images/city-map.svg");
+		background-image: url("/images/new-city-map.svg");
 		background-repeat: no-repeat;
 		background-position: center top;
 		background-size: 100% auto;
 
-		opacity: 0.7;
+		opacity: 0.6;
+		mix-blend-mode: ;
 		mix-blend-mode: multiply;
-		mix-blend-mode: color-burn;
 		pointer-events: none;
 
 		-webkit-mask-image: linear-gradient(
@@ -129,7 +126,7 @@ const { lang, content } = Astro.props;
 		position: relative;
 		display: flex;
 		flex-direction: column;
-		gap: 1rem;
+		gap: 2rem;
 		z-index: 1;
 		padding: 8rem 20% 0 20%;
 	}
@@ -137,7 +134,7 @@ const { lang, content } = Astro.props;
 	.hero-title {
 		margin: 0;
 		text-transform: uppercase;
-
+		gap: 5rem;
 		color: var(--color-text);
 	}
 
@@ -170,7 +167,7 @@ const { lang, content } = Astro.props;
 			left: -14vw;
 
 			width: 128vw;
-			height: 78svh;
+			height: 50svh;
 
 			background-size: 100% auto;
 			background-position: center top;
@@ -202,10 +199,25 @@ const { lang, content } = Astro.props;
 			left: -2vw;
 
 			width: 104vw;
-			height: 86svh;
+			height: 90svh;
 
 			background-size: 100% auto;
 			background-position: center top;
+
+			-webkit-mask-image: linear-gradient(
+				to bottom,
+				black 0%,
+				black 52%,
+				rgba(0, 0, 0, 0.55) 68%,
+				transparent 100%
+			);
+			mask-image: linear-gradient(
+				to bottom,
+				black 0%,
+				black 52%,
+				rgba(0, 0, 0, 0.55) 68%,
+				transparent 100%
+			);
 		}
 
 		.hero-content {
@@ -215,11 +227,11 @@ const { lang, content } = Astro.props;
 
 	@media (min-width: 1200px) {
 		.hero-map {
-			top: -2.5svh;
-			left: -1.5vw;
+			top: -12svh;
+			left: -1vw;
 
-			width: 103vw;
-			height: 88svh;
+			width: 104vw;
+			height: 120svh;
 
 			background-size: 100% auto;
 			background-position: center top;
