@@ -1,6 +1,7 @@
 ---
 interface Props {
 	lang: "de" | "en";
+	reducedContent?: boolean;
 	nav: {
 		test: string;
 		case: string;
@@ -10,7 +11,7 @@ interface Props {
 	};
 }
 
-const { lang, nav } = Astro.props;
+const { lang, nav, reducedContent = false } = Astro.props;
 
 const otherLang = lang === "de" ? "en" : "de";
 const currentPath = Astro.url.pathname;
@@ -33,83 +34,93 @@ const aboutHref = `/${lang}/about/`;
 const languageHref = currentPath.replace(`/${lang}`, `/${otherLang}`);
 ---
 
-<header class="site-header">
-	<script>
-		document.addEventListener("DOMContentLoaded", () => {
-			let menuOpen = false;
-			const header = document.querySelector(".site-header");
-			const toggle = document.getElementById("menuToggle");
-			const menu = document.getElementById("menu");
-			const body = document.body;
+<header class:list={{ "site-header": true, "site-header--reduced": reducedContent }}>
+	{!reducedContent && (
+		<script>
+			document.addEventListener("DOMContentLoaded", () => {
+				let menuOpen = false;
+				const header = document.querySelector(".site-header");
+				const toggle = document.getElementById("menuToggle");
+				const menu = document.getElementById("menu");
+				const body = document.body;
 
-			function setScrollLock(locked: boolean) {
-				body.style.overflow = locked ? "hidden" : "";
-				body.style.touchAction = locked ? "none" : "";
-			}
+				function setScrollLock(locked: boolean) {
+					body.style.overflow = locked ? "hidden" : "";
+					body.style.touchAction = locked ? "none" : "";
+				}
 
-			if (toggle && menu && header) {
-				toggle.addEventListener("click", () => {
-					menuOpen = !menuOpen;
-					menu.classList.toggle("open", menuOpen);
-					header.classList.toggle("open", menuOpen);
-					setScrollLock(menuOpen);
-					toggle.textContent = menuOpen ? "Schließen" : "Menü";
-				});
-			}
+				if (toggle && menu && header) {
+					toggle.addEventListener("click", () => {
+						menuOpen = !menuOpen;
+						menu.classList.toggle("open", menuOpen);
+						header.classList.toggle("open", menuOpen);
+						setScrollLock(menuOpen);
+						toggle.textContent = menuOpen ? "Schließen" : "Menü";
+					});
+				}
 
-			window.addEventListener("beforeunload", () => setScrollLock(false));
-		});
-	</script>
+				window.addEventListener("beforeunload", () => setScrollLock(false));
+			});
+		</script>
+	)}
 
 	<a class="site-logo" href={`/${lang}/`} aria-label="Startseite">
 		<img src="/favicon.svg" alt="" class="site-logo-icon" />
 	</a>
 
-	<nav class="site-nav-desktop" aria-label="Hauptnavigation">
-		<a class:list={{ active: isActive(testHref) }} href={testHref}>
-			{nav.test}
-		</a>
-
-		<a
-			class:list={{ active: isActive(caseHref) }}
-			href={caseHref}
-		>
-			{nav.case}
-		</a>
-
-		<a class:list={{ active: isActive(aboutHref) }} href={aboutHref}>
-			{nav.about}
-		</a>
-
+	{reducedContent ? (
 		<a class="language-switch" href={languageHref}>
 			{nav.languageLabel}
 		</a>
-	</nav>
+	) : (
+		<>
+			<nav class="site-nav-desktop" aria-label="Hauptnavigation">
+				<a class:list={{ active: isActive(testHref) }} href={testHref}>
+					{nav.test}
+				</a>
 
-	<nav class="site-nav-mobile" aria-label="Hauptnavigation">
-		<div class="menu-toggle" id="menuToggle">Menü</div>
+				<a
+					class:list={{ active: isActive(caseHref) }}
+					href={caseHref}
+				>
+					{nav.case}
+				</a>
 
-		<div class="mobile-nav-links" id="menu">
-			<a class:list={{ active: isActive(testHref) }} href={testHref}>
-				{nav.test}
-			</a>
+				<a class:list={{ active: isActive(aboutHref) }} href={aboutHref}>
+					{nav.about}
+				</a>
 
-			<a
-				class:list={{ active: isActive(caseHref) }}
-				href={caseHref}
-			>
-				{nav.case}
-			</a>
+				<a class="language-switch" href={languageHref}>
+					{nav.languageLabel}
+				</a>
+			</nav>
 
-			<a class:list={{ active: isActive(aboutHref) }} href={aboutHref}>
-				{nav.about}
-			</a>
+			<nav class="site-nav-mobile" aria-label="Hauptnavigation">
+				<div class="menu-toggle" id="menuToggle">Menü</div>
 
-			<a class="language-switch" href={languageHref}>
-				{nav.languageLabel}
-			</a>
-		</div>
-	</nav>
+				<div class="mobile-nav-links" id="menu">
+					<a class:list={{ active: isActive(testHref) }} href={testHref}>
+						{nav.test}
+					</a>
+
+					<a
+						class:list={{ active: isActive(caseHref) }}
+						href={caseHref}
+					>
+						{nav.case}
+					</a>
+
+					<a class:list={{ active: isActive(aboutHref) }} href={aboutHref}>
+						{nav.about}
+					</a>
+
+					<a class="language-switch" href={languageHref}>
+						{nav.languageLabel}
+					</a>
+				</div>
+			</nav>
+		</>
+	)}
 
 	<style>
 		.site-header {
@@ -128,6 +139,10 @@ const languageHref = currentPath.replace(`/${lang}`, `/${otherLang}`);
 
 			color: var(--color-text);
 			font-family: var(--font-body);
+		}
+
+		.site-header--reduced {
+			justify-content: space-between;
 		}
 
 		.site-header.open {
@@ -155,7 +170,8 @@ const languageHref = currentPath.replace(`/${lang}`, `/${otherLang}`);
 		}
 
 		.site-nav-desktop a,
-		.mobile-nav-links a {
+		.mobile-nav-links a,
+		.language-switch {
 			text-decoration: none;
 			padding: 1rem 0.75rem;
 			height: 3.25rem;
@@ -169,7 +185,8 @@ const languageHref = currentPath.replace(`/${lang}`, `/${otherLang}`);
 				background-color 0.2s ease-in-out;
 		}
 
-		.site-nav-desktop a:hover {
+		.site-nav-desktop a:hover,
+		.language-switch:hover {
 			background-color: var(--color-card-bg);
 		}
 
