@@ -13,10 +13,6 @@ toc:
     id: "what-happens-to-the-results"
 ---
 
-# About the project
-
-This project explores urban collectives and how they organize, locate and describe themselves.
-
 ## Context
 
 Urban collectives often emerge where people want to shape spaces, structures or forms of living together. They can be informal, formalized, political, practical, long-term or temporary.

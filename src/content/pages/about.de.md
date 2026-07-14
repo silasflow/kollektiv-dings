@@ -13,10 +13,6 @@ toc:
     id: "was-passiert-mit-den-ergebnissen"
 ---
 
-# Über das Projekt
-
-Dolor excepteur do elit veniam reprehenderit tempor. Voluptate ex quis irure tempor et officia duis elit. Cupidatat do aliqua labore. Ex exercitation aliqua sit veniam nulla pariatur sint.
-
 ## Inhalt
 
 Urbane Kollektive entstehen oft dort, wo Menschen gemeinsam Räume, Strukturen oder Formen des Zusammenlebens gestalten wollen. Sie können informell, formalisiert, politisch, praktisch, langfristig oder temporär organisiert sein.
