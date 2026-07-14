@@ -385,8 +385,8 @@ export const testQuestions: TestQuestion[] = [
     type: 'ranking',
     graphic: 'goals',
     category: {
-      de: '5/6 Handlungslogik',
-      en: '5/6 Actions',
+      de: '5/6 Ziele',
+      en: '5/6 Goals',
     },
     title: {
       de: 'Sortiert die Methoden nach ihrer Wichtigkeit für euer Kollektiv.',
@@ -459,8 +459,8 @@ export const testQuestions: TestQuestion[] = [
     id: 'goalTopics',
     type: 'goal-options',
     category: {
-      de: 'Eure Themen 6/6',
-      en: 'Your Topics 6/6',
+      de: '6/6 Themenfelder',
+      en: 'Topics 6/6',
     },
     title: {
       de: 'Welche der Themen passen zu eurem Kollektiv?',
@@ -495,8 +495,8 @@ export const testQuestions: TestQuestion[] = [
       {
         id: 'political_topic',
         label: {
-          de: 'Politisch',
-          en: 'Political',
+          de: 'Politik',
+          en: 'Politics',
         },
       },
       {
@@ -519,8 +519,8 @@ export const testQuestions: TestQuestion[] = [
       en: 'Own answer',
     },
     ownAnswerPlaceholder: {
-      de: 'Eigenes Ziel ergänzen',
-      en: 'Add your own goal',
+      de: 'Eigenes Thema ergänzen',
+      en: 'Add your own topic',
     },
   },
 ];
