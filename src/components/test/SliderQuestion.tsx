@@ -112,7 +112,7 @@ export default function SliderQuestion({
         <p className="question-answer-text paragraph-emphasized">{answerText}</p>
 
         <div className="slider-answer-card">
-          <h2 className="heading3">{valueLabel}</h2>
+          <h2 className="heading4">{valueLabel}</h2>
 
           <div className="range-wrap">
             <input
