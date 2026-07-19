@@ -1,0 +1,52 @@
+---
+import BaseHead from '../../components/common/BaseHead.astro';
+import Header from '../../components/common/Header.astro';
+import FinderExperience from '../../components/finder/FinderExperience';
+import { siteContent, type Lang } from '../../data/siteContent';
+import '../../styles/global.css';
+
+const lang = Astro.params.lang as Lang;
+
+if (lang !== 'de' && lang !== 'en') {
+  return Astro.redirect('/de/universe-results/');
+}
+
+const content = siteContent[lang];
+const otherLang = lang === 'de' ? 'en' : 'de';
+
+const normalizedLang = lang === "en" ? "en" : "de";
+
+const site = siteContent[normalizedLang];
+
+
+const meta = {
+  de: {
+    title: 'Kollektive finden | Unsere Stadt kollektiv gestalten',
+    description:
+      'Urbane Kollektive nach Themen, Orten und Arbeitsweisen suchen, filtern und gruppieren.',
+  },
+  en: {
+    title: 'Find collectives | Shaping our city collectively',
+    description:
+      'Search, filter and group urban collectives by topics, locations and ways of working.',
+  },
+} as const;
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <BaseHead title={meta[lang].title} description={meta[lang].description} />
+  </head>
+  <body>
+    <Header
+			lang={normalizedLang}
+			nav={{
+				...site.nav,
+				languageHref: `/${otherLang}/case/`,
+			}}
+		/>
+    <FinderExperience client:load lang={lang} />
+  </body>
+</html>
+
