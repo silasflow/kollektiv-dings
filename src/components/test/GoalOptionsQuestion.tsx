@@ -64,12 +64,7 @@ export default function GoalOptionsQuestion({
       <div className="goal-options-content">
         <div className="question-copy goal-options-copy">
           <p className="question-category script-heading4">{question.category[lang]}</p>
-
           <h1 className="question-title heading3">{question.title[lang]}</h1>
-
-          {/* <p className="paragraph-emphasized goal-options-description">
-            {question.description[lang]}
-          </p> */}
         </div>
 
         <div className="goal-options-scroll-area">

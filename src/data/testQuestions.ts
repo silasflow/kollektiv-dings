@@ -314,8 +314,8 @@ export const testQuestions: TestQuestion[] = [
       en: '4/6 Spatial Placement',
     },
     title: {
-      de: 'Wo findet eure primär Arbeit statt?',
-      en: 'Where does your primary work take place?',
+      de: 'Auf welcher räumlichen Ebene arbeitet euer Kollektiv hauptsächlich?',
+      en: 'On which spatial level does your collective mainly operate?',
     },
     valueLabels: [
       {
@@ -385,16 +385,16 @@ export const testQuestions: TestQuestion[] = [
     type: 'ranking',
     graphic: 'goals',
     category: {
-      de: '5/6 Ziele',
-      en: '5/6 Goals',
+      de: '5/6 Handlungslogiken',
+      en: '5/6 Action Logics',
     },
     title: {
-      de: 'Sortiert die Methoden nach ihrer Wichtigkeit für euer Kollektiv.',
-      en: 'Sort the methods by their importance to your collective.',
+      de: 'Ordnet die folgenden Ausrichtungen nach ihrer Bedeutung für eure Arbeit.',
+      en: 'Rank the following orientations according to their importance for your work.',
     },
     description: {
-      de: 'Wählt die Methoden aus, die für euer Kollektiv besonders wichtig sind.',
-      en: 'Select the methods that are especially important for your collective.',
+      de: 'Wählt die Handlungslogiken aus, die für euer Kollektiv besonders wichtig sind.',
+      en: 'Select the action logics that are especially important for your collective.',
     },
     options: [
       {
@@ -474,22 +474,36 @@ export const testQuestions: TestQuestion[] = [
       {
         id: 'climate',
         label: {
-          de: 'Klima',
-          en: 'Climate',
+          de: 'Klima und Umwelt',
+          en: 'Climate and Environment',
+        },
+      },
+      {
+        id: 'housing',
+        label: {
+          de: 'Wohnen',
+          en: 'Housing',
+        },
+      },
+      {
+        id: 'public_space',
+        label: {
+          de: 'Öffentlicher Raum',
+          en: 'Public Space',
         },
       },
       {
         id: 'encounter',
         label: {
-          de: 'Begegnung',
-          en: 'Encounter',
+          de: 'Begegnung und Nachbarschaft',
+          en: 'Encounter and Neighborhood',
         },
       },
       {
         id: 'sport',
         label: {
-          de: 'Sport',
-          en: 'Sports',
+          de: 'Sport und Bewegung',
+          en: 'Sports and movement',
         },
       },
       {
@@ -502,8 +516,15 @@ export const testQuestions: TestQuestion[] = [
       {
         id: 'equality',
         label: {
-          de: 'Gleichberechtigung',
+          de: 'Soziale Gerechtigkeit',
           en: 'Equality',
+        },
+      },
+      {
+        id: 'education',
+        label: {
+          de: 'Bildung',
+          en: 'Education',
         },
       },
       {
@@ -513,6 +534,38 @@ export const testQuestions: TestQuestion[] = [
           en: 'Health',
         },
       },
+      {
+        id: 'circular_economy',
+        label: {
+          de: 'Kreislaufwirtschaft und Ressourcen',
+          en: 'Circular Economy and Resources',
+        },
+      },
+      {
+        id: 'digital_city',
+        label: {
+          de: 'Digitale Stadt',
+          en: 'Digital City',
+        },
+      },
+      {
+        id: 'work_local_economy',
+        label: {
+          de: 'Arbeit und lokale Ökonomie',
+          en: 'Work and Local Economy',
+        },
+      },
+      {
+        id: 'arts_and_culture',
+        label: {
+          de: 'Kunst und Kultur',
+          en: 'Arts and Culture',
+        },
+      },
+
+
+
+
     ],
     ownAnswerLabel: {
       de: 'Eigene Antwort',
