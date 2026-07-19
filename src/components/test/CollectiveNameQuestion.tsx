@@ -6,13 +6,19 @@ import TestNavigation from './TestNavigation';
 type Props = {
   lang: Lang;
   collectiveName: string;
-  websiteOrInstagram: string;
+  website: string;
+  instagram:string;
   location: string;
+  region: string;
+  country: string;
   consent: boolean;
   isSubmitting?: boolean;
   onNameChange: (value: string) => void;
-  onWebsiteOrInstagramChange: (value: string) => void;
+  onWebsiteChange: (value: string) => void;
+  onInstagramChange: (value: string) => void;
   onLocationChange: (value: string) => void;
+  onRegionChange: (value: string) => void;
+  onCountryChange: (value: string) => void;
   onConsentChange: (value: boolean) => void;
   onBack: () => void;
   onNext: () => void;
@@ -24,10 +30,16 @@ const text = {
     titleHighlight: 'Kollektiv',
     nameLabel: 'Kollektivname',
     namePlaceholder: 'Name eingeben',
-    websiteLabel: 'Website oder Instagram',
-    websitePlaceholder: 'https://… oder @name',
-    locationLabel: 'Standort',
-    locationPlaceholder: 'z. B. Berlin-Neukölln, Potsdam, Brandenburg',
+    websiteLabel: 'Website',
+    websitePlaceholder: 'https://…',
+    instagramLabel: 'Instagram',
+    instagramPlaceholder: '@name',
+    locationLabel: 'Stadt',
+    locationPlaceholder: 'z. B. Berlin, Hamburg, München',
+    regionLabel: 'Region',
+    regionPlaceholder: 'z. B. Uckermark, Ruhrgebiet, Altmark',
+    countryLabel:'Land',
+    countryPlaceholder:'Deutschland, Österreich, Schweiz',
     consent:
       'Ich stimme zu, dass Name, Standort, Website/Insta und Ergebnis öffentlich auf der Website angezeigt werden dürfen.',
   },
@@ -36,10 +48,16 @@ const text = {
     titleHighlight: 'collective',
     nameLabel: 'Collective name',
     namePlaceholder: 'Enter name',
-    websiteLabel: 'Website or Instagram',
-    websitePlaceholder: 'https://… or @name',
-    locationLabel: 'Location',
-    locationPlaceholder: 'e.g. Berlin-Neukölln, Potsdam, Brandenburg',
+    websiteLabel: 'Website',
+    websitePlaceholder: 'https://…',
+    instagramLabel: 'Instagram',
+    instagramPlaceholder: '@name',
+    locationLabel: 'City',
+    locationPlaceholder: 'e.g. Berlin, Potsdam, Cottbus',
+    regionLabel: 'Region',
+    regionPlaceholder: 'e.g. Uckermark, Ruhrgebiet, Altmark',
+    countryLabel: 'Country',
+    countryPlaceholder: 'e.g. Germany, Austria, Switzerland',
     consent:
       'I agree that name, location, website/Insta and result may be shown publicly on the website.',
   },
@@ -48,13 +66,19 @@ const text = {
 export default function CollectiveNameQuestion({
   lang,
   collectiveName,
-  websiteOrInstagram,
+  website,
+  instagram,
   location,
+  region,
+  country,
   consent,
   isSubmitting = false,
   onNameChange,
-  onWebsiteOrInstagramChange,
+  onWebsiteChange,
+  onInstagramChange,
   onLocationChange,
+  onRegionChange,
+  onCountryChange,
   onConsentChange,
   onBack,
   onNext,
@@ -85,9 +109,20 @@ export default function CollectiveNameQuestion({
 
           <input
             type="text"
-            value={websiteOrInstagram}
-            onChange={(event) => onWebsiteOrInstagramChange(event.target.value)}
+            value={website}
+            onChange={(event) => onWebsiteChange(event.target.value)}
             placeholder={t.websitePlaceholder}
+          />
+        </label>
+
+        <label className="name-field">
+          <span className="label">{t.instagramLabel}</span> 
+
+          <input
+            type="text"
+            value={instagram}
+            onChange={(event) => onInstagramChange(event.target.value)}
+            placeholder={t.instagramPlaceholder}
           />
         </label>
 
@@ -101,6 +136,31 @@ export default function CollectiveNameQuestion({
             placeholder={t.locationPlaceholder}
           />
         </label>
+
+
+
+        <label className="name-field">
+          <span className="label">{t.regionLabel}</span>
+
+          <input
+            type="text"
+            value={region}
+            onChange={(event) => onRegionChange(event.target.value)}
+            placeholder={t.regionPlaceholder}
+          />
+        </label>
+
+        <label className="name-field">
+          <span className="label">{t.countryLabel}</span> 
+
+          <input
+            type="text"
+            value={country}
+            onChange={(event) => onCountryChange(event.target.value)}
+            placeholder={t.countryPlaceholder}
+          />
+        </label>
+
 
         <label className="consent-field">
           <input
