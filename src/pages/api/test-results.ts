@@ -31,7 +31,11 @@ export const GET: APIRoute = async () => {
         lang,
         collective_name,
         website_or_instagram,
+        website,
+        instagram,
         location,
+        region,
+        country,
         consent_public,
         answers,
         result
@@ -51,8 +55,13 @@ export const GET: APIRoute = async () => {
           createdAt: row.created_at,
           lang: row.lang,
           collectiveName: row.collective_name,
-          websiteOrInstagram: row.website_or_instagram,
+          websiteOrInstagram:
+            row.website_or_instagram ?? row.website ?? row.instagram,
+          website: row.website,
+          instagram: row.instagram,
           location: row.location,
+          region: row.region,
+          country: row.country,
           consentPublic: row.consent_public,
           answers: row.answers,
           result: row.result,
@@ -99,8 +108,11 @@ export const POST: APIRoute = async ({ request }) => {
     const {
       lang,
       collectiveName,
-      websiteOrInstagram,
+      website,
+      instagram,
       location,
+      region,
+      country,
       consentPublic,
       answers,
       result,
@@ -120,21 +132,27 @@ export const POST: APIRoute = async ({ request }) => {
       insert into public.test_results (
         lang,
         collective_name,
-        website_or_instagram,
+        website,
+        instagram,
         location,
+        region,
+        country,
         consent_public,
         answers,
         result
       )
-      values ($1, $2, $3, $4, $5, $6::jsonb, $7::jsonb)
+      values ($1, $2, $3, $4, $5, $6, $7, $8, $9::jsonb, $10::jsonb)
       returning id, created_at
     `;
 
     const values = [
       lang,
       collectiveName?.trim() || null,
-      websiteOrInstagram?.trim() || null,
+      website?.trim() || null,
+      instagram?.trim() || null,
       location?.trim() || null,
+      region?.trim() || null,
+      country?.trim() || null,
       Boolean(consentPublic),
       JSON.stringify(answers),
       JSON.stringify(result),
