@@ -12,6 +12,7 @@ export const siteContent = {
       test: 'Check starten',
       case: 'Case Studies',
       about: 'Über das Tool',
+      finder: 'Kollektiv-Finder',
       languageLabel: 'EN',
     },
     hero: {
@@ -44,6 +45,7 @@ export const siteContent = {
       test: 'Start check',
       case: 'Case Studies',
       about: 'About the tool',
+      finder: 'Collective Finder',
       languageLabel: 'DE',
     },
     hero: {

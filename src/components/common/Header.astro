@@ -6,6 +6,7 @@ interface Props {
 		test: string;
 		case: string;
 		about: string;
+		finder: string;
 		languageLabel: string;
 		languageHref: string;
 	};
@@ -31,6 +32,7 @@ const isActive = (href: string) => {
 const testHref = `/${lang}/test/`;
 const caseHref = `/${lang}/case/`;
 const aboutHref = `/${lang}/about/`;
+const finderHref = `/${lang}/finder/`;
 const languageHref = currentPath.replace(`/${lang}`, `/${otherLang}`);
 ---
 
@@ -90,6 +92,10 @@ const languageHref = currentPath.replace(`/${lang}`, `/${otherLang}`);
 					{nav.about}
 				</a>
 
+				<a class:list={{ active: isActive(finderHref) }} href={finderHref}>
+					{nav.finder}
+				</a>
+
 				<a class="language-switch" href={languageHref}>
 					{nav.languageLabel}
 				</a>
@@ -112,6 +118,10 @@ const languageHref = currentPath.replace(`/${lang}`, `/${otherLang}`);
 
 					<a class:list={{ active: isActive(aboutHref) }} href={aboutHref}>
 						{nav.about}
+					</a>
+
+					<a class:list={{ active: isActive(finderHref) }} href={finderHref}>
+						{nav.finder}
 					</a>
 
 					<a class="language-switch" href={languageHref}>
