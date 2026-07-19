@@ -6,6 +6,8 @@ interface ButtonProps {
     label?: string; // kept for backward compatibility
     icon?: string;
     href?: string;
+    target?: React.HTMLAttributeAnchorTarget;
+    rel?: string;
     onClick?: () => void;
     disabled?: boolean;
     children?: React.ReactNode;
@@ -16,6 +18,8 @@ export default function Button({
     label,
     icon,
     href,
+    target,
+    rel,
     onClick,
     disabled,
     children
@@ -114,6 +118,8 @@ export default function Button({
             <a
                 className="button"
                 href={href}
+                target={target}
+                rel={rel}
                 style={{
                     ...buttonStyles,
                     ...(isHovered ? hoverStyles : {}),
