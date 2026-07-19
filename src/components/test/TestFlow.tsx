@@ -26,8 +26,11 @@ type SavedTestState = {
   step: number;
   answers: TestAnswers;
   collectiveName: string;
-  websiteOrInstagram: string;
+  website: string;
+  instagram: string;
   location: string;
+  region: string;
+  country: string;
   consent: boolean;
 };
 
@@ -36,8 +39,11 @@ type TestResultPayload = {
   createdAt: string;
   lang: Lang;
   collectiveName: string;
-  websiteOrInstagram: string;
+  website: string;
+  instagram: string;
   location: string;
+  region: string;
+  country: string;
   consentPublic: boolean;
   answers: TestAnswers;
   result: {
@@ -97,8 +103,11 @@ export default function TestFlow({ lang }: Props) {
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<TestAnswers>({});
   const [collectiveName, setCollectiveName] = useState('');
-  const [websiteOrInstagram, setWebsiteOrInstagram] = useState('');
+  const [website, setWebsite] = useState('');
+  const [instagram, setInstagram] = useState('');
   const [location, setLocation] = useState('');
+  const [region, setRegion] = useState('');
+  const [country, setCountry] = useState('');
   const [consent, setConsent] = useState(false);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -128,8 +137,11 @@ export default function TestFlow({ lang }: Props) {
 
       setAnswers(parsedState.answers ?? {});
       setCollectiveName(parsedState.collectiveName ?? '');
-      setWebsiteOrInstagram(parsedState.websiteOrInstagram ?? '');
+      setWebsite(parsedState.website ?? '');
+      setInstagram(parsedState.instagram ?? '');
       setLocation(parsedState.location ?? '');
+      setRegion(parsedState.region ?? '');
+      setCountry(parsedState.country ?? '');
       setConsent(parsedState.consent ?? false);
     }
 
@@ -138,8 +150,11 @@ export default function TestFlow({ lang }: Props) {
       setStep(0);
       setAnswers({});
       setCollectiveName('');
-      setWebsiteOrInstagram('');
+      setWebsite('');
+      setInstagram('');
       setLocation('');
+      setRegion('');
+      setCountry('');
       setConsent(false);
       setLocalResultCount(0);
     }
@@ -154,13 +169,16 @@ export default function TestFlow({ lang }: Props) {
       step,
       answers,
       collectiveName,
-      websiteOrInstagram,
+      website,
+      instagram,
       location,
+      region,
+      country,
       consent,
     };
 
     window.sessionStorage.setItem(STORAGE_KEY, JSON.stringify(nextState));
-  }, [isReady, step, answers, collectiveName, websiteOrInstagram, location, consent]);
+  }, [isReady, step, answers, collectiveName, website, instagram, location, region, country, consent]);
 
   const isIntro = step === 0;
   const questionIndex = step - 1;
@@ -235,8 +253,11 @@ export default function TestFlow({ lang }: Props) {
         createdAt: payload.createdAt,
         lang: payload.lang,
         collectiveName: payload.collectiveName,
-        websiteOrInstagram: payload.websiteOrInstagram,
+        website: payload.website,
+        instagram: payload.instagram,
         location: payload.location,
+        region: payload.region,
+        country: payload.country,
         consentPublic: payload.consentPublic,
         answers: payload.answers,
         result: payload.result,
@@ -262,8 +283,11 @@ export default function TestFlow({ lang }: Props) {
   const payload = buildTestResultPayload({
     lang,
     collectiveName,
-    websiteOrInstagram,
+    website,
+    instagram,
     location,
+    region,
+    country,
     consent,
     answers,
   });
@@ -312,8 +336,11 @@ export default function TestFlow({ lang }: Props) {
       buildTestResultPayload({
         lang,
         collectiveName,
-        websiteOrInstagram,
+        website,
+        instagram,
         location,
+        region,
+        country,
         consent,
         answers,
       });
@@ -353,8 +380,11 @@ export default function TestFlow({ lang }: Props) {
     setStep(0);
     setAnswers({});
     setCollectiveName('');
-    setWebsiteOrInstagram('');
+    setWebsite('');
+    setInstagram('');
     setLocation('');
+    setRegion('');
+    setCountry('');
     setConsent(false);
     setSubmittedId(null);
     setSubmitError(null);
@@ -377,13 +407,19 @@ export default function TestFlow({ lang }: Props) {
     <CollectiveNameQuestion
       lang={lang}
       collectiveName={collectiveName}
-      websiteOrInstagram={websiteOrInstagram}
+      website={website}
+      instagram={instagram}
       location={location}
+      region={region}
+      country={country}
       consent={consent}
       isSubmitting={isSubmitting}
       onNameChange={setCollectiveName}
-      onWebsiteOrInstagramChange={setWebsiteOrInstagram}
+      onWebsiteChange={setWebsite}
+      onInstagramChange={setInstagram}
       onLocationChange={setLocation}
+      onRegionChange={setRegion}
+      onCountryChange={setCountry}
       onConsentChange={setConsent}
       onBack={goBack}
       onNext={submitResult}
@@ -537,15 +573,21 @@ function getDatabaseErrorMessage(lang: Lang): string {
 function buildTestResultPayload({
   lang,
   collectiveName,
-  websiteOrInstagram,
+  website,
+  instagram,
   location,
+  region,
+  country,
   consent,
   answers,
 }: {
   lang: Lang;
   collectiveName: string;
-  websiteOrInstagram: string;
+  website: string;
+  instagram: string;
   location: string;
+  region: string;
+  country: string;
   consent: boolean;
   answers: TestAnswers;
 }): TestResultPayload {
@@ -554,6 +596,7 @@ function buildTestResultPayload({
     'economic',
     'creative',
     'social',
+    'ecological',
   ]);
 
   const values = {
@@ -573,6 +616,12 @@ const ownGoalTopics = getStringArrayAnswerForStorage(answers, 'goalTopicsOther')
 
 const cleanedAnswers: TestAnswers = {
   ...answers,
+  formalization: values.formalization,
+  time: values.time,
+  identity: values.identity,
+  space: values.space,
+  actsVirtually,
+  goals: rankingOrder,
   goalTopics: selectedGoalTopics,
   goalTopicsOther: ownGoalTopics,
 };
@@ -582,8 +631,11 @@ return {
     createdAt: new Date().toISOString(),
     lang,
     collectiveName: collectiveName.trim(),
-    websiteOrInstagram: websiteOrInstagram.trim(),
+    website: website.trim(),
+    instagram: instagram.trim(),
     location: location.trim(),
+    region: region.trim(),
+    country: country.trim(),
     consentPublic: consent,
     answers: cleanedAnswers,
     result: {
@@ -702,6 +754,7 @@ function getArchetypeId(answers: TestAnswers): string {
     'economic',
     'creative',
     'social',
+    'ecological'
   ]);
   const primaryGoal = rankingOrder[0] ?? 'political';
 
@@ -739,6 +792,7 @@ function getGraphicItems(answers: TestAnswers): string[] {
     'economic',
     'creative',
     'social',
+    'ecological'
   ]);
   const primaryGoal = rankingOrder[0] ?? 'political';
 
@@ -757,6 +811,7 @@ function getGoalGraphicItem(goalId: string): string {
   if (goalId === 'economic') return 'coin';
   if (goalId === 'creative') return 'paintbrush';
   if (goalId === 'social') return 'heart';
+  if (goalId === 'ecological') return 'tree';
   return 'star';
 }
 
