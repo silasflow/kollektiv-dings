@@ -1,11 +1,17 @@
 .finder-place-filters {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
+  display: block;
 }
 
-.finder-select-field--wide {
-  grid-column: 1 / -1;
+.finder-filter-panel__header {
+  align-items: center;
+}
+
+.finder-filter-panel__header .button {
+  flex: 0 0 auto;
+}
+
+.finder-filter-panel__header h2 {
+  margin: 0;
 }
 
 .finder-card__activity {
@@ -28,14 +34,4 @@
 
 .finder-card__scope-fact {
   grid-column: 1 / -1;
-}
-
-@media (max-width: 44rem) {
-  .finder-place-filters {
-    grid-template-columns: 1fr;
-  }
-
-  .finder-select-field--wide {
-    grid-column: auto;
-  }
 }

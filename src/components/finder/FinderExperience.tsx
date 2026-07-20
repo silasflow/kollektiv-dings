@@ -98,18 +98,18 @@ export default function FinderExperience({ lang }: Props) {
   }, []);
 
   const countryOptions = useMemo(
-    () => getGeographicOptions(collectives, "country", filters, lang),
-    [collectives, filters.placeRelation, lang],
+    () => getGeographicOptions(collectives, "country", lang),
+    [collectives, lang],
   );
 
   const regionOptions = useMemo(
-    () => getGeographicOptions(collectives, "region", filters, lang),
-    [collectives, filters.placeRelation, filters.country, lang],
+    () => getGeographicOptions(collectives, "region", lang),
+    [collectives, lang],
   );
 
   const cityOptions = useMemo(
-    () => getGeographicOptions(collectives, "city", filters, lang),
-    [collectives, filters.placeRelation, filters.country, filters.region, lang],
+    () => getGeographicOptions(collectives, "city", lang),
+    [collectives, lang],
   );
 
   const filteredCollectives = useMemo(
@@ -338,30 +338,11 @@ function createActiveChips(
   const t = finderText[lang];
   const chips: ActiveChip[] = [];
 
-  if (filters.placeRelation !== "any") {
-    chips.push({
-      key: "place-relation",
-      label:
-        filters.placeRelation === "base"
-          ? t.placeRelationBase
-          : t.placeRelationActivity,
-      remove: () =>
-        setFilters({
-          ...filters,
-          placeRelation: "any",
-          country: "",
-          region: "",
-          city: "",
-        }),
-    });
-  }
-
   if (filters.country) {
     chips.push({
       key: "country",
       label: filters.country,
-      remove: () =>
-        setFilters({ ...filters, country: "", region: "", city: "" }),
+      remove: () => setFilters({ ...filters, country: "" }),
     });
   }
 
@@ -369,7 +350,7 @@ function createActiveChips(
     chips.push({
       key: "region",
       label: filters.region,
-      remove: () => setFilters({ ...filters, region: "", city: "" }),
+      remove: () => setFilters({ ...filters, region: "" }),
     });
   }
 

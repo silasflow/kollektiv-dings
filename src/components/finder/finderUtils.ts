@@ -19,7 +19,6 @@ import type {
   FinderFilterState,
   FinderGroup,
   FinderGroupBy,
-  PlaceRelationFilter,
   RawTestResult,
   ScopeCategory,
   StructureCategory,
@@ -56,7 +55,6 @@ const ALLOWED_PLACE_TYPES = new Set<PlaceType>([
 export const EMPTY_FILTERS: FinderFilterState = {
   query: "",
   topics: [],
-  placeRelation: "any",
   country: "",
   region: "",
   city: "",
@@ -120,13 +118,8 @@ export function normalizeTestResult(
     raw.websiteOrInstagram?.trim() ?? "",
   );
   const normalizedPlaces = normalizePlaces(raw.places);
-  const legacyPlace = createLegacyPlace(raw, fallbackIndex);
-  const places =
-    normalizedPlaces.length > 0
-      ? normalizedPlaces
-      : legacyPlace
-        ? [legacyPlace]
-        : [];
+  const legacyPlaces = createLegacyPlaces(raw, fallbackIndex);
+  const places = normalizedPlaces.length > 0 ? normalizedPlaces : legacyPlaces;
   const primaryPlace = getPrimaryBasePlace(places) ?? places[0];
 
   return {
@@ -189,13 +182,8 @@ export function filterCollectives(
       return false;
     }
 
-    const relevantPlaces = getPlacesForRelation(
-      collective.places,
-      filters.placeRelation,
-    );
-
     if (filters.country || filters.region || filters.city) {
-      const hasMatchingPlace = relevantPlaces.some(
+      const hasMatchingPlace = collective.places.some(
         (place) =>
           (!filters.country || sameText(place.country, filters.country)) &&
           (!filters.region || sameText(place.region, filters.region)) &&
@@ -347,37 +335,15 @@ export function groupCollectives(
 export function getGeographicOptions(
   collectives: FinderCollective[],
   field: "country" | "region" | "city",
-  filters: Pick<FinderFilterState, "placeRelation" | "country" | "region">,
   lang: Lang,
 ): string[] {
   const values = new Map<string, string>();
 
   collectives.forEach((collective) => {
-    const places = getPlacesForRelation(
-      collective.places,
-      filters.placeRelation,
-    );
-
-    places.forEach((place) => {
+    collective.places.forEach((place) => {
       // Ungeprüfte Alttexte bleiben in Suche und Karten sichtbar, sollen aber
       // keine neuen, vermeintlich kanonischen Filteroptionen erzeugen.
       if (place.provider === "legacy") return;
-
-      if (
-        field !== "country" &&
-        filters.country &&
-        !sameText(place.country, filters.country)
-      ) {
-        return;
-      }
-
-      if (
-        field === "city" &&
-        filters.region &&
-        !sameText(place.region, filters.region)
-      ) {
-        return;
-      }
 
       const value = place[field].trim();
       if (!value) return;
@@ -468,7 +434,6 @@ export function hasActiveFilters(filters: FinderFilterState): boolean {
   return (
     filters.query.trim().length > 0 ||
     filters.topics.length > 0 ||
-    filters.placeRelation !== "any" ||
     Boolean(filters.country) ||
     Boolean(filters.region) ||
     Boolean(filters.city) ||
@@ -487,29 +452,9 @@ export function countActiveFilters(filters: FinderFilterState): number {
     filters.structures.length +
     filters.times.length +
     filters.orientations.length +
-    Number(filters.placeRelation !== "any") +
-    Number(Boolean(filters.country)) +
-    Number(Boolean(filters.region)) +
-    Number(Boolean(filters.city)) +
+    Number(Boolean(filters.country || filters.region || filters.city)) +
     Number(filters.digitalOnly)
   );
-}
-
-function getPlacesForRelation(
-  places: PlaceSelection[],
-  relation: PlaceRelationFilter,
-): PlaceSelection[] {
-  if (relation === "base") {
-    return places.filter((place) => place.role === "base");
-  }
-
-  if (relation === "activity") {
-    return places.filter(
-      (place) => place.role === "project" || place.role === "activity_area",
-    );
-  }
-
-  return places;
 }
 
 function normalizePlaces(value: unknown): PlaceSelection[] {
@@ -552,33 +497,143 @@ function normalizePlaces(value: unknown): PlaceSelection[] {
   });
 }
 
-function createLegacyPlace(
+function createLegacyPlaces(
   raw: RawTestResult,
   fallbackIndex: number,
-): PlaceSelection | null {
-  const city = raw.location?.trim() ?? "";
+): PlaceSelection[] {
+  const location = raw.location?.trim() ?? "";
   const region = raw.region?.trim() ?? "";
   const country = raw.country?.trim() ?? "";
-  const displayName = [city, region, country].filter(Boolean).join(", ");
-  if (!displayName) return null;
+  const mappedPlaces = mapKnownLegacyLocation(location);
 
-  return {
-    provider: "legacy",
-    providerPlaceId: raw.id?.trim() || `legacy-${fallbackIndex}`,
-    displayName,
-    placeType: city ? "city" : region ? "region" : "country",
+  if (mappedPlaces.length > 0) return mappedPlaces;
+
+  const displayName = [location, region, country].filter(Boolean).join(", ");
+  if (!displayName) return [];
+
+  return [
+    {
+      provider: "legacy",
+      providerPlaceId: raw.id?.trim() || `legacy-${fallbackIndex}`,
+      displayName,
+      placeType: location ? "unknown" : region ? "region" : "country",
+      postalCode: "",
+      neighbourhood: "",
+      district: "",
+      city: "",
+      region,
+      country,
+      countryCode: "",
+      latitude: null,
+      longitude: null,
+      role: "base",
+      isPrimary: true,
+    },
+  ];
+}
+
+function mapKnownLegacyLocation(location: string): PlaceSelection[] {
+  const key = normalizeText(location);
+  const definitions: Array<{
+    id: string;
+    displayName: string;
+    placeType: PlaceType;
+    neighbourhood?: string;
+    district?: string;
+    city: string;
+    region: string;
+    country: string;
+  }> = [];
+
+  if (key.includes("berlin")) {
+    const isZehlendorf = key.includes("zehlendorf");
+    const isWedding = key.includes("wedding");
+
+    definitions.push({
+      id: isZehlendorf
+        ? "berlin-zehlendorf"
+        : isWedding
+          ? "berlin-wedding"
+          : "berlin",
+      displayName: isZehlendorf
+        ? "Zehlendorf, Berlin, Deutschland"
+        : isWedding
+          ? "Wedding, Berlin, Deutschland"
+          : "Berlin, Deutschland",
+      placeType: isZehlendorf || isWedding ? "neighbourhood" : "city",
+      neighbourhood: isZehlendorf ? "Zehlendorf" : isWedding ? "Wedding" : "",
+      district: isZehlendorf ? "Steglitz-Zehlendorf" : isWedding ? "Mitte" : "",
+      city: "Berlin",
+      region: "Berlin",
+      country: "Deutschland",
+    });
+  }
+
+  if (key.includes("potsdam")) {
+    const isEiche = key.includes("eiche");
+    definitions.push({
+      id: isEiche ? "potsdam-eiche" : "potsdam",
+      displayName: isEiche
+        ? "Eiche, Potsdam, Brandenburg, Deutschland"
+        : "Potsdam, Brandenburg, Deutschland",
+      placeType: isEiche ? "neighbourhood" : "city",
+      neighbourhood: isEiche ? "Eiche" : "",
+      city: "Potsdam",
+      region: "Brandenburg",
+      country: "Deutschland",
+    });
+  }
+
+  if (key.includes("oranienburg")) {
+    definitions.push({
+      id: "oranienburg",
+      displayName: "Oranienburg, Brandenburg, Deutschland",
+      placeType: "city",
+      city: "Oranienburg",
+      region: "Brandenburg",
+      country: "Deutschland",
+    });
+  }
+
+  if (key.includes("cottbus")) {
+    definitions.push({
+      id: "cottbus",
+      displayName: "Cottbus, Brandenburg, Deutschland",
+      placeType: "city",
+      city: "Cottbus",
+      region: "Brandenburg",
+      country: "Deutschland",
+    });
+  }
+
+  if (definitions.length === 0 && key.includes("brandenburg")) {
+    definitions.push({
+      id: "brandenburg",
+      displayName: "Brandenburg, Deutschland",
+      placeType: "region",
+      city: "",
+      region: "Brandenburg",
+      country: "Deutschland",
+    });
+  }
+
+  return definitions.map((definition, index) => ({
+    provider: "legacy-mapped",
+    providerPlaceId: definition.id,
+    displayName: definition.displayName,
+    placeType: definition.placeType,
     postalCode: "",
-    neighbourhood: "",
-    district: "",
-    city,
-    region,
-    country,
-    countryCode: "",
+    neighbourhood: definition.neighbourhood ?? "",
+    district: definition.district ?? "",
+    city: definition.city,
+    region: definition.region,
+    country: definition.country,
+    countryCode: "DE",
     latitude: null,
     longitude: null,
     role: "base",
-    isPrimary: true,
-  };
+    isPrimary: index === 0,
+  }));
 }
 
 function firstNumber(...values: unknown[]): number {

@@ -9,7 +9,6 @@ import {
 import type {
   FinderFilterState,
   FinderOption,
-  PlaceRelationFilter,
   ScopeCategory,
   StructureCategory,
   TimeCategory,
@@ -26,6 +25,8 @@ type Props = {
   onChange: (filters: FinderFilterState) => void;
   onReset: () => void;
 };
+
+type LocationLevel = "city" | "region" | "country";
 
 const structureOrder: StructureCategory[] = [
   "informal",
@@ -47,6 +48,9 @@ export default function FinderFilters({
   onReset,
 }: Props) {
   const t = finderText[lang];
+  const selectedLocation = getSelectedLocation(filters);
+  const hasLocationOptions =
+    cityOptions.length + regionOptions.length + countryOptions.length > 0;
 
   function toggleListValue<
     Key extends "topics" | "scopes" | "structures" | "times" | "orientations",
@@ -59,127 +63,98 @@ export default function FinderFilters({
     onChange({ ...filters, [key]: nextValues });
   }
 
-  function changePlaceRelation(placeRelation: PlaceRelationFilter) {
-    onChange({
+  function changeLocation(encodedLocation: string) {
+    const nextFilters = {
       ...filters,
-      placeRelation,
       country: "",
       region: "",
       city: "",
-    });
+    };
+
+    if (!encodedLocation) {
+      onChange(nextFilters);
+      return;
+    }
+
+    const separatorIndex = encodedLocation.indexOf(":");
+    const level = encodedLocation.slice(0, separatorIndex) as LocationLevel;
+    const value = encodedLocation.slice(separatorIndex + 1);
+
+    if (["city", "region", "country"].includes(level) && value) {
+      nextFilters[level] = value;
+    }
+
+    onChange(nextFilters);
   }
 
   return (
     <div className="finder-filter-panel__inner">
       <div className="finder-filter-panel__header">
-        <div>
-          <p className="label">{t.filters}</p>
-          <h2 className="heading4">{t.filters}</h2>
-        </div>
+        <h2 className="heading4">{t.filters}</h2>
 
         <Button
           variant="tertiary"
           icon="arrow-counter-clockwise"
+          ariaLabel={t.reset}
           onClick={onReset}
-        >
-          {t.reset}
-        </Button>
+        />
       </div>
 
       <div className="finder-place-filters">
-        <label className="finder-select-field finder-select-field--wide">
-          <span className="label">
-            <i className="ph-bold ph-map-trifold" aria-hidden="true" />
-            {t.placeRelation}
-          </span>
-          <select
-            value={filters.placeRelation}
-            onChange={(event) =>
-              changePlaceRelation(event.target.value as PlaceRelationFilter)
-            }
-          >
-            <option value="any">{t.placeRelationAny}</option>
-            <option value="base">{t.placeRelationBase}</option>
-            <option value="activity">{t.placeRelationActivity}</option>
-          </select>
-        </label>
-
         <label className="finder-select-field">
-          <span className="label">
-            <i
-              className="ph-bold ph-globe-hemisphere-west"
-              aria-hidden="true"
-            />
-            {t.country}
-          </span>
-          <select
-            value={filters.country}
-            onChange={(event) =>
-              onChange({
-                ...filters,
-                country: event.target.value,
-                region: "",
-                city: "",
-              })
-            }
-          >
-            <option value="">{t.allCountries}</option>
-            {countryOptions.map((country) => (
-              <option key={country} value={country}>
-                {country}
-              </option>
-            ))}
-          </select>
-        </label>
-
-        <label className="finder-select-field">
-          <span className="label">
-            <i className="ph-bold ph-map-trifold" aria-hidden="true" />
-            {t.region}
-          </span>
-          <select
-            value={filters.region}
-            onChange={(event) =>
-              onChange({
-                ...filters,
-                region: event.target.value,
-                city: "",
-              })
-            }
-          >
-            <option value="">{t.allRegions}</option>
-            {regionOptions.map((region) => (
-              <option key={region} value={region}>
-                {region}
-              </option>
-            ))}
-          </select>
-        </label>
-
-        <label className="finder-select-field finder-select-field--wide">
           <span className="label">
             <i className="ph-bold ph-map-pin" aria-hidden="true" />
-            {t.city}
+            {t.place}
           </span>
+          <p className="finder-filter-hint paragraph">{t.placeHint}</p>
           <select
-            value={filters.city}
-            onChange={(event) =>
-              onChange({ ...filters, city: event.target.value })
-            }
+            value={selectedLocation}
+            onChange={(event) => changeLocation(event.target.value)}
           >
-            <option value="">{t.allCities}</option>
-            {cityOptions.map((city) => (
-              <option key={city} value={city}>
-                {city}
+            <option value="">{t.allPlaces}</option>
+
+            {!hasLocationOptions && (
+              <option value="" disabled>
+                {t.noPlaceOptions}
               </option>
-            ))}
+            )}
+
+            {cityOptions.length > 0 && (
+              <optgroup label={t.citiesGroup}>
+                {cityOptions.map((city) => (
+                  <option key={city} value={`city:${city}`}>
+                    {city}
+                  </option>
+                ))}
+              </optgroup>
+            )}
+
+            {regionOptions.length > 0 && (
+              <optgroup label={t.regionsGroup}>
+                {regionOptions.map((region) => (
+                  <option key={region} value={`region:${region}`}>
+                    {region}
+                  </option>
+                ))}
+              </optgroup>
+            )}
+
+            {countryOptions.length > 0 && (
+              <optgroup label={t.countriesGroup}>
+                {countryOptions.map((country) => (
+                  <option key={country} value={`country:${country}`}>
+                    {country}
+                  </option>
+                ))}
+              </optgroup>
+            )}
           </select>
         </label>
       </div>
 
       <CheckboxGroup
         title={t.scope}
-        icon="circles-three-plus"
+        icon="arrows-out"
         hint={t.scopeHint}
         options={scopeOrder.map((id) => ({
           id,
@@ -248,6 +223,13 @@ export default function FinderFilters({
       </label>
     </div>
   );
+}
+
+function getSelectedLocation(filters: FinderFilterState): string {
+  if (filters.city) return `city:${filters.city}`;
+  if (filters.region) return `region:${filters.region}`;
+  if (filters.country) return `country:${filters.country}`;
+  return "";
 }
 
 function CheckboxGroup({

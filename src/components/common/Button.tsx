@@ -7,6 +7,7 @@ interface ButtonProps {
   href?: string;
   target?: React.HTMLAttributeAnchorTarget;
   rel?: string;
+  ariaLabel?: string;
   type?: "button" | "submit" | "reset";
   onClick?: () => void;
   disabled?: boolean;
@@ -20,6 +21,7 @@ export default function Button({
   href,
   target,
   rel,
+  ariaLabel,
   type = "button",
   onClick,
   disabled = false,
@@ -165,6 +167,7 @@ export default function Button({
         href={disabled ? undefined : href}
         target={target}
         rel={rel}
+        aria-label={ariaLabel}
         aria-disabled={disabled || undefined}
         tabIndex={disabled ? -1 : undefined}
         style={{
@@ -186,6 +189,7 @@ export default function Button({
       type={type}
       className="button"
       disabled={disabled}
+      aria-label={ariaLabel}
       style={{
         ...buttonStyles,
         ...(isHovered && !disabled ? hoverStyles : {}),

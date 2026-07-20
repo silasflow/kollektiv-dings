@@ -4,7 +4,6 @@ import type { PlaceSelection } from "../../types/places";
 export type StructureCategory = "informal" | "partial" | "structured";
 export type TimeCategory = "project" | "recurring" | "established";
 export type ScopeCategory = "local" | "translocal" | "global";
-export type PlaceRelationFilter = "any" | "base" | "activity";
 
 export type FinderGroupBy =
   | "none"
@@ -29,7 +28,6 @@ export type FinderValues = {
 export type FinderFilterState = {
   query: string;
   topics: string[];
-  placeRelation: PlaceRelationFilter;
   country: string;
   region: string;
   city: string;
