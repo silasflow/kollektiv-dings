@@ -1,34 +1,36 @@
-import { useEffect, useMemo, useState } from 'react';
-import type { Lang } from '../../data/siteContent';
-import Button from '../common/Button';
-import '../common/TagList.css';
-import FinderCollectiveCard from './FinderCollectiveCard';
+import { useEffect, useMemo, useState } from "react";
+import type { Lang } from "../../data/siteContent";
+import Button from "../common/Button";
+import "../common/TagList.css";
+import FinderCollectiveCard from "./FinderCollectiveCard";
 import {
   finderText,
   getOptionLabel,
   getOrientationOptions,
   getTopicOptions,
+  scopeLabels,
   structureLabels,
   timeLabels,
-} from './finderContent';
-import FinderFilters from './FinderFilters';
+} from "./finderContent";
+import FinderFilters from "./FinderFilters";
 import type {
   FinderFilterState,
   FinderGroupBy,
   FinderOption,
   RawTestResult,
-} from './finderTypes';
+} from "./finderTypes";
 import {
   countActiveFilters,
   EMPTY_FILTERS,
   filterCollectives,
-  getPlaceOptions,
+  getGeographicOptions,
   groupCollectives,
   hasActiveFilters,
   normalizeTestResult,
   readPublishedLocalResults,
-} from './finderUtils';
-import './FinderExperience.css';
+} from "./finderUtils";
+import "./FinderExperience.css";
+import "./FinderPlaces.css";
 
 type Props = {
   lang: Lang;
@@ -43,44 +45,47 @@ type ActiveChip = {
 export default function FinderExperience({ lang }: Props) {
   const t = finderText[lang];
   const [collectives, setCollectives] = useState(
-    [] as ReturnType<typeof normalizeTestResult>[]
+    [] as ReturnType<typeof normalizeTestResult>[],
   );
-  const [filters, setFilters] = useState<FinderFilterState>({ ...EMPTY_FILTERS });
-  const [groupBy, setGroupBy] = useState<FinderGroupBy>('none');
+  const [filters, setFilters] = useState<FinderFilterState>({
+    ...EMPTY_FILTERS,
+  });
+  const [groupBy, setGroupBy] = useState<FinderGroupBy>("none");
   const [isLoading, setIsLoading] = useState(true);
   const [usesLocalFallback, setUsesLocalFallback] = useState(false);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   const topicOptions = useMemo(() => getTopicOptions(lang), [lang]);
-  const orientationOptions = useMemo(
-    () => getOrientationOptions(lang),
-    [lang]
-  );
+  const orientationOptions = useMemo(() => getOrientationOptions(lang), [lang]);
 
   useEffect(() => {
     const controller = new AbortController();
 
     async function loadCollectives() {
       try {
-        const response = await fetch('/api/test-results', {
+        const response = await fetch("/api/test-results", {
           signal: controller.signal,
         });
         const data: unknown = await response.json().catch(() => null);
 
         if (!response.ok || !hasResultArray(data)) {
-          throw new Error('Could not load database results');
+          throw new Error("Could not load database results");
         }
 
         setCollectives(
-          data.results.map((result, index) => normalizeTestResult(result, index))
+          data.results.map((result, index) =>
+            normalizeTestResult(result, index),
+          ),
         );
         setUsesLocalFallback(false);
-      } catch (error) {
+      } catch {
         if (controller.signal.aborted) return;
 
         const localResults = readPublishedLocalResults();
         setCollectives(
-          localResults.map((result, index) => normalizeTestResult(result, index))
+          localResults.map((result, index) =>
+            normalizeTestResult(result, index),
+          ),
         );
         setUsesLocalFallback(true);
       } finally {
@@ -89,28 +94,32 @@ export default function FinderExperience({ lang }: Props) {
     }
 
     loadCollectives();
-
     return () => controller.abort();
   }, []);
 
-  const cityOptions = useMemo(
-    () => getPlaceOptions(collectives, 'city', lang),
-    [collectives, lang]
+  const countryOptions = useMemo(
+    () => getGeographicOptions(collectives, "country", filters, lang),
+    [collectives, filters.placeRelation, lang],
   );
 
   const regionOptions = useMemo(
-    () => getPlaceOptions(collectives, 'region', lang),
-    [collectives, lang]
+    () => getGeographicOptions(collectives, "region", filters, lang),
+    [collectives, filters.placeRelation, filters.country, lang],
+  );
+
+  const cityOptions = useMemo(
+    () => getGeographicOptions(collectives, "city", filters, lang),
+    [collectives, filters.placeRelation, filters.country, filters.region, lang],
   );
 
   const filteredCollectives = useMemo(
     () => filterCollectives(collectives, filters, lang),
-    [collectives, filters, lang]
+    [collectives, filters, lang],
   );
 
   const groups = useMemo(
     () => groupCollectives(filteredCollectives, groupBy, lang),
-    [filteredCollectives, groupBy, lang]
+    [filteredCollectives, groupBy, lang],
   );
 
   const activeChips = createActiveChips(
@@ -118,18 +127,18 @@ export default function FinderExperience({ lang }: Props) {
     lang,
     topicOptions,
     orientationOptions,
-    setFilters
+    setFilters,
   );
 
   const activeFilterCount = countActiveFilters(filters);
   const resultCountText =
     filteredCollectives.length === 1
       ? t.resultOne
-      : t.resultMany.replace('{count}', String(filteredCollectives.length));
+      : t.resultMany.replace("{count}", String(filteredCollectives.length));
 
   function resetFinder() {
     setFilters({ ...EMPTY_FILTERS });
-    setGroupBy('none');
+    setGroupBy("none");
   }
 
   return (
@@ -171,7 +180,7 @@ export default function FinderExperience({ lang }: Props) {
               {filters.query && (
                 <button
                   type="button"
-                  onClick={() => setFilters({ ...filters, query: '' })}
+                  onClick={() => setFilters({ ...filters, query: "" })}
                   aria-label={t.removeFilter}
                 >
                   <i className="ph-bold ph-x" aria-hidden="true" />
@@ -192,6 +201,7 @@ export default function FinderExperience({ lang }: Props) {
               >
                 <option value="none">{t.groupNone}</option>
                 <option value="city">{t.groupCity}</option>
+                <option value="scope">{t.groupScope}</option>
                 <option value="structure">{t.groupStructure}</option>
                 <option value="time">{t.groupTime}</option>
                 <option value="orientation">{t.groupOrientation}</option>
@@ -201,11 +211,11 @@ export default function FinderExperience({ lang }: Props) {
             <div className="finder-mobile-filter-button">
               <Button
                 variant="primary"
-                icon={isFilterOpen ? 'x' : 'faders'}
+                icon={isFilterOpen ? "x" : "faders"}
                 onClick={() => setIsFilterOpen((value) => !value)}
               >
                 {isFilterOpen ? t.hideFilters : t.showFilters}
-                {activeFilterCount > 0 ? ` (${activeFilterCount})` : ''}
+                {activeFilterCount > 0 ? ` (${activeFilterCount})` : ""}
               </Button>
             </div>
           </div>
@@ -235,15 +245,16 @@ export default function FinderExperience({ lang }: Props) {
 
           <div className="finder-layout">
             <aside
-              className={`finder-filter-panel ${isFilterOpen ? 'is-open' : ''}`}
+              className={`finder-filter-panel ${isFilterOpen ? "is-open" : ""}`}
             >
               <FinderFilters
                 lang={lang}
                 filters={filters}
                 topicOptions={topicOptions}
                 orientationOptions={orientationOptions}
-                cityOptions={cityOptions}
+                countryOptions={countryOptions}
                 regionOptions={regionOptions}
+                cityOptions={cityOptions}
                 onChange={setFilters}
                 onReset={resetFinder}
               />
@@ -267,7 +278,10 @@ export default function FinderExperience({ lang }: Props) {
                 </div>
               ) : filteredCollectives.length === 0 ? (
                 <div className="finder-empty">
-                  <i className="ph-bold ph-magnifying-glass" aria-hidden="true" />
+                  <i
+                    className="ph-bold ph-magnifying-glass"
+                    aria-hidden="true"
+                  />
                   <h3 className="heading4">{t.emptyTitle}</h3>
                   <p className="paragraph">{t.emptyText}</p>
                   {hasActiveFilters(filters) && (
@@ -287,7 +301,9 @@ export default function FinderExperience({ lang }: Props) {
                       {group.label && (
                         <div className="finder-group__header">
                           <h3 className="heading4">{group.label}</h3>
-                          <span className="label">{group.collectives.length}</span>
+                          <span className="label">
+                            {group.collectives.length}
+                          </span>
                         </div>
                       )}
 
@@ -317,10 +333,65 @@ function createActiveChips(
   lang: Lang,
   topicOptions: FinderOption[],
   orientationOptions: FinderOption[],
-  setFilters: (filters: FinderFilterState) => void
+  setFilters: (filters: FinderFilterState) => void,
 ): ActiveChip[] {
   const t = finderText[lang];
   const chips: ActiveChip[] = [];
+
+  if (filters.placeRelation !== "any") {
+    chips.push({
+      key: "place-relation",
+      label:
+        filters.placeRelation === "base"
+          ? t.placeRelationBase
+          : t.placeRelationActivity,
+      remove: () =>
+        setFilters({
+          ...filters,
+          placeRelation: "any",
+          country: "",
+          region: "",
+          city: "",
+        }),
+    });
+  }
+
+  if (filters.country) {
+    chips.push({
+      key: "country",
+      label: filters.country,
+      remove: () =>
+        setFilters({ ...filters, country: "", region: "", city: "" }),
+    });
+  }
+
+  if (filters.region) {
+    chips.push({
+      key: "region",
+      label: filters.region,
+      remove: () => setFilters({ ...filters, region: "", city: "" }),
+    });
+  }
+
+  if (filters.city) {
+    chips.push({
+      key: "city",
+      label: filters.city,
+      remove: () => setFilters({ ...filters, city: "" }),
+    });
+  }
+
+  filters.scopes.forEach((scope) => {
+    chips.push({
+      key: `scope-${scope}`,
+      label: scopeLabels[lang][scope],
+      remove: () =>
+        setFilters({
+          ...filters,
+          scopes: filters.scopes.filter((item) => item !== scope),
+        }),
+    });
+  });
 
   filters.topics.forEach((topic) => {
     chips.push({
@@ -333,22 +404,6 @@ function createActiveChips(
         }),
     });
   });
-
-  if (filters.city) {
-    chips.push({
-      key: 'city',
-      label: filters.city,
-      remove: () => setFilters({ ...filters, city: '' }),
-    });
-  }
-
-  if (filters.region) {
-    chips.push({
-      key: 'region',
-      label: filters.region,
-      remove: () => setFilters({ ...filters, region: '' }),
-    });
-  }
 
   filters.structures.forEach((structure) => {
     chips.push({
@@ -382,7 +437,7 @@ function createActiveChips(
         setFilters({
           ...filters,
           orientations: filters.orientations.filter(
-            (item) => item !== orientation
+            (item) => item !== orientation,
           ),
         }),
     });
@@ -390,7 +445,7 @@ function createActiveChips(
 
   if (filters.digitalOnly) {
     chips.push({
-      key: 'digital',
+      key: "digital",
       label: t.digital,
       remove: () => setFilters({ ...filters, digitalOnly: false }),
     });
@@ -399,13 +454,11 @@ function createActiveChips(
   return chips;
 }
 
-function hasResultArray(
-  value: unknown
-): value is { results: RawTestResult[] } {
+function hasResultArray(value: unknown): value is { results: RawTestResult[] } {
   return (
-    typeof value === 'object' &&
+    typeof value === "object" &&
     value !== null &&
-    'results' in value &&
+    "results" in value &&
     Array.isArray((value as { results?: unknown }).results)
   );
 }

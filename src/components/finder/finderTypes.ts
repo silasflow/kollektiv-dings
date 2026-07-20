@@ -1,8 +1,18 @@
-import type { Lang } from '../../data/siteContent';
+import type { Lang } from "../../data/siteContent";
+import type { PlaceSelection } from "../../types/places";
 
-export type StructureCategory = 'informal' | 'partial' | 'structured';
-export type TimeCategory = 'project' | 'recurring' | 'established';
-export type FinderGroupBy = 'none' | 'city' | 'structure' | 'time' | 'orientation';
+export type StructureCategory = "informal" | "partial" | "structured";
+export type TimeCategory = "project" | "recurring" | "established";
+export type ScopeCategory = "local" | "translocal" | "global";
+export type PlaceRelationFilter = "any" | "base" | "activity";
+
+export type FinderGroupBy =
+  | "none"
+  | "city"
+  | "scope"
+  | "structure"
+  | "time"
+  | "orientation";
 
 export type FinderOption = {
   id: string;
@@ -19,8 +29,11 @@ export type FinderValues = {
 export type FinderFilterState = {
   query: string;
   topics: string[];
-  city: string;
+  placeRelation: PlaceRelationFilter;
+  country: string;
   region: string;
+  city: string;
+  scopes: ScopeCategory[];
   structures: StructureCategory[];
   times: TimeCategory[];
   orientations: string[];
@@ -38,6 +51,7 @@ export type RawTestResult = {
   location?: string | null;
   region?: string | null;
   country?: string | null;
+  places?: PlaceSelection[] | null;
   consentPublic?: boolean;
   answers?: Record<string, unknown>;
   result?: {
@@ -68,6 +82,7 @@ export type FinderCollective = {
   collectiveName: string;
   website: string | null;
   instagram: string | null;
+  places: PlaceSelection[];
   city: string;
   region: string;
   country: string;
@@ -76,6 +91,7 @@ export type FinderCollective = {
   ranking: string[];
   values: FinderValues;
   actsVirtually: boolean;
+  scopeCategory: ScopeCategory;
   structure: StructureCategory;
   timeCategory: TimeCategory;
 };

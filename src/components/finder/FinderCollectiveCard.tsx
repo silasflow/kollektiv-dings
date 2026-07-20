@@ -1,21 +1,23 @@
-import type { Lang } from '../../data/siteContent';
-import Button from '../common/Button';
-import TagList from '../common/TagList';
+import type { Lang } from "../../data/siteContent";
+import Button from "../common/Button";
+import TagList from "../common/TagList";
 import {
   finderText,
   getOptionLabel,
   getOrientationOptions,
   getTopicOptions,
+  scopeLabels,
   structureLabels,
   timeLabels,
-} from './finderContent';
+} from "./finderContent";
 import {
+  getActivityLocationLabel,
   getLocationLabel,
   normalizeInstagramUrl,
   normalizeWebsiteUrl,
-} from './finderUtils';
-import type { FinderCollective } from './finderTypes';
-import FinderNetworkPreview from './FinderNetworkPreview';
+} from "./finderUtils";
+import type { FinderCollective } from "./finderTypes";
+import FinderNetworkPreview from "./FinderNetworkPreview";
 
 type Props = {
   lang: Lang;
@@ -28,10 +30,9 @@ export default function FinderCollectiveCard({ lang, collective }: Props) {
   const orientationOptions = getOrientationOptions(lang);
   const name = collective.collectiveName || t.unnamed;
   const location = getLocationLabel(collective) || t.noLocation;
+  const activityLocations = getActivityLocationLabel(collective, lang);
   const topicLabels = [
-    ...collective.topics.map((topic) =>
-      getOptionLabel(topicOptions, topic)
-    ),
+    ...collective.topics.map((topic) => getOptionLabel(topicOptions, topic)),
     ...collective.customTopics,
   ];
   const leadingOrientations = collective.ranking.slice(0, 2);
@@ -49,9 +50,17 @@ export default function FinderCollectiveCard({ lang, collective }: Props) {
         <header className="finder-card__header">
           <h3 className="script-heading4">{name}</h3>
           <p className="finder-card__location paragraph">
-            <i className="ph-bold ph-map-pin" aria-hidden="true" />
+            <i className="ph-bold ph-buildings" aria-hidden="true" />
             {location}
           </p>
+          {activityLocations && (
+            <p className="finder-card__activity paragraph">
+              <i className="ph-bold ph-map-pin-area" aria-hidden="true" />
+              <span>
+                <strong>{t.activeIn}:</strong> {activityLocations}
+              </span>
+            </p>
+          )}
         </header>
 
         {topicLabels.length > 0 && (
@@ -71,6 +80,12 @@ export default function FinderCollectiveCard({ lang, collective }: Props) {
             <dt className="label">{t.profileTime}</dt>
             <dd className="paragraph">
               {timeLabels[lang][collective.timeCategory]}
+            </dd>
+          </div>
+          <div className="finder-card__scope-fact">
+            <dt className="label">{t.profileScope}</dt>
+            <dd className="paragraph">
+              {scopeLabels[lang][collective.scopeCategory]}
             </dd>
           </div>
         </dl>
@@ -101,7 +116,7 @@ export default function FinderCollectiveCard({ lang, collective }: Props) {
         <Button
           variant="secondary"
           href={`/${lang}/universe-results/?highlight=${encodeURIComponent(
-            collective.id
+            collective.id,
           )}`}
           icon="planet"
         >
