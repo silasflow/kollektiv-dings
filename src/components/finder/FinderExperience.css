@@ -441,7 +441,7 @@
 }
 
 .finder-card__header h3 {
-  color: var(--color-bg);
+  color: var(--color-accent);
 }
 
 .finder-card__location,
