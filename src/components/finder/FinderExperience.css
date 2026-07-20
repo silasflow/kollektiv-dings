@@ -628,3 +628,71 @@
     animation: none;
   }
 }
+
+/* Bessere Lesbarkeit und klarere Gewichtung der Cards */
+
+.finder-card {
+  background: var(--color-card-bg);
+  color: var(--color-text);
+  border-color: color-mix(
+    in srgb,
+    var(--color-text) 55%,
+    transparent
+  );
+}
+
+/* Themen als Tags kennzeichnen, ohne sie zu stark hervorzuheben */
+
+.finder-card__topics .tag-list__item {
+  border: 1px solid color-mix(
+    in srgb,
+    var(--color-text) 55%,
+    transparent
+  );
+  background: transparent;
+  color: var(--color-text);
+}
+
+/* Profildaten deutlicher vom Card-Hintergrund absetzen */
+
+.finder-card__facts > div {
+  border: 1px solid color-mix(
+    in srgb,
+    var(--color-text) 22%,
+    transparent
+  );
+  background: color-mix(
+    in srgb,
+    var(--color-bg) 38%,
+    var(--color-card-bg)
+  );
+}
+
+/* Ranking-Zahlen klar erkennbar halten */
+
+.finder-card__rank {
+  border: 1px solid color-mix(
+    in srgb,
+    var(--color-text) 35%,
+    transparent
+  );
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+/* Status deutlich kennzeichnen, aber mit hohem Kontrast */
+
+.finder-card__digital {
+  background: var(--color-accent);
+  color: var(--color-text-inverted);
+}
+
+/* Abgrenzung der Buttons zur Card verstärken */
+
+.finder-card__actions .button {
+  outline-color: color-mix(
+    in srgb,
+    var(--color-text) 45%,
+    transparent
+  );
+}
